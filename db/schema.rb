@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_20_062937) do
+ActiveRecord::Schema.define(version: 2018_11_23_194006) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 2018_11_20_062937) do
     t.index ["comment_id"], name: "index_inspires_on_comment_id"
     t.index ["post_id"], name: "index_inspires_on_post_id"
     t.index ["user_id"], name: "index_inspires_on_user_id"
+  end
+
+  create_table "post_relations", force: :cascade do |t|
+    t.integer "parent_post_id"
+    t.integer "child_post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_post_id", "child_post_id"], name: "index_post_relations_on_parent_post_id_and_child_post_id", unique: true
   end
 
   create_table "posts", force: :cascade do |t|
