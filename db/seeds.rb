@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Post.delete_all
 User.delete_all
 
 PASSWORD = "supersecret"
@@ -31,10 +32,19 @@ end
 
 users = User.all
 
-10.times do
+15.times do
   p = Post.create(
     body: Faker::Hipster.paragraph(2,true,3),
     user: users.sample
   )
 end
+
+posts = Post.all
+
+# 10.times do
+#   p = posts.sample
+#   unless p.parent.present?
+#     p.parent = posts.sample
+#   end
+# end
 
