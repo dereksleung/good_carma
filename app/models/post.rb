@@ -42,6 +42,7 @@ class Post < ApplicationRecord
         
     end
 
+    # use eval method to 
     # child_posts should now be an array of hashes
     @gen_query[:child_posts].map do |child|
 
