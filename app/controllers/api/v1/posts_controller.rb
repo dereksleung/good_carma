@@ -20,6 +20,7 @@ class Api::V1::PostsController < ApplicationController
   def create
     post = Post.new post_params
     post.parent_id = null
+    parents_id_arr = post_params[:parent_id]
     post.user = current_user
 
     # post_params[:parent_id].each do |id|
