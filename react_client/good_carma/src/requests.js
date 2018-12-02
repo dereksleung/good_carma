@@ -7,7 +7,9 @@ export const Post = {
     }).then(res => res.json());
   },
   one(id) {
-
+    return fetch(`${BASE_URL}/posts/${id}`, {
+      credentials: "include"
+    }).then(res => res.json());
   },
   create(params) {
 
