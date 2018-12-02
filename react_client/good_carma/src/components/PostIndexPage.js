@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
+import CommentList from "./CommentList";
 
 class PostIndexPage extends Component {
   constructor(props) {
@@ -55,8 +56,9 @@ class PostIndexPage extends Component {
         <Link to={`posts/${post.id}`}> 
           <section key={post.id}>
             {/* <button onClick={this.setRedirect(post.id)}>See Entire Post</button> */}
-              <p>{post.body}</p>
-              <img src={post.picture_url} />
+            <p>{post.body}</p>
+            <img src={post.picture_url} />
+            <CommentList comments={post.comments} />
           </section>
         </Link> 
       ))

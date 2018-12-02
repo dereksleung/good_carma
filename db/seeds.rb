@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Comment.delete_all
 Post.delete_all
 User.delete_all
 
@@ -34,9 +35,18 @@ users = User.all
 
 15.times do
   p = Post.create(
-    body: Faker::Hipster.paragraph(2,true,3),
+    body: Faker::Friends.quote,
     user: users.sample
   )
+
+  if p.valid?
+    rand(0..6).times do
+      p.comments << Comment.new(
+        body: Faker::HarryPotter.quote,
+        user: users.sample
+      )
+    end
+  end
 end
 
 posts = Post.all

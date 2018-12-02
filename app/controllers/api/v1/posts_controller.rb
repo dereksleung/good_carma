@@ -1,4 +1,4 @@
-class Api::V1::PostsController < ApplicationController
+class Api::V1::PostsController < Api::ApplicationController
 
   def index
     posts = Post.order(created_at: :desc)

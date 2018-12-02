@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   attr_reader :gen_query
 
+  has_many :comments
+
   has_and_belongs_to_many(:child_posts,
     class_name: "Post",
     join_table: :post_relations,

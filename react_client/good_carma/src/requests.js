@@ -12,7 +12,14 @@ export const Post = {
     }).then(res => res.json());
   },
   create(params) {
-
+    return fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
   },
   update(params) {
 
@@ -23,6 +30,10 @@ export const Post = {
 }
 
 export const User = {
+
+}
+
+export const Session = {
 
 }
 
@@ -37,3 +48,4 @@ export const Comment = {
 
   }
 }
+
