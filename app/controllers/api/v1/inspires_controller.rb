@@ -2,7 +2,8 @@ class Api::V1::InspiresController < Api::ApplicationController
 
   def create
     post = Post.find(params[:post_id])
-    inspire = Inspire.new(user: current_user, post: post)
+    inspire = Inspire.new(inspire_params)
+    inspire.user = current_user
     inspire_count = Inspire.where("post_id = ?", params[:post_id]).count
 
     if inspire.save
@@ -29,7 +30,7 @@ class Api::V1::InspiresController < Api::ApplicationController
   end
 
   def inspire_params
-    params.require(:inspire)
+    params.require(:inspire).permit(:inspiring_entry_type)
   end
 
 
