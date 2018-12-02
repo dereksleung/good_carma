@@ -1,4 +1,4 @@
-class Api::V1::InspiresController < ApplicationController
+class Api::V1::InspiresController < Api::ApplicationController
 
   def create
     post = Post.find(params[:post_id])
@@ -8,7 +8,7 @@ class Api::V1::InspiresController < ApplicationController
     if inspire.save
       render json: inspire_count
     else
-      render json: { errors: inspire.errors.full_messages, inspire_count }
+      render json: { errors: inspire.errors.full_messages }
     end
   end
 
@@ -28,6 +28,9 @@ class Api::V1::InspiresController < ApplicationController
     post = Post.find params[:post_id]
   end
 
+  def inspire_params
+    params.require(:inspire)
+  end
 
 
 end

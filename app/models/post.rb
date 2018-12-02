@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   attr_reader :gen_query
 
   has_many :comments
+  has_many :inspires, as: :inspiring_entry
 
   has_and_belongs_to_many(:child_posts,
     class_name: "Post",

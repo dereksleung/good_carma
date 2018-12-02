@@ -1,5 +1,4 @@
 class Inspire < ApplicationRecord
   belongs_to :user
-  belongs_to :post
-  belongs_to :comment
+  belongs_to :inspiring_entry, polymorphic: true
 end
