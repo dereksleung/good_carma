@@ -31,7 +31,7 @@ const PostForm = props => {
         <input name="image_url" id="image_url" />
       </div>
       <div>
-        <input type="hidden" name="parent_ids" id="parent_ids" value="" />
+        <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />
       </div>
       <div>
         <input type="submit" value="Submit" />

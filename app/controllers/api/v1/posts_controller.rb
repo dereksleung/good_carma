@@ -20,13 +20,13 @@ class Api::V1::PostsController < Api::ApplicationController
   def create
     post = Post.new post_params
     post.parent_id = null
-    parents_id_arr = post_params[:parent_id]
+    parents_id_arr = post_params[:parent_ids]
     post.user = current_user
 
-    # post_params[:parent_id].each do |id|
-    #   parent = Post.find(id)
-    #   post.parent_posts << parent
-    # end
+    parents_id_arr.each do |id|
+      parent = Post.find(id)
+      post.parent_posts << parent
+    end
     
     if post.save
       render json: post
@@ -46,7 +46,7 @@ class Api::V1::PostsController < Api::ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body, :picture_url, :parent_id)
+    params.require(:post).permit(:body, :picture_url, :parent_ids)
   end
 
 end

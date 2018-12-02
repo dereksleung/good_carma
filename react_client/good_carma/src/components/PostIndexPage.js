@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
+
+import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 
 class PostIndexPage extends Component {
@@ -10,11 +12,12 @@ class PostIndexPage extends Component {
     this.state = {
       loading: true,
       posts: [],
-      redirect: false
+      redirect: false,
+      parentIDs: []
     }
   
     // this.deletePost = this.deletePost.bind(this);
-    this.setRedirect = this.setRedirect.bind(this);
+    this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
   }
 
   componentDidMount() {
@@ -27,18 +30,14 @@ class PostIndexPage extends Component {
     });
   }
 
-  setRedirect(id) {
-    // return <Redirect to={`/posts/${id}`} />
-    this.setState({
-      redirect: true,
-      redirId: id
-    })
-  }
+  handleClickCheckbox(id, e) {
 
-  rendRedirect() {
-    if (this.state.redirect === true) {
-
-      return <Redirect to={`posts/${this.state.redirId}`} />
+    const { parentIDs } = this.state;
+    if (parentIDs.length >= 0 && parentIDs.length < 4) {
+      const allParentIDs = this.state.parentIDs.push(id);
+      this.setState({
+        parentIDs: allParentIDs
+      })
     }
   }
 
@@ -47,20 +46,21 @@ class PostIndexPage extends Component {
 
     return(
     <main className="PostIndexPage">
-      {this.rendRedirect()}
       <h1>Post Index</h1>
-      <br></br>
-      <br></br>
-      <br></br>
+      <PostForm parentIDs={this.state.parentIDs}>
+      </PostForm>  
       {posts.map(post=>(
-        <Link to={`posts/${post.id}`}> 
-          <section key={post.id}>
-            {/* <button onClick={this.setRedirect(post.id)}>See Entire Post</button> */}
-            <p>{post.body}</p>
-            <img src={post.picture_url} />
-            <CommentList comments={post.comments} />
-          </section>
-        </Link> 
+        <section key={post.id} data-id={post.id}>
+          <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
+          </input>
+          <Link to={`posts/${post.id}`}> 
+            <section className="post-body">
+              <p>{post.body}</p>
+              <img src={post.picture_url} />
+            </section>
+          </Link> 
+          <CommentList comments={post.comments} />
+        </section>
       ))
       }
     </main> 
