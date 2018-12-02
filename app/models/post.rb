@@ -17,9 +17,9 @@ class Post < ApplicationRecord
     foreign_key: :child_post_id,
     association_foreign_key: :parent_post_id)
   
-  has_many :inspires, dependent: :destroy
+  # has_many :inspires, dependent: :destroy
 
-  has_many :inspired_users, through: :likes, source: :user
+  # has_many :inspired_users, through: :likes, source: :user
 
 
   # This expects positive numbers or zero for both how many generations above and below to query.

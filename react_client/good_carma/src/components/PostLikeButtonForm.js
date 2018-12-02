@@ -8,9 +8,9 @@ const PostLikeButtonForm = (props) => {
 
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
-    Inspire.create({
-      inspiring_entry_id: formData.get("inspiring_entry_id"),
-      inspiring_entry_type: formData.get("inspiring_entry_type")
+    Inspire.createPostInsp({
+      inspiring_entry_type: formData.get("inspiring_entry_type"),
+      postId: props.postId
     });
 
     currentTarget.reset();
@@ -18,22 +18,12 @@ const PostLikeButtonForm = (props) => {
 
   return (
 
-    <form className="PostForm" onSubmit={handleSubmit}>
+    <form className="PostLikeButtonForm" onSubmit={handleSubmit}>
       <div>
-        
-        <textarea name="body" id="body" cols="60" rows="4">
-        </textarea>
-
+        <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
       </div>
       <div>
-        <label htmlFor="image_url">Add an Image you Uploaded</label> <br />
-        <input name="image_url" id="image_url" />
-      </div>
-      <div>
-        <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />
-      </div>
-      <div>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Like" />
       </div>
     </form>
   );

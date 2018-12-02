@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 
+import PostLikeButtonForm from "./PostLikeButtonForm";
+
 import PostForm from "./PostForm";
 import CommentList from "./CommentList";
 
@@ -51,14 +53,15 @@ class PostIndexPage extends Component {
       </PostForm>  
       {posts.map(post=>(
         <section key={post.id} data-id={post.id}>
-          <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
-          </input>
-          <Link to={`posts/${post.id}`}> 
-            <section className="post-body">
+          <section className="post-body">
+            <Link to={`posts/${post.id}`}> 
+              <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
+              </input>
               <p>{post.body}</p>
               <img src={post.picture_url} />
-            </section>
-          </Link> 
+            </Link>  
+            <PostLikeButtonForm postId={post.id} />
+          </section>
           <CommentList comments={post.comments} />
         </section>
       ))

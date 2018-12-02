@@ -39,7 +39,8 @@ export const Session = {
 
 export const Inspire = {
   createPostInsp(params) {
-    return fetch(`${BASE_URL}/posts/${params.post_id}`, {
+    console.log(params.postId);
+    return fetch(`${BASE_URL}/posts/${params.postId}/inspires`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -49,7 +50,7 @@ export const Inspire = {
     }).then(res => res.json());
   },
   createCommentInsp(params) {
-    return fetch(`${BASE_URL}/posts/${params.post_id}/comments/${params.comment_id}/inspires`, {
+    return fetch(`${BASE_URL}/posts/${params.postId}/comments/${params.commentId}/inspires`, {
       method: "POST",
       credentials: "include",
       headers: {

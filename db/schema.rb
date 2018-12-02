@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_02_192853) do
+ActiveRecord::Schema.define(version: 2018_12_02_201144) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
@@ -40,7 +40,9 @@ ActiveRecord::Schema.define(version: 2018_12_02_192853) do
     t.string "inspiring_entry_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["inspiring_entry_type", "inspiring_entry_id"], name: "index_inspires_on_inspiring_entry_type_and_inspiring_entry_id"
+    t.index ["user_id"], name: "index_inspires_on_user_id"
   end
 
   create_table "post_relations", force: :cascade do |t|
