@@ -16,6 +16,11 @@ class Post < ApplicationRecord
     foreign_key: :child_post_id,
     association_foreign_key: :parent_post_id)
   
+  has_many :inspires, dependent: :destroy
+
+  has_many :inspired_users, through: :likes, source: :user
+
+
   # This expects positive numbers or zero for both how many generations above and below to query.
   def generations(above, below)
     # Eventual goal: Function must set an initial post object that contains the record of either the starting post or the highest ancestor, and an empty child_posts array. Then it must query the child_posts, and push them to the child_posts array in this initial post object. If there are multiple children, and each has grandchildren, the function must iterate over each child, and push the grandchildren to the right child. This should continue for every generation queried.
