@@ -29,6 +29,7 @@ class SinglePost extends Component {
       return(
         <article className="SinglePost gold">
         <section className="post-body">
+            {this.props.children}
             <Link to={`posts/${this.props.id}`}> 
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
