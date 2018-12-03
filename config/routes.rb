@@ -3,8 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
       resources :posts do
-        get("/tree", to: "posts#tree", as: :tree)
+        get("/posts/:id/tree", to: "posts#tree", as: :tree)
         resources :comments
         resources :inspires, shallow: true, only: [:create, :destroy]
         resources :inspiractions

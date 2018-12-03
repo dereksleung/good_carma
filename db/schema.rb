@@ -10,29 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_02_201144) do
+ActiveRecord::Schema.define(version: 2018_12_03_044301) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
-    t.integer "user_id"
-    t.integer "post_id"
+    t.bigint "user_id"
+    t.bigint "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "inspiractions", force: :cascade do |t|
-    t.text "body"
-    t.string "type"
-    t.integer "user_id"
-    t.integer "post_id"
-    t.integer "comment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_inspiractions_on_comment_id"
-    t.index ["post_id"], name: "index_inspiractions_on_post_id"
-    t.index ["user_id"], name: "index_inspiractions_on_user_id"
   end
 
   create_table "inspires", force: :cascade do |t|
@@ -40,7 +30,8 @@ ActiveRecord::Schema.define(version: 2018_12_02_201144) do
     t.string "inspiring_entry_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
+    t.string "color"
     t.index ["inspiring_entry_type", "inspiring_entry_id"], name: "index_inspires_on_inspiring_entry_type_and_inspiring_entry_id"
     t.index ["user_id"], name: "index_inspires_on_user_id"
   end
@@ -55,22 +46,21 @@ ActiveRecord::Schema.define(version: 2018_12_02_201144) do
 
   create_table "posts", force: :cascade do |t|
     t.text "body"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "picture_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "parent_id"
     t.string "parent_ids"
-    t.index ["parent_id"], name: "index_posts_on_parent_id"
+    t.string "color"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "sympathies", force: :cascade do |t|
     t.text "body"
     t.string "type"
-    t.integer "user_id"
-    t.integer "post_id"
-    t.integer "comment_id"
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.bigint "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comment_id"], name: "index_sympathies_on_comment_id"
@@ -89,4 +79,13 @@ ActiveRecord::Schema.define(version: 2018_12_02_201144) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "inspires", "users"
+  add_foreign_key "post_relations", "posts", column: "child_post_id"
+  add_foreign_key "post_relations", "posts", column: "parent_post_id"
+  add_foreign_key "posts", "users"
+  add_foreign_key "sympathies", "comments"
+  add_foreign_key "sympathies", "posts"
+  add_foreign_key "sympathies", "users"
 end
