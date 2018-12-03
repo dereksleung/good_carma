@@ -29,6 +29,14 @@ export const Post = {
   }
 }
 
+export const LeaderBoard = {
+  loadMain() {
+    return fetch(`${BASE_URL}/leaderboards`, {
+      credentials: "include"
+    }).then(res => res.json());
+  }
+}
+
 export const User = {
 
 }

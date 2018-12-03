@@ -3,6 +3,7 @@ import PostIndexPage from "./components/PostIndexPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PostShowPage from "./components/PostShowPage";
 import NavBar from "./components/NavBar";
+import LeaderBoardMain from "./components/LeaderBoardMain";
 
 
 import './App.css';
@@ -17,6 +18,7 @@ class App extends Component {
 
           </NavBar>
           <Switch>
+            <Route path="/leaderboards" exact component={LeaderBoardMain} />
             <Route path="/posts/:id" exact component={PostShowPage} />
             <Route path="/posts" exact component={PostIndexPage} />
 
