@@ -2,7 +2,7 @@ import React from "react";
 
 import { Inspire } from "../requests";
 
-const PostLikeButtonForm = (props) => {
+const PostInspireButtonForm = (props) => {
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -18,12 +18,12 @@ const PostLikeButtonForm = (props) => {
 
   return (
 
-    <form className="PostLikeButtonForm" onSubmit={handleSubmit}>
+    <form className="PostInspireButtonForm" onSubmit={handleSubmit}>
       <div>
         <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
       </div>
       <div>
-        <input type="submit" value="Like" />
+        <input type="submit" value="Inspire" />
       </div>
     </form>
   );
@@ -32,4 +32,4 @@ const PostLikeButtonForm = (props) => {
 
 
 
-export default PostLikeButtonForm;
+export default PostInspireButtonForm;

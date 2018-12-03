@@ -3,7 +3,7 @@ import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 
 import SinglePost from "./SinglePost";
-import PostLikeButtonForm from "./PostLikeButtonForm";
+import PostInspireButtonForm from "./PostInspireButtonForm";
 
 
 import PostForm from "./PostForm";

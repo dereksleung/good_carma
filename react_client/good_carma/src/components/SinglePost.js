@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Post } from "../requests";
 // import PostDetails from "./PostDetails";
 import { Link } from "react-router-dom";
-import PostLikeButtonForm from "./PostLikeButtonForm";
+import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
 
 class SinglePost extends Component {
@@ -34,7 +34,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostLikeButtonForm postId={this.props.id} />
+            <PostInspireButtonForm postId={this.props.id} />
         </section>
         <CommentList comments={this.props.comments} />
       
@@ -44,11 +44,12 @@ class SinglePost extends Component {
     return(
       <article className="SinglePost">
         <section className="post-body">
+            {this.props.children}
             <Link to={`posts/${this.props.id}`}> 
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostLikeButtonForm postId={this.props.id} />
+            <PostInspireButtonForm postId={this.props.id} />
         </section>
         <CommentList comments={this.props.comments} />
       
