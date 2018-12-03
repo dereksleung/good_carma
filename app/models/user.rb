@@ -2,6 +2,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :posts
+  has_many :child_posts, through: :posts  
   has_many :comments
 
   def full_name

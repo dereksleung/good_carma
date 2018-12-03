@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
+      get("/leaderboards/silver", to: "leaderboards#silver", as: :silver_leaderboard)
       resources :posts do
         get("/posts/:id/tree", to: "posts#tree", as: :tree)
         resources :comments
