@@ -1,0 +1,60 @@
+import React, { Component } from "react";
+import { Post } from "../requests";
+// import PostDetails from "./PostDetails";
+import { Link } from "react-router-dom";
+import PostLikeButtonForm from "./PostLikeButtonForm";
+import CommentList from "./CommentList";
+
+class SinglePost extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isAuthrzd: false,
+      post: null
+    }
+  }
+
+  componentDidMount() {
+    // If receive json ok from controller, then render post. If receive json unauthorized status, then render an unauthorized route using isAuthrzd state as if-condition.
+
+    // const id = this.props.match.params.id;
+
+  }
+
+
+
+  render() {
+    if (this.props.color === "gold") {
+      return(
+        <article className="SinglePost gold">
+        <section className="post-body">
+            <Link to={`posts/${this.props.id}`}> 
+              <p>{this.props.body}</p>
+              <img src={this.props.picture_url} />
+            </Link>  
+            <PostLikeButtonForm postId={this.props.id} />
+        </section>
+        <CommentList comments={this.props.comments} />
+      
+      </article>
+      )
+    }
+    return(
+      <article className="SinglePost">
+        <section className="post-body">
+            <Link to={`posts/${this.props.id}`}> 
+              <p>{this.props.body}</p>
+              <img src={this.props.picture_url} />
+            </Link>  
+            <PostLikeButtonForm postId={this.props.id} />
+        </section>
+        <CommentList comments={this.props.comments} />
+      
+      </article>
+    )
+  }
+
+}
+
+export default SinglePost;

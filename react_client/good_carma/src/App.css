@@ -1,1 +1,13 @@
 
+.gold { 
+  background: linear-gradient(45deg, #fff146, #fdfdf6);
+  background-size: 400% 400%;
+
+  animation: GoldPost 10s ease infinite; 
+}
+
+@keyframes GoldPost { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
