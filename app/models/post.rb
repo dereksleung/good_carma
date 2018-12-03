@@ -5,17 +5,29 @@ class Post < ApplicationRecord
   has_many :comments
   has_many :inspires, as: :inspiring_entry
 
-  has_and_belongs_to_many(:child_posts,
-    class_name: "Post",
-    join_table: :post_relations,
-    foreign_key: :parent_post_id,
-    association_foreign_key: :child_post_id)
+  # :parent_relations "names" the PostRelation join table for accessing through the :parent_posts association
+  has_many :parent_relations, foreign_key: :child_post_id, class_name: "PostRelation", dependent: :destroy
 
-  has_and_belongs_to_many(:parent_posts,
-    class_name: "Post",
-    join_table: :post_relations,
-    foreign_key: :child_post_id,
-    association_foreign_key: :parent_post_id)
+  # source: :parent_post matches with the belongs_to :parent_post identification in the PostRelation model
+  has_many :parent_posts, through: :parent_relations, source: :parent_post
+  
+  # :child_relations "names" the PostRelation join table for accessing through the :child_posts association
+  has_many :child_relations, foreign_key: :parent_post_id, class_name: "PostRelation", dependent: :destroy
+
+  # source: :child_post matches with the belongs_to :child_post identification in the PostRelation model
+  has_many :child_posts, through: :child_relations, source: :child_post
+
+  # has_and_belongs_to_many(:child_posts,
+  #   class_name: "Post",
+  #   join_table: :post_relations,
+  #   foreign_key: :parent_post_id,
+  #   association_foreign_key: :child_post_id)
+
+  # has_and_belongs_to_many(:parent_posts,
+  #   class_name: "Post",
+  #   join_table: :post_relations,
+  #   foreign_key: :child_post_id,
+  #   association_foreign_key: :parent_post_id)
   
   # has_many :inspires, dependent: :destroy
 
@@ -85,15 +97,5 @@ class Post < ApplicationRecord
 
   # belongs_to :parent, class_name: "Post"
 
-  # # :parent_relations "names" the PostRelation join table for accessing through the :parent_posts association
-  # has_many :parent_relations, foreign_key: :parent_post_id, class_name: "PostRelation"
 
-  # # source: :parent_post matches with the belongs_to :parent_post identification in the PostRelation model
-  # has_many :parent_posts, through: :parent_relations, source: :post
-  
-  # # :child_relations "names" the PostRelation join table for accessing through the :child_posts association
-  # has_many :child_relations, foreign_key: :child_post_id, class_name: "PostRelation"
-
-  # # source: :child_post matches with the belongs_to :child_post identification in the PostRelation model
-  # has_many :child_posts, through: :child_relations, source: :post
 end

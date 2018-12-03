@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Comment.delete_all
-Post.delete_all
-User.delete_all
+Comment.destroy_all
+Post.destroy_all
+User.destroy_all
 
 PASSWORD = "supersecret"
 
@@ -35,7 +35,7 @@ users = User.all
 
 15.times do
   p = Post.create(
-    body: Faker::Friends.quote,
+    body: Faker::Hobbit.quote,
     user: users.sample
   )
 
@@ -50,6 +50,22 @@ users = User.all
 end
 
 posts = Post.all
+
+2.times do 
+  p = posts.sample
+  p.update(
+    color: "gold"
+  )
+end
+
+p = Post.first
+pchild1 = posts.sample
+pchild2 = posts.sample
+pgrandchild1 = posts.sample
+p.child_posts << pchild1
+p.child_posts << pchild2
+pchild1.child_posts << pgrandchild1
+
 
 # 10.times do
 #   p = posts.sample

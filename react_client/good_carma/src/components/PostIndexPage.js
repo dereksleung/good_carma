@@ -42,6 +42,7 @@ class PostIndexPage extends Component {
       this.setState({
         parentIDs: allParentIDs
       })
+      console.log(parentIDs);
     }
   }
 
