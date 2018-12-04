@@ -21,7 +21,7 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def silver
     silver_sql = <<-SQL
-      SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+      SELECT users.first_name, users.avatar, users.id, COUNT(parent_post_id) AS Inspiractions
         FROM users
         INNER JOIN posts ON users.id = posts.user_id
         INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
@@ -30,7 +30,33 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     arr_silver = ActiveRecord::Base.connection.execute(silver_sql)
+
+    arr_silver.each do |user|
+      sil_user = User.find(user["id"])
+      sil_user.update(level:"silver")
+    end
+
     render json: arr_silver
+  end
+
+  def gold
+    gold_sql = <<-SQL
+    SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+      FROM users
+      INNER JOIN posts ON users.id = posts.user_id
+      INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
+      GROUP BY users.id
+      HAVING COUNT(parent_post_id) > 7
+  SQL
+
+  arr_gold = ActiveRecord::Base.connection.execute(gold_sql)
+
+  arr_gold.each do |user|
+    gold_user = User.find(user["id"])
+    gold_user.update(level:"gold")
+  end
+
+  render json: arr_gold
   end
 
 end
