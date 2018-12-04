@@ -27,7 +27,8 @@ super_user = User.create(
     first_name: first_name,
     last_name: last_name,
     email: "#{first_name.downcase}.#{last_name.downcase}@example.com",
-    password: PASSWORD
+    password: PASSWORD,
+    avatar: Faker::Avatar.image("", "50x50")
   )
 end
 
@@ -36,7 +37,8 @@ users = User.all
 15.times do
   p = Post.create(
     body: Faker::Hobbit.quote,
-    user: users.sample
+    user: users.sample,
+    image_url: Faker::LoremFlickr.image("300x250", ['volunteer'])
   )
 
   if p.valid?

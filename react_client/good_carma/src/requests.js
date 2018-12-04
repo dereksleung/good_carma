@@ -34,6 +34,11 @@ export const LeaderBoard = {
     return fetch(`${BASE_URL}/leaderboards`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  mostIActionsInWeek() {
+    return fetch(`${BASE_URL}/leaderboards/most_i_actions_this_week`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 
