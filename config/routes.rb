@@ -13,8 +13,11 @@ Rails.application.routes.draw do
         resources :sympathies
       end
 
-      resources :users
-      resource :sessions, only: [:new, :create, :destroy]
+      resources :users do
+        get :current, on: :collection
+      end
+
+      resource :sessions, only: [:create, :destroy]
     end
   end
 
