@@ -41,3 +41,54 @@ SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
   GROUP BY users.id
   HAVING COUNT(parent_post_id) > 1
 
+-- New Posters Continuing Their Activity in the last 2 weeks
+
+  SELECT users.first_name, users.avatar, MIN(posts.created_at) AS first_post_date
+  FROM users
+  INNER JOIN posts ON posts.user_id = users.id
+  WHERE posts.created_at > now() - interval '2 weeks' AND NOT EXISTS(
+    SELECT users.first_name
+    FROM users
+    INNER JOIN posts ON posts.user_id = users.id
+    WHERE posts.created_at <= now() - interval '2 weeks'
+  )
+  GROUP BY users.id
+  HAVING COUNT(posts.user_id) > 1
+
+-- Highest Inspiraction (child_posts) earners this week
+
+SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+  FROM users
+  INNER JOIN posts ON users.id = posts.user_id
+  INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
+  WHERE post_relations.created_at > now() - interval '1 week'
+  GROUP BY users.id
+  ORDER BY COUNT(parent_post_id) DESC
+
+-- BADGES.
+
+-- Use for..in loop later to iterate over the object {} returned by user.badges database rows. Or not in JSX. It will have to be Object.entries(badgeObjDBRow).forEach().
+
+-- BADGES will need two tables. BadgeType for storing the image. BadgeEarnings.
+
+-- 5 Inspiractions in 1 day.
+-- Easiest way is to set an active job that checks daily.
+
+SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+  FROM users
+  INNER JOIN posts ON users.id = posts.user_id
+  INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
+  WHERE post_relations.created_at > now() - interval '1 day'
+  GROUP BY users.id
+  HAVING COUNT(parent_post_id) > 4
+  ORDER BY COUNT(parent_post_id) DESC
+
+-- 5 Inspiractions from 1 post
+
+SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+  FROM users
+  INNER JOIN posts ON users.id = posts.user_id
+  INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
+  GROUP BY parent_post_id, users.first_name, users.avatar
+  HAVING COUNT(parent_post_id) > 4
+  ORDER BY COUNT(parent_post_id) DESC

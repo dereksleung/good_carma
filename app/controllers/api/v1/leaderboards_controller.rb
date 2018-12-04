@@ -54,9 +54,30 @@ class Api::V1::LeaderboardsController < ApplicationController
   arr_gold.each do |user|
     gold_user = User.find(user["id"])
     gold_user.update(level:"gold")
-  end
+    end
 
   render json: arr_gold
+  end
+
+  def two_wk_users
+
+    two_wk_users_sql = <<-SQL
+    SELECT users.first_name, users.avatar, MIN(posts.created_at) AS first_post_date
+    FROM users
+    INNER JOIN posts ON posts.user_id = users.id
+    WHERE posts.created_at > now() - interval '2 weeks' AND NOT EXISTS(
+      SELECT users.first_name
+      FROM users
+      INNER JOIN posts ON posts.user_id = users.id
+      WHERE posts.created_at <= now() - interval '2 weeks'
+    )
+    GROUP BY users.id
+    HAVING COUNT(posts.user_id) > 1
+    SQL
+    
+    arr_two_wk = ActiveRecord::Base.connection.execute(two_wk_users)
+
+    render json: arr_two_wk
   end
 
 end
