@@ -6,6 +6,7 @@ import PostShowPage from "./components/PostShowPage";
 import NavBar from "./components/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
+import UserShowPage from "./components/UserShowPage";
 
 
 import './App.css';
@@ -15,7 +16,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: null
+      currentUser: null,
+      loading: true
     }
 
     this.getUser = this.getUser.bind(this);
@@ -65,6 +67,8 @@ class App extends Component {
             <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
             <Route path="/leaderboards" exact component={LeaderBoardMain} />
             <Route path="/posts/:id" exact component={PostShowPage} />
+
+            <Route path="/users/current" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
             <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
           </Switch>
