@@ -31,7 +31,7 @@ class Api::V1::InspiresController < Api::ApplicationController
   end
 
   def inspire_params
-    params.require(:inspire).permit(:inspiring_entry_type, :postId)
+    params.require(:inspire).permit(:inspiring_entry_type, :postId, :color)
   end
 
 

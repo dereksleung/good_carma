@@ -46,6 +46,14 @@ class App extends Component {
 
     const { currentUser } = this.state;
 
+    if (this.state.loading) {
+      return( 
+      <div className="App">
+        <h1>Loading..</h1>
+      </div>
+      )
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
@@ -57,7 +65,7 @@ class App extends Component {
             <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
             <Route path="/leaderboards" exact component={LeaderBoardMain} />
             <Route path="/posts/:id" exact component={PostShowPage} />
-            <Route path="/posts" exact component={PostIndexPage} />
+            <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
           </Switch>
 

@@ -17,7 +17,8 @@ class PostIndexPage extends Component {
       loading: true,
       posts: [],
       redirect: false,
-      parentIDs: []
+      parentIDs: [],
+      currentUser: props.currentUser
     }
   
     // this.deletePost = this.deletePost.bind(this);
@@ -47,7 +48,7 @@ class PostIndexPage extends Component {
   }
 
   render() {
-    const { posts } = this.state;
+    const { posts, currentUser } = this.state;
 
     return(
     <main className="PostIndexPage">
@@ -56,7 +57,7 @@ class PostIndexPage extends Component {
       </PostForm>  
       {posts.map(post=>(
         <section key={post.id} data-id={post.id}>
-          <SinglePost {...post}>
+          <SinglePost {...post} currentUser={currentUser}>
             <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
             </input>
           </SinglePost>

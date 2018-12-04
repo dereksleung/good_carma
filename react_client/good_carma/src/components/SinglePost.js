@@ -11,7 +11,8 @@ class SinglePost extends Component {
 
     this.state = {
       isAuthrzd: false,
-      post: null
+      post: null,
+      currentUser: props.currentUser
     }
   }
 
@@ -25,6 +26,8 @@ class SinglePost extends Component {
 
 
   render() {
+    const { currentUser } = this.state;
+
     if (this.props.color === "gold") {
       return(
         <article className="SinglePost gold">
@@ -34,7 +37,23 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} />
+            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
+        </section>
+        <CommentList comments={this.props.comments} />
+      
+      </article>
+      )
+    }
+    if (this.props.color === "silver") {
+      return(
+        <article className="SinglePost silver">
+        <section className="post-body">
+            {this.props.children}
+            <Link to={`posts/${this.props.id}`}> 
+              <p>{this.props.body}</p>
+              <img src={this.props.picture_url} />
+            </Link>  
+            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
         </section>
         <CommentList comments={this.props.comments} />
       
@@ -49,7 +68,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} />
+            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser}/>
         </section>
         <CommentList comments={this.props.comments} />
       

@@ -11,3 +11,16 @@
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
+
+.silver {
+  background: linear-gradient(313deg, #cccccc, #ffffff);
+background-size: 400% 400%;
+
+animation: SilverPost 9s ease infinite;
+}
+
+@keyframes SilverPost { 
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
