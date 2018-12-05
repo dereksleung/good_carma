@@ -26,10 +26,14 @@ class SinglePost extends Component {
 
 
   render() {
+
+    if (currentUser) {
+
+      const level = this.state.currentUser.level || null;
+      console.log('sending level', currentUser.level);
+    }
     const { currentUser } = this.state;
-    const level = this.state.currentUser.level || null;
-    console.log('sending level', currentUser.level);
-    let component = null;
+    // let component = null;
 
     // my recommendation:
     // switch (this.props.color) {
@@ -54,7 +58,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} level={currentUser.level}/>
+            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
         </section>
         <CommentList comments={this.props.comments} />
       
@@ -85,7 +89,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser} level={currentUser.level} />
+            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser} level={currentUser ? currentUser.level : null} />
         </section>
         <CommentList comments={this.props.comments} />
       
