@@ -9,6 +9,9 @@ class LeaderBoardMain extends Component {
     super(props);
 
     this.state = {
+      new_posters: [],
+      two_wk_users: [],
+      arr_two_wk: [],
       errors: [],
       loading: true
     }
@@ -16,13 +19,15 @@ class LeaderBoardMain extends Component {
     this.getMostIActionsInWeek = this.getMostIActionsInWeek.bind(this);
   }
 
-  componentDidMount() {
-    LeaderBoard.loadMain().then(data=>
+  componentWillMount() {
+    LeaderBoard.loadMain().then(data=>{
+      console.log(data)
       this.setState({
         new_posters: data["new_posters"],
         two_wk_users: data.arr_two_wk,
         loading: false
-      }))
+      })
+    })
   }
 
   getMostIActionsInWeek() {

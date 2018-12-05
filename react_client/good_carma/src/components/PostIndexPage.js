@@ -39,7 +39,8 @@ class PostIndexPage extends Component {
 
     const { parentIDs } = this.state;
     if (parentIDs.length >= 0 && parentIDs.length < 4) {
-      const allParentIDs = this.state.parentIDs.push(id);
+      const allParentIDs = this.state.parentIDs;
+      allParentIDs.push(id)
       this.setState({
         parentIDs: allParentIDs
       })

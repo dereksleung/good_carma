@@ -5,7 +5,7 @@ import { Inspire } from "../requests";
 class PostInspireButtonForm extends Component {
   constructor(props) {
     super(props);
-
+    console.log('receiving level', props.level)
     this.state = {
 
     }
@@ -33,7 +33,7 @@ class PostInspireButtonForm extends Component {
           <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
         </div>
         <div>
-          <input type="hidden" name="color" id="color" value={this.props.currentUser} />
+          <input type="hidden" name="color" id="color" value={this.props.level} />
         </div>
 
         <div>

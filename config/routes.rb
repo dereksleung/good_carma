@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :posts do
         get("/posts/:id/tree", to: "posts#tree", as: :tree)
         resources :comments
-        resources :inspires, shallow: true, only: [:create, :destroy]
+        resources :inspires, shallow: true, only: [:create, :show, :destroy]
         resources :inspiractions
         resources :sympathies
       end

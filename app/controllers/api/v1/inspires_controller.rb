@@ -2,9 +2,11 @@ class Api::V1::InspiresController < Api::ApplicationController
 
   def create
   
+    
     inspire = Inspire.new(inspire_params)
     inspire.user = current_user
     insp_entry_id = params[:postId]
+    # inspire.post = Post.find insp_entry_id
     inspire_count = Inspire.where("inspiring_entry_type = ? AND inspiring_entry_id = ?", params[:inspiring_entry_type], insp_entry_id).count
 
     if inspire.save

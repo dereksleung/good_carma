@@ -27,6 +27,23 @@ class SinglePost extends Component {
 
   render() {
     const { currentUser } = this.state;
+    const level = this.state.currentUser.level || null;
+    console.log('sending level', currentUser.level);
+    let component = null;
+
+    // my recommendation:
+    // switch (this.props.color) {
+    //   case "gold":
+    //     component = <GoldPost level={level} />
+    //     break;
+    //   case "silver":
+    //     component = <SilverPost />
+    //     break;
+    //   default:
+    //     component = <DefaultPost />
+    //     break;
+    // }
+    // return component;
 
     if (this.props.color === "gold") {
       return(
@@ -37,7 +54,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
+            <PostInspireButtonForm postId={this.props.id} level={currentUser.level}/>
         </section>
         <CommentList comments={this.props.comments} />
       
@@ -68,7 +85,7 @@ class SinglePost extends Component {
               <p>{this.props.body}</p>
               <img src={this.props.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser}/>
+            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser} level={currentUser.level} />
         </section>
         <CommentList comments={this.props.comments} />
       
