@@ -34,7 +34,7 @@ const PostForm = props => {
         <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />
       </div>
       <div>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" className="btn btn-primary" />
       </div>
     </form>
   );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
+import { Container, Row, Col } from "reactstrap";
 
 import SinglePost from "./SinglePost";
 import PostInspireButtonForm from "./PostInspireButtonForm";
@@ -52,20 +53,25 @@ class PostIndexPage extends Component {
     const { posts, currentUser } = this.state;
 
     return(
-    <main className="PostIndexPage">
+    <Container className="PostIndexPage">
       <h1>Post Index</h1>
-      <PostForm parentIDs={this.state.parentIDs}>
-      </PostForm>  
+      <Row>
+        <PostForm parentIDs={this.state.parentIDs}>
+        </PostForm> 
+      </Row>
+ 
       {posts.map(post=>(
-        <section key={post.id} data-id={post.id}>
-          <SinglePost {...post} currentUser={currentUser}>
-            <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
-            </input>
-          </SinglePost>
-        </section>
+        <Row>
+          <section key={post.id} data-id={post.id}>
+            <SinglePost {...post} currentUser={currentUser}>
+              <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
+              </input>
+            </SinglePost>
+          </section>
+        </Row>
       ))
       }
-    </main> 
+    </Container> 
     )
   }
 

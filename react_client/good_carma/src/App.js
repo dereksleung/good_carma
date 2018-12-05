@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
 import UserShowPage from "./components/UserShowPage";
+import WelcomePage from "./components/WelcomePage/WelcomePage";
 
 
 import './App.css';
@@ -59,11 +60,12 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <h1>Welcome!</h1>
+
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
 
           </NavBar>
           <Switch>
+            <Route path="/" exact component={WelcomePage} />
             <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
             <Route path="/leaderboards" exact component={LeaderBoardMain} />
             <Route path="/posts/:id" exact component={PostShowPage} />
