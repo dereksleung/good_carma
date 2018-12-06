@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
-// import PostDetails from "./PostDetails";
 import { Link } from "react-router-dom";
-import { FormGroup, Input } from "reactstrap";
+import { Inspire } from "../requests";
 import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
 
@@ -12,9 +11,11 @@ class SinglePost extends Component {
 
     this.state = {
       isAuthrzd: false,
-      post: null,
+      post: props.post,
       currentUser: props.currentUser
     }
+
+    this.hndlInspireBtnSbmt = this.hndlInspireBtnSbmt.bind(this);
   }
 
   componentDidMount() {
@@ -24,7 +25,21 @@ class SinglePost extends Component {
 
   }
 
+  hndlInspireBtnSbmt(event) {
+    event.preventDefault();
+    const { currentTarget } = event;
+    const formData = new FormData(currentTarget);
+    Inspire.createPostInsp({
+      inspiring_entry_type: formData.get("inspiring_entry_type"),
+      postId: this.props.postId,
+      color: formData.get("color")
+    }).then(res=>this.setState({
+      post: res
+    }));
 
+    currentTarget.reset();
+  
+  };
 
   render() {
 
@@ -34,35 +49,36 @@ class SinglePost extends Component {
       console.log('sending level', currentUser.level);
     }
     const { currentUser } = this.state;
+    const { post } = this.state;
 
-    if (this.props.color === "gold") {
+    if (post.color === "gold") {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
         <section className="post-body">
-            {this.props.children}
-            <Link to={`posts/${this.props.id}`}> 
-              <p>{this.props.body}</p>
-              <img src={this.props.picture_url} />
+            {post.children}
+            <Link to={`posts/${post.id}`}> 
+              <p>{post.body}</p>
+              <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
+            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
         </section>
-        <CommentList comments={this.props.comments} />
+        <CommentList comments={post.comments} />
       
         </article>
       )
     }
-    if (this.props.color === "silver") {
+    if (post.color === "silver") {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
         <section className="post-body">
-            {this.props.children}
-            <Link to={`posts/${this.props.id}`}> 
-              <p>{this.props.body}</p>
-              <img src={this.props.picture_url} />
+            {post.children}
+            <Link to={`posts/${post.id}`}> 
+              <p>{post.body}</p>
+              <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} level={currentUser ? currentUser.level : null}/>
+            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
         </section>
-        <CommentList comments={this.props.comments} />
+        <CommentList comments={post.comments} />
       
       </article>
       )
@@ -70,14 +86,14 @@ class SinglePost extends Component {
     return(
       <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body">
-            {this.props.children}
-            <Link to={`posts/${this.props.id}`}> 
-              <p>{this.props.body}</p>
-              <img src={this.props.picture_url} />
+            {post.children}
+            <Link to={`posts/${post.id}`}> 
+              <p>{post.body}</p>
+              <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={this.props.id} currentUser={currentUser} level={currentUser ? currentUser.level : null} />
+            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
         </section>
-        <CommentList comments={this.props.comments} />
+        <CommentList comments={post.comments} />
       
       </article>
     )
