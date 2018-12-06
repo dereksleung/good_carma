@@ -21,7 +21,7 @@ const NavBar = (props) => {
       <NavLink exact to="/leaderboards">The LeaderBoards</NavLink>
       {currentUser ? (
       <>
-      <span> {currentUser.full_name}</span>
+      <NavLink exact to="users/current">{currentUser.full_name}</NavLink>
       <a href="#not-used" onClick={handleSignOutClick}>Sign Out</a>
       </> 
       ) : (

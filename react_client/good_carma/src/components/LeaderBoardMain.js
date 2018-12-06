@@ -49,7 +49,8 @@ class LeaderBoardMain extends Component {
             <Link to={{pathname: "/leaderboards/most_i_actions_this_week", state: { loadData: this.getMostIActionsInWeek } }}>
             Most Inspiractions this Week</Link>
           </nav>
-          <h3>These New Posters are worth congratulating!</h3>
+          <h3>New Posters</h3>
+          <h5>Drop in and say "Hi!"</h5>
           <Table className="new-posters">
             <thead>
               <tr>
@@ -66,7 +67,7 @@ class LeaderBoardMain extends Component {
                     <th scope="row"></th>
                     <td>{`${user.first_name}`}</td>
                     <td><img src={`${user.avatar}`}></img></td>
-                    <td>{`${user.first_post_date}`}</td>
+                    <td>{`${user.first_post_date} ago`}</td>
                   </tr>  
                 )
               })}
@@ -74,6 +75,7 @@ class LeaderBoardMain extends Component {
           </Table>
           
           <h3>Continuing New Posters</h3>
+          <h5>Congratulate these folks!</h5>
           <Table className="two-wk-users">
             <h4></h4>
             <thead>
@@ -91,7 +93,7 @@ class LeaderBoardMain extends Component {
                     <th scope="row"></th>
                     <td>{`${user.first_name}`}</td>
                     <td><img src={`${user.avatar}`}></img></td>
-                    <td>{`${user.latest_post_date}`}</td>
+                    <td>{`${user.latest_post_date} ago`}</td>
                   </tr>  
                 )
               })}

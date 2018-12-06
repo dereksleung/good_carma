@@ -1,6 +1,8 @@
 import React from "react";
+import UserSinglePost from "./UserSinglePost";
 
 const UserShowPage = props => {
+
 
   const {currentUser} = props;
 
@@ -9,10 +11,23 @@ const UserShowPage = props => {
       <h1>{currentUser.full_name}</h1>
       <div className="badges">
         {currentUser.badges.map(badge=>(
-          <img className="badge" src={badge.image_url} title={badge.name}>
+          <img src={badge.image_url} title={badge.name}>
           </img>
         ))}
       </div>
+      {currentUser.posts.map(post=>{
+        return(
+        <UserSinglePost post={post}>
+        </UserSinglePost>
+        )
+      })}
+      <h3>{currentUser.first_name}'s Inspiractions</h3>
+      {currentUser.child_posts.map(post=>{
+        return(
+          <UserSinglePost post={post}>
+          </UserSinglePost>
+        )
+      })}
     </article>
   )
 }

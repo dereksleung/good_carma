@@ -4,7 +4,17 @@
   opacity: 0.85;
 }
 
+.UserSinglePost {
+  background-color: #FFFEFF;
+  opacity: 0.85;
+}
+
 textarea {
+  opacity: 0.85;
+}
+
+.LeaderBoardMain {
+  background-color: #FFFEFF;
   opacity: 0.85;
 }
 

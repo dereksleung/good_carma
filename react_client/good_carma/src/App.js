@@ -78,6 +78,7 @@ class App extends Component {
             <Route path="/posts/:id" exact component={PostShowPage} />
 
             <Route path="/users/current" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
+            <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
             <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
           </Switch>

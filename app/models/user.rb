@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :badge_earnings, class_name: "BadgeEarning", dependent: :destroy
   has_many :badges, through: :badge_earnings
+  
 
   def full_name
     "#{first_name} #{last_name}".strip
