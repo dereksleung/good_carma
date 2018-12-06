@@ -51,7 +51,7 @@ class SinglePost extends Component {
 
     if (this.props.color === "gold") {
       return(
-        <article className="SinglePost gold">
+        <article className="SinglePost gold border border-white rounded m-2 p-3">
         <section className="post-body">
             {this.props.children}
             <Link to={`posts/${this.props.id}`}> 
@@ -67,7 +67,7 @@ class SinglePost extends Component {
     }
     if (this.props.color === "silver") {
       return(
-        <article className="SinglePost silver">
+        <article className="SinglePost silver border border-white rounded m-2 p-3">
         <section className="post-body">
             {this.props.children}
             <Link to={`posts/${this.props.id}`}> 
@@ -82,7 +82,7 @@ class SinglePost extends Component {
       )
     }
     return(
-      <article className="SinglePost">
+      <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body">
             {this.props.children}
             <Link to={`posts/${this.props.id}`}> 

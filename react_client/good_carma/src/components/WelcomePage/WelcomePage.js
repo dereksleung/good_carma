@@ -7,7 +7,7 @@ const WelcomePage = props => {
 
   return(
     <Container className="WelcomePage">
-      <img src={volunteers}></img>
+      <img src={volunteers} style={{visibility:"hidden"}}></img>
 
     </Container>
   )

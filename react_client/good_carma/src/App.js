@@ -8,6 +8,7 @@ import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
 import UserShowPage from "./components/UserShowPage";
 import WelcomePage from "./components/WelcomePage/WelcomePage";
+import volunteers from "./components/WelcomePage/volunteers.jpeg"
 
 
 import './App.css';
@@ -57,10 +58,16 @@ class App extends Component {
       )
     }
 
+    
+
     return (
       <BrowserRouter>
-        <div className="App">
-
+        <div className="App" style={
+          {backgroundImage: `url(${volunteers})`,
+          backgroundRepeat:"no-repeat",
+          backgroundAttachment:"fixed",
+            backgroundPosition:"center"
+        }}>
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
 
           </NavBar>

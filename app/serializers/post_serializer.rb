@@ -7,6 +7,11 @@ class PostSerializer < ActiveModel::Serializer
 
   has_many :child_posts, through: :post_relations
 
+  def inspire_count
+    count = 0
+    object.inspires.size
+  end
+
   # This sets up a custom attribute to serialize
   def child_post_count
     count = 0

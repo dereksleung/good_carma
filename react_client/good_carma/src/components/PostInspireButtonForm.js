@@ -37,7 +37,7 @@ class PostInspireButtonForm extends Component {
         </div>
 
         <div>
-          <input type="submit" value="Inspire" />
+          <input type="submit" value="Inspire" className="btn btn-outline-primary"/>
         </div>
       </form>
     );

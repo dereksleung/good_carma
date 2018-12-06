@@ -6,8 +6,22 @@ class Api::V1::InspiresController < Api::ApplicationController
     inspire = Inspire.new(inspire_params)
     inspire.user = current_user
     insp_entry_id = params[:postId]
-    # inspire.post = Post.find insp_entry_id
-    inspire_count = Inspire.where("inspiring_entry_type = ? AND inspiring_entry_id = ?", params[:inspiring_entry_type], insp_entry_id).count
+
+    if params[:inspiring_entry_type] == "Post"
+      inspire.inspiring_entry = Post.find insp_entry_id
+    elsif params[:inspiring_entry_type] == "Comment"
+      inspire.inspiring_entry = Comment.find insp_entry_id
+    end
+
+    insp_entry = inspire.inspiring_entry
+
+    if params[:color] == "gold"
+      insp_entry.update(color: "gold")
+    elsif params[:color] == "silver"
+      insp_entry.update(color: "silver")
+    end
+
+    inspire_count = Inspire.where("inspiring_entry_type = ? AND inspiring_entry_id = ?", params[:inspiring_entry_type], insp_entry_id).size
 
     if inspire.save
       render json: inspire_count
