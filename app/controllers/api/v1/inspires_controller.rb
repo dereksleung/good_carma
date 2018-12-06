@@ -21,10 +21,8 @@ class Api::V1::InspiresController < Api::ApplicationController
       insp_entry.update(color: "silver")
     end
 
-    inspire_count = Inspire.where("inspiring_entry_type = ? AND inspiring_entry_id = ?", params[:inspiring_entry_type], insp_entry_id).size
-
     if inspire.save
-      render json: inspire_count
+      render json: insp_entry
     else
       render json: { errors: inspire.errors.full_messages }
     end

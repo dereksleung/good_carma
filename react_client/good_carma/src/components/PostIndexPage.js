@@ -54,10 +54,11 @@ class PostIndexPage extends Component {
 
     return(
     <Container className="PostIndexPage">
-      <h1>Post Index</h1>
       <Row>
-        <PostForm parentIDs={this.state.parentIDs}>
-        </PostForm> 
+        <Col> 
+          <PostForm parentIDs={this.state.parentIDs}>
+          </PostForm> 
+        </Col>
       </Row>
  
       {posts.map(post=>(

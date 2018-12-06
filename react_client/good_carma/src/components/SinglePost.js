@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Post } from "../requests";
 // import PostDetails from "./PostDetails";
 import { Link } from "react-router-dom";
+import { FormGroup, Input } from "reactstrap";
 import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
 
@@ -33,21 +34,6 @@ class SinglePost extends Component {
       console.log('sending level', currentUser.level);
     }
     const { currentUser } = this.state;
-    // let component = null;
-
-    // my recommendation:
-    // switch (this.props.color) {
-    //   case "gold":
-    //     component = <GoldPost level={level} />
-    //     break;
-    //   case "silver":
-    //     component = <SilverPost />
-    //     break;
-    //   default:
-    //     component = <DefaultPost />
-    //     break;
-    // }
-    // return component;
 
     if (this.props.color === "gold") {
       return(
@@ -62,7 +48,7 @@ class SinglePost extends Component {
         </section>
         <CommentList comments={this.props.comments} />
       
-      </article>
+        </article>
       )
     }
     if (this.props.color === "silver") {
