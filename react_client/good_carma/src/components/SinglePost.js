@@ -55,13 +55,16 @@ class SinglePost extends Component {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
         <section className="post-body">
-            {post.children}
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
               <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <span>
+              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              {this.props.children}
+            </span>
         </section>
+        <h6>Comments</h6>
         <CommentList comments={post.comments} />
       
         </article>
@@ -71,12 +74,15 @@ class SinglePost extends Component {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
         <section className="post-body">
-            {post.children}
+
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
               <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <span>
+              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              {this.props.children}
+            </span>
         </section>
         <CommentList comments={post.comments} />
       
@@ -86,12 +92,15 @@ class SinglePost extends Component {
     return(
       <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body">
-            {post.children}
+
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
               <img src={post.picture_url} />
             </Link>  
-            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <span>
+              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              {this.props.children}
+            </span>
         </section>
         <CommentList comments={post.comments} />
       
