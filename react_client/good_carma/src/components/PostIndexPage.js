@@ -64,7 +64,7 @@ class PostIndexPage extends Component {
       {posts.map(post=>(
         <Row>
           <section key={post.id} data-id={post.id}>
-            <SinglePost post={post} currentUser={currentUser}>
+            <SinglePost post={post} postId={post.id} currentUser={currentUser}>
               <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
               </input>
             </SinglePost>

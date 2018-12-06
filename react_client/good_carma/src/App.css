@@ -8,11 +8,14 @@ textarea {
   opacity: 0.85;
 }
 
-.gold { 
-  background: linear-gradient(45deg, #fff146, #fdfdf6);
+.gold {
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 49%, rgba(231,237,164,1) 100%);
+  opacity: 0.95
+  /* background: linear-gradient(45deg, #fff146, #fdfdf6);
   background-size: 400% 400%;
 
-  animation: GoldPost 10s ease infinite; 
+  animation: GoldPost 10s ease infinite;  */
 }
 
 @keyframes GoldPost { 

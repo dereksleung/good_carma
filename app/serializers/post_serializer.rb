@@ -7,6 +7,10 @@ class PostSerializer < ActiveModel::Serializer
 
   has_many :child_posts, through: :post_relations
 
+  def formatted_created_at
+    object.created_at.to_formatted_s(:long)
+  end
+
   def inspire_count
 
     object.inspires.size

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Inspire } from "../requests";
 
 
 class PostInspireButtonForm extends Component {

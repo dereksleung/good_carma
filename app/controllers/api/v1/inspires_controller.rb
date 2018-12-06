@@ -1,17 +1,17 @@
 class Api::V1::InspiresController < Api::ApplicationController
 
   def create
-  
     
     inspire = Inspire.new(inspire_params)
     inspire.user = current_user
-    insp_entry_id = params[:postId]
 
     if params[:inspiring_entry_type] == "Post"
+      insp_entry_id = params[:post_id]
       inspire.inspiring_entry = Post.find insp_entry_id
     elsif params[:inspiring_entry_type] == "Comment"
+      insp_entry_id = params[:comment_id]
       inspire.inspiring_entry = Comment.find insp_entry_id
-    end
+    end 
 
     insp_entry = inspire.inspiring_entry
 
@@ -45,7 +45,7 @@ class Api::V1::InspiresController < Api::ApplicationController
   end
 
   def inspire_params
-    params.require(:inspire).permit(:inspiring_entry_type, :postId, :color)
+    params.require(:inspire).permit(:inspiring_entry_type, :color)
   end
 
 
