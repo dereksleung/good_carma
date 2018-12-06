@@ -9,6 +9,15 @@
   opacity: 0.85;
 }
 
+#Brand {
+  font-family: Arvo;
+}
+
+.postpic {
+  opacity: 1.0;
+  object-fit: fill;
+}
+
 textarea {
   opacity: 0.85;
 }

@@ -1,8 +1,7 @@
 import React from "react";
 import UserSinglePost from "./UserSinglePost";
-import { User } from "../requests";
 
-const UserShowPage = props => {
+const CurrentUser = props => {
 
 
   const {currentUser} = props;

@@ -40,7 +40,7 @@ users = User.all
   p = Post.create(
     body: Faker::HarryPotter.quote,
     user: users.sample,
-    image_url: Faker::LoremFlickr.image("960x540", ['volunteer'])
+    picture_url: Faker::LoremFlickr.image("960x540", ['volunteer'])
   )
 
   if p.valid?

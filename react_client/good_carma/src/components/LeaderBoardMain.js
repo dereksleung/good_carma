@@ -15,7 +15,8 @@ class LeaderBoardMain extends Component {
       two_wk_users: [],
       arr_two_wk: [],
       errors: [],
-      loading: true
+      loading: true,
+      mIATW: []
     }
 
     this.getMostIActionsInWeek = this.getMostIActionsInWeek.bind(this);
@@ -33,9 +34,7 @@ class LeaderBoardMain extends Component {
   }
 
   getMostIActionsInWeek() {
-    LeaderBoard.mostIActionsInWeek().then(data=>this.setState({
-      mIATW: data
-    }))
+    LeaderBoard.mostIActionsInWeek().then(data=>this.props.mIATW = data)
   }
   // Define request handler functions here, then pass the function into the other stateless leaderboard Route/Link components.
 

@@ -6,12 +6,14 @@ import PostShowPage from "./components/PostShowPage";
 import NavBar from "./components/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
-import UserShowPage from "./components/UserShowPage";
+import OtherLeaderboard from "./components/OtherLeaderboard";
+
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg"
 
 
 import './App.css';
+import CurrentUser from './components/CurrentUser';
 
 class App extends Component {
   constructor(props) {
@@ -75,10 +77,12 @@ class App extends Component {
             <Route path="/" exact component={WelcomePage} />
             <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
             <Route path="/leaderboards" exact component={LeaderBoardMain} />
+            <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
+            
             <Route path="/posts/:id" exact component={PostShowPage} />
 
-            <Route path="/users/current" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
-            <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
+            <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
+
             <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
           </Switch>

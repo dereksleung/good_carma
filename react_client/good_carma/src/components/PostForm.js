@@ -25,8 +25,8 @@ const PostForm = props => {
             <Input type="textarea" name="body" id="body" placeholder="What's new?" />
           </FormGroup>
         <div>
-          <label htmlFor="image_url">Add an Image you Uploaded</label> <br />
-          <input name="image_url" id="image_url" />
+          <label htmlFor="picture_url">Add an picture you Uploaded</label> <br />
+          <input name="picture_url" id="picture_url" />
         </div>
         <div>
           <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />

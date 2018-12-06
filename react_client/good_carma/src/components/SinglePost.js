@@ -54,16 +54,25 @@ class SinglePost extends Component {
     if (post.color === "gold") {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
-        <section className="post-body">
+          <section className="post-body mb-3">
+            <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+            </Link>
+            <span>
+              {`${post.created_at}  `}
+              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+              
+            </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img src={post.picture_url} />
+              <img className="postpic mb-3" src={post.picture_url} />
             </Link>  
-            <span>
+            <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
               {this.props.children}
-            </span>
-        </section>
+            </div>
+          </section>
         <h6>Comments</h6>
         <CommentList comments={post.comments} />
       
@@ -73,34 +82,51 @@ class SinglePost extends Component {
     if (post.color === "silver") {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
-        <section className="post-body">
-
+          <section className="post-body mb-3">
+            <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+            </Link>
+            <span>
+              {`${post.created_at}  `}
+              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+              
+            </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img src={post.picture_url} />
+              <img className="postpic mb-3" src={post.picture_url} />
             </Link>  
-            <span>
+            <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
               {this.props.children}
-            </span>
-        </section>
-        <CommentList comments={post.comments} />
+            </div>
+          </section>
+          <CommentList comments={post.comments} />
       
-      </article>
+        </article>
       )
     }
     return(
       <article className="SinglePost border border-white rounded m-2 p-3">
-        <section className="post-body">
+        <section className="post-body mb-3">
 
-            <Link to={`posts/${post.id}`}> 
-              <p>{post.body}</p>
-              <img src={post.picture_url} />
-            </Link>  
-            <span>
-              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              {this.props.children}
-            </span>
+          <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+          </Link>
+          <span>
+            {`${post.created_at}  `}
+            {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+            {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+            {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+            
+          </span>
+          <Link to={`posts/${post.id}`}> 
+            <p>{post.body}</p>
+            <img className="postpic mb-3" src={post.picture_url} />
+          </Link>  
+          <div>
+            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            {this.props.children}
+          </div>
         </section>
         <CommentList comments={post.comments} />
       
