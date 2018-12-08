@@ -30,6 +30,8 @@ module GoodCarma
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    config.active_job.queue_adapter = :delayed_job
+
     config.middleware.insert_before(0, Rack::Cors) do 
       allow do
         origins "localhost:3030", "localhost:3001"

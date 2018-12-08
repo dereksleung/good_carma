@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
+import { Container, Row, Col } from "reactstrap";
 
 import SinglePost from "./SinglePost";
 import PostInspireButtonForm from "./PostInspireButtonForm";
@@ -17,7 +18,8 @@ class PostIndexPage extends Component {
       loading: true,
       posts: [],
       redirect: false,
-      parentIDs: []
+      parentIDs: [],
+      currentUser: props.currentUser
     }
   
     // this.deletePost = this.deletePost.bind(this);
@@ -38,7 +40,8 @@ class PostIndexPage extends Component {
 
     const { parentIDs } = this.state;
     if (parentIDs.length >= 0 && parentIDs.length < 4) {
-      const allParentIDs = this.state.parentIDs.push(id);
+      const allParentIDs = this.state.parentIDs;
+      allParentIDs.push(id)
       this.setState({
         parentIDs: allParentIDs
       })
@@ -47,23 +50,29 @@ class PostIndexPage extends Component {
   }
 
   render() {
-    const { posts } = this.state;
+    const { posts, currentUser } = this.state;
 
     return(
-    <main className="PostIndexPage">
-      <h1>Post Index</h1>
-      <PostForm parentIDs={this.state.parentIDs}>
-      </PostForm>  
+    <Container className="PostIndexPage">
+      <Row>
+        <Col> 
+          <PostForm parentIDs={this.state.parentIDs}>
+          </PostForm> 
+        </Col>
+      </Row>
+ 
       {posts.map(post=>(
-        <section key={post.id} data-id={post.id}>
-          <SinglePost {...post}>
-            <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
-            </input>
-          </SinglePost>
-        </section>
+        <Row>
+          <section key={post.id} data-id={post.id}>
+            <SinglePost post={post} postId={post.id} currentUser={currentUser}>
+              <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
+              </input>
+            </SinglePost>
+          </section>
+        </Row>
       ))
       }
-    </main> 
+    </Container> 
     )
   }
 

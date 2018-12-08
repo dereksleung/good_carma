@@ -1,13 +1,43 @@
 
-.gold { 
-  background: linear-gradient(45deg, #fff146, #fdfdf6);
+.SinglePost {
+  background-color: #FFFEFF;
+  opacity: 0.85;
+}
+
+textarea {
+  opacity: 0.85;
+}
+
+.gold {
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 49%, rgba(231,237,164,1) 100%);
+  opacity: 0.95
+  /* background: linear-gradient(45deg, #fff146, #fdfdf6);
   background-size: 400% 400%;
 
-  animation: GoldPost 10s ease infinite; 
+  animation: GoldPost 10s ease infinite;  */
 }
 
 @keyframes GoldPost { 
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
+}
+
+.silver {
+  background: linear-gradient(313deg, #cccccc, #ffffff);
+background-size: 400% 400%;
+
+animation: SilverPost 9s ease infinite;
+}
+
+@keyframes SilverPost { 
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+
+img.badge {
+  height: 75;
+  width: 75;
 }

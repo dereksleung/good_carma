@@ -1,33 +1,35 @@
-import React from "react";
-
+import React, { Component } from "react";
 import { Inspire } from "../requests";
 
-const PostInspireButtonForm = (props) => {
-  const handleSubmit = event => {
-    event.preventDefault();
 
-    const { currentTarget } = event;
-    const formData = new FormData(currentTarget);
-    Inspire.createPostInsp({
-      inspiring_entry_type: formData.get("inspiring_entry_type"),
-      postId: props.postId
-    });
+class PostInspireButtonForm extends Component {
+  constructor(props) {
+    super(props);
+    console.log('receiving level', props.level)
+    this.state = {
 
-    currentTarget.reset();
-  };
+    }
 
-  return (
 
-    <form className="PostInspireButtonForm" onSubmit={handleSubmit}>
-      <div>
-        <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
-      </div>
-      <div>
-        <input type="submit" value="Inspire" />
-      </div>
-    </form>
-  );
+  }
 
+  
+  render() {
+    return (
+      <form className="PostInspireButtonForm" onSubmit={this.props.handleSubmit}>
+        <div>
+          <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
+        </div>
+        <div>
+          <input type="hidden" name="color" id="color" value={this.props.level} />
+        </div>
+
+        <div>
+          <input type="submit" value="Inspire" className="btn btn-outline-primary"/>
+        </div>
+      </form>
+    );
+  }
 }
 
 

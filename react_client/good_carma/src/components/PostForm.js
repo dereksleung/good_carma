@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Post } from "../requests";
+import { FormGroup, Input, Row } from "reactstrap";
 
 const PostForm = props => {
 
@@ -18,25 +19,23 @@ const PostForm = props => {
   };
 
   return (
-
-    <form className="PostForm" onSubmit={handleSubmit}>
-      <div>
-        
-        <textarea name="body" id="body" cols="60" rows="4">
-        </textarea>
-
-      </div>
-      <div>
-        <label htmlFor="image_url">Add an Image you Uploaded</label> <br />
-        <input name="image_url" id="image_url" />
-      </div>
-      <div>
-        <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />
-      </div>
-      <div>
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
+    
+      <form className="PostForm" onSubmit={handleSubmit}>
+          <FormGroup>
+            <Input type="textarea" name="body" id="body" placeholder="What's new?" />
+          </FormGroup>
+        <div>
+          <label htmlFor="image_url">Add an Image you Uploaded</label> <br />
+          <input name="image_url" id="image_url" />
+        </div>
+        <div>
+          <input type="hidden" name="parent_ids" id="parent_ids" value={props.parentIDs} />
+        </div>
+        <div>
+          <input type="submit" value="Submit" className="btn btn-primary" />
+        </div>
+      </form>
+    
   );
 };
 

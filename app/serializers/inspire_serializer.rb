@@ -1,3 +1,3 @@
 class InspireSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :color
 end

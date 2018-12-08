@@ -34,15 +34,43 @@ export const LeaderBoard = {
     return fetch(`${BASE_URL}/leaderboards`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  mostIActionsInWeek() {
+    return fetch(`${BASE_URL}/leaderboards/most_i_actions_this_week`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 
 export const User = {
-
+  current() {
+    return fetch(`${BASE_URL}/users/current`, {
+      credentials: "include"
+    }).then(res => res.json());
+  }
 }
 
 export const Session = {
-
+  create(params) {
+    return fetch(`${BASE_URL}/sessions`, {
+      method: "POST",
+      credentials: "include",
+      // to include the cookie when doing fetch, use
+      // the "credentials" option with "include" for cross-origin
+      // requests or with "same-origin" for same-origin
+      // requests.
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
+  },
+  destroy() {
+    return fetch(`${BASE_URL}/sessions`, {
+      method: "DELETE",
+      credentials: "include"
+    }).then(res=>res.json());
+  }
 }
 
 export const Inspire = {
