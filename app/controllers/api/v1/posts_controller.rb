@@ -19,16 +19,15 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def create
     post = Post.new post_params
-    post.parent_id = null
-    parents_id_arr = post_params[:parent_ids]
+    parents_id_arr = JSON.parse(post_params[:parent_ids])
     post.user = current_user
 
-    parents_id_arr.each do |id|
+    if post.save
+      parents_id_arr.each do |id|
       parent = Post.find(id)
       post.parent_posts << parent
-    end
+      end
     
-    if post.save
       render json: post
     else
       render json: { errors: post.errors.full_messages }

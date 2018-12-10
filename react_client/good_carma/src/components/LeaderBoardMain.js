@@ -46,10 +46,20 @@ class LeaderBoardMain extends Component {
       <Container className="LeaderBoardMain">
           <nav>
             <Link to={{pathname: "/leaderboards/most_i_actions_this_week", state: { loadData: this.getMostIActionsInWeek } }}>
-            Most Inspiractions this Week</Link>
+            Trailblazers - Most Inspiractions this Week</Link><br/>
+            <Link to="/leaderboards/overachievers">Overachievers - Most Badges Earned this Week
+            </Link><br/>
+            <Link to="/leaderboards/muses">Muses - Most Inspires this Week
+            </Link><br/>
+            <Link to="/leaderboards/10_inspires_one_post">Fonts of Inspiration - Fifteen Inspires from One Post
+            </Link><br/>
+            <Link to="">Thought Provokers - Longest Posts earning 10 Inspires 
+            </Link>
+            <Link to="">Wild Growths - Users whose Posts this Week Tripled 
+            </Link>
           </nav>
-          <h3>New Posters</h3>
-          <h5>Drop in and say "Hi!"</h5>
+          <h3>New Blood</h3>
+          <h5>Drop in with a friendly welcome!</h5>
           <Table className="new-posters">
             <thead>
               <tr>
@@ -64,7 +74,7 @@ class LeaderBoardMain extends Component {
                 return(
                   <tr>
                     <th scope="row"></th>
-                    <td>{`${user.first_name}`}</td>
+                    <td><Link to={`users/${user.first_name}`}>{user.first_name}</Link></td>
                     <td><img src={`${user.avatar}`}></img></td>
                     <td>{`${user.first_post_date} ago`}</td>
                   </tr>  
@@ -73,8 +83,8 @@ class LeaderBoardMain extends Component {
             </tbody>
           </Table>
           
-          <h3>Continuing New Posters</h3>
-          <h5>Congratulate these folks!</h5>
+          <h3>The Up and Coming</h3>
+          <h5>Congratulate these folks for keeping up fighting the good fight!</h5>
           <Table className="two-wk-users">
             <h4></h4>
             <thead>

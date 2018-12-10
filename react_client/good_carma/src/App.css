@@ -1,12 +1,21 @@
 
 .SinglePost {
   background-color: #FFFEFF;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .UserSinglePost {
   background-color: #FFFEFF;
-  opacity: 0.85;
+  opacity: 0.9;
+}
+
+.PostForm {
+  opacity: 0.9;
+}
+
+.b-earn {
+  height: 75;
+  width: 75;
 }
 
 #Brand {
