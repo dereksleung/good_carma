@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
 import { Link, Redirect } from "react-router-dom";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 
 import SinglePost from "./SinglePost";
 import PostInspireButtonForm from "./PostInspireButtonForm";
@@ -65,8 +65,8 @@ class PostIndexPage extends Component {
         <Row>
           <section key={post.id} data-id={post.id}>
             <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-              <input type="checkbox" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>
-              </input>
+              <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+
             </SinglePost>
           </section>
         </Row>

@@ -9,13 +9,13 @@ class Post < ApplicationRecord
   has_many :parent_relations, foreign_key: :child_post_id, class_name: "PostRelation", dependent: :destroy
 
   # source: :parent_post matches with the belongs_to :parent_post identification in the PostRelation model
-  has_many :parent_posts, through: :parent_relations, source: :parent_post
+  has_many :parent_posts, through: :parent_relations, source: :parent_post#, inverse_of :parent_post
   
   # :child_relations "names" the PostRelation join table for accessing through the :child_posts association
   has_many :child_relations, foreign_key: :parent_post_id, class_name: "PostRelation", dependent: :destroy
 
   # source: :child_post matches with the belongs_to :child_post identification in the PostRelation model
-  has_many :child_posts, through: :child_relations, source: :child_post
+  has_many :child_posts, through: :child_relations, source: :child_post#, inverse_of :child_post
 
   # has_and_belongs_to_many(:child_posts,
   #   class_name: "Post",

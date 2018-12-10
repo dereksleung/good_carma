@@ -47,6 +47,11 @@ export const User = {
     return fetch(`${BASE_URL}/users/current`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  show(id) {
+    return fetch(`${BASE_URL}/users/${id}`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 
