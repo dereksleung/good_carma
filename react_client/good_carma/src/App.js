@@ -9,7 +9,8 @@ import { User, Session } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
-import volunteers from "./components/WelcomePage/volunteers.jpeg"
+import volunteers from "./components/WelcomePage/volunteers.jpeg";
+import AuthnRoute from "./components/AuthnRoute";
 
 
 import './App.css';
@@ -20,7 +21,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: null,
+      currentUser: {id: 0},
       loading: true
     }
 

@@ -11,7 +11,7 @@ const AuthnRoute = props => {
           return <Component {...routeProps}>
           </Component>;
         } else {
-          <Redirect to="session/new"/>
+          return <Redirect to="session/new"/>
         }
       }} 
       {...restProps}
