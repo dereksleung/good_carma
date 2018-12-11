@@ -24,6 +24,8 @@ class PostIndexPage extends Component {
   
     // this.deletePost = this.deletePost.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
+    this.clearParentIDs = this.clearParentIDs.bind(this);
+    this.showNewPost = this.showNewPost.bind(this);
   }
 
   componentDidMount() {
@@ -36,10 +38,16 @@ class PostIndexPage extends Component {
     });
   }
 
+  clearParentIDs() {
+    this.setState({
+      parentIDs: []
+    })
+  }
+
   handleClickCheckbox(id, e) {
 
     const { parentIDs } = this.state;
-    if (parentIDs.length >= 0 && parentIDs.length < 4) {
+    if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) == false) {
       const allParentIDs = this.state.parentIDs;
       allParentIDs.push(id)
       this.setState({
@@ -49,6 +57,16 @@ class PostIndexPage extends Component {
     }
   }
 
+  showNewPost() {
+    Post.all()
+      .then(res=>{
+        this.setState({
+        posts: res  
+        })
+      })  
+  }
+
+
   render() {
     const { posts, currentUser } = this.state;
 
@@ -56,7 +74,7 @@ class PostIndexPage extends Component {
     <Container className="PostIndexPage">
       <Row>
         <Col> 
-          <PostForm parentIDs={this.state.parentIDs}>
+          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
           </PostForm> 
         </Col>
       </Row>

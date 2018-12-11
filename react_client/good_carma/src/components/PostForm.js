@@ -10,11 +10,15 @@ const PostForm = props => {
 
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
-    Post.create({
-      body: formData.get("body"),
-      parent_ids: formData.get("parent_ids")
-    });
-
+    Post
+      .create({
+        body: formData.get("body"),
+        parent_ids: formData.get("parent_ids")
+      })
+      .then(res=>{
+        props.showNewPost();
+        props.clearParentIDs();
+      });
     currentTarget.reset();
   };
 

@@ -38,6 +38,7 @@ class SinglePost extends Component {
     }));
 
     currentTarget.reset();
+    
   
   };
 

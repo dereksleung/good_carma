@@ -19,7 +19,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def create
     post = Post.new post_params
-    parents_id_arr = JSON.parse(post_params[:parent_ids])
+    parents_id_arr = (post_params[:parent_ids]).split(",")
     post.user = current_user
 
     if post.save
