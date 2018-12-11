@@ -1,5 +1,9 @@
 class Api::V1::PostsController < Api::ApplicationController
 
+  # before_action :authenticate_user!, only: [:create, :destroy]
+  # before_action :find_post, only: [:update, :destroy]
+  # before_action :authorize_user!, only: [:update, :destroy]
+
   def index
     posts = Post.order(created_at: :desc)
     render json: posts
@@ -35,6 +39,10 @@ class Api::V1::PostsController < Api::ApplicationController
 
   end
 
+  def update
+
+  end
+
   def tree
     post = Post.find params[:post_id]
     @gen_query = post.generations(1,1)
@@ -46,6 +54,16 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def post_params
     params.require(:post).permit(:body, :picture_url, :parent_ids)
+  end
+
+  def find_post
+    post = Post.find params[:id]
+  end
+
+  def authorize_user!
+    unless can? :manage, post
+      render(json: { errors: ["Unauthorized"]}, status: 401 )
+    end
   end
 
 end
