@@ -32,7 +32,7 @@ class Api::V1::PostsController < Api::ApplicationController
       post.parent_posts << parent
       end
 
-      NewSilverUsersJob.perform_later(parents_id_arr)
+      NewSilOrGoldUsersJob.perform_later(parents_id_arr)
     
       render json: post
     else
