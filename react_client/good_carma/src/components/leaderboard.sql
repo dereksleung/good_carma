@@ -39,7 +39,7 @@ SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
   INNER JOIN posts ON users.id = posts.user_id
   INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
   GROUP BY users.id
-  HAVING COUNT(parent_post_id) > 1
+  HAVING COUNT(parent_post_id) > 2
 
 -- New Posters Continuing Their Activity in the last 2 weeks
 
