@@ -15,6 +15,7 @@ import AuthnRoute from "./components/AuthnRoute";
 
 import './App.css';
 import CurrentUser from './components/CurrentUser';
+import UserShowPage from './components/UserShowPage';
 
 class App extends Component {
   constructor(props) {
@@ -83,6 +84,7 @@ class App extends Component {
             <Route path="/posts/:id" exact component={PostShowPage} />
 
             <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
+            <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
 
             <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 

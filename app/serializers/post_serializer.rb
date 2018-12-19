@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :ia_user_fullname
+  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id
 
   # has_many :comments
   belongs_to :user
@@ -19,8 +19,12 @@ class PostSerializer < ActiveModel::Serializer
     comments
   end
 
-  def ia_user_fullname
+  def p_user_full_name
     object.user.full_name
+  end
+
+  def p_user_id
+    object.user.id
   end
 
   def created_at
