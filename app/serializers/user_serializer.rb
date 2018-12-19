@@ -2,6 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id, :full_name, :first_name, :avatar, :child_post_count, :level, :badges
 
   has_many :posts
+  # has_many :comments, through: :posts
   
   has_many :child_posts, through: :posts
 

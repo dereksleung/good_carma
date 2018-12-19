@@ -7,9 +7,8 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def show
-    badges = current_user&.badges
-
-    render json: badges
+    user = User.find params[:id]
+    render json: user
   end
 
 end

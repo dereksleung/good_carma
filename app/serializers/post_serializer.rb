@@ -1,18 +1,30 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :ia_user_fullname
+  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id
 
-  has_many :comments
+  # has_many :comments
   belongs_to :user
 
 
   has_many :child_posts, through: :post_relations
 
-  # def comments
-  #   object.comments
-  # end
+  def comments
+    comments = []
+    object.comments.each do |c|
+      comments << { body: c.body,
+                    c_user: c.user.full_name,
+                    created_at: c.created_at.to_formatted_s(:long),
+                    updated_at: c.updated_at.to_formatted_s(:long)
+                  }
+    end
+    comments
+  end
 
-  def ia_user_fullname
+  def p_user_full_name
     object.user.full_name
+  end
+
+  def p_user_id
+    object.user.id
   end
 
   def created_at

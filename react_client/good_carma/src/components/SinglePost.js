@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Inspire } from "../requests";
 import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
+import { Button } from "reactstrap";
 
 class SinglePost extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class SinglePost extends Component {
     }));
 
     currentTarget.reset();
+    
   
   };
 
@@ -55,7 +57,7 @@ class SinglePost extends Component {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
           <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -72,6 +74,15 @@ class SinglePost extends Component {
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
               {this.props.children}
             </div>
+            {currentUser.id === post.p_user_id ? 
+              <Button>
+                <Link to="">
+                  Edit
+                </Link>
+              </Button> 
+              :
+              ""
+            }
           </section>
         <h6>Comments</h6>
         <CommentList comments={post.comments} />
@@ -83,7 +94,7 @@ class SinglePost extends Component {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
           <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -100,6 +111,15 @@ class SinglePost extends Component {
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
               {this.props.children}
             </div>
+            {currentUser.id === post.p_user_id ? 
+              <Button>
+                <Link to="">
+                  Edit
+                </Link>
+              </Button> 
+              :
+              ""
+            }
           </section>
           <CommentList comments={post.comments} />
       
@@ -110,7 +130,7 @@ class SinglePost extends Component {
       <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body mb-3">
 
-          <Link className="mr-2" to={`users/${post.user.id}`}>{post.user.full_name}
+          <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
           </Link>
           <span>
             {`${post.created_at}  `}
@@ -127,6 +147,15 @@ class SinglePost extends Component {
             <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
             {this.props.children}
           </div>
+          {currentUser.id === post.p_user_id ? 
+              <Button>
+                <Link to="">
+                  Edit
+                </Link>
+              </Button> 
+              :
+              ""
+            }
         </section>
         <CommentList comments={post.comments} />
       

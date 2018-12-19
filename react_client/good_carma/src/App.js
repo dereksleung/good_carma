@@ -9,18 +9,20 @@ import { User, Session } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
-import volunteers from "./components/WelcomePage/volunteers.jpeg"
+import volunteers from "./components/WelcomePage/volunteers.jpeg";
+import AuthnRoute from "./components/AuthnRoute";
 
 
 import './App.css';
 import CurrentUser from './components/CurrentUser';
+import UserShowPage from './components/UserShowPage';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentUser: null,
+      currentUser: {id: 0},
       loading: true
     }
 
@@ -82,6 +84,7 @@ class App extends Component {
             <Route path="/posts/:id" exact component={PostShowPage} />
 
             <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
+            <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
 
             <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
