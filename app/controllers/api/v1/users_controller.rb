@@ -9,6 +9,7 @@ class Api::V1::UsersController < Api::ApplicationController
   def show
     user = User.find params[:id]
     render json: user
+    BadgeCheckJob.perform_later(user.email)
   end
 
 end
