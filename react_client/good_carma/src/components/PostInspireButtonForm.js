@@ -7,10 +7,7 @@ class PostInspireButtonForm extends Component {
     super(props);
     console.log('receiving level', props.level)
     this.state = {
-
     }
-
-
   }
 
   

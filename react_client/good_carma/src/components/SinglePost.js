@@ -62,7 +62,7 @@ class SinglePost extends Component {
             <span>
               {`${post.created_at}  `}
               {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
               {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
               
             </span>
@@ -99,7 +99,7 @@ class SinglePost extends Component {
             <span>
               {`${post.created_at}  `}
               {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
               {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
               
             </span>
@@ -135,7 +135,7 @@ class SinglePost extends Component {
           <span>
             {`${post.created_at}  `}
             {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-            {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+            {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
             {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
             
           </span>
