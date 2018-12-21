@@ -66,30 +66,33 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <div className="App" style={
-          {backgroundImage: `url(${volunteers})`,
-          backgroundRepeat:"no-repeat",
-          backgroundAttachment:"fixed",
-            backgroundPosition:"center"
-        }}>
+        <div className="App">
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
 
           </NavBar>
-          <Switch>
-            <Route path="/" exact component={WelcomePage} />
-            <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
-            <Route path="/leaderboards" exact component={LeaderBoardMain} />
-            <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
-            
-            <Route path="/posts/:id" exact component={PostShowPage} />
+          <section className="background-splash" style={{
+            backgroundImage: `url(${volunteers}), linear-gradient(0deg, rgba(8,174,234,1) 0%, rgba(42,245,152,1) 100%), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
+            backgroundBlendMode: "multiply",
+            backgroundRepeat:"no-repeat",
+            backgroundAttachment:"fixed",
+            backgroundPosition:"center",
+            position: "relative"
+          }}>
+            <Switch>
+              <Route path="/" exact component={WelcomePage} />
+              <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
+              <Route path="/leaderboards" exact component={LeaderBoardMain} />
+              <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
+              
+              <Route path="/posts/:id" exact component={PostShowPage} />
 
-            <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
-            <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
+              <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
+              <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
 
-            <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
+              <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
 
-          </Switch>
-
+            </Switch>
+          </section>
         </div>
       </BrowserRouter>
     );

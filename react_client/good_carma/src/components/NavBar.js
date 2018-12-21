@@ -15,7 +15,7 @@ const NavBar = (props) => {
   }
 
   return(
-    <Navbar className="NavBar mb-4">
+    <Navbar className="NavBar mb-2">
 
       <NavbarBrand className="mr-3" exact to="/" tag={RRNavLink} id="Brand">
       Good Carma</NavbarBrand>
