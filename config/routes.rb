@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
 
+      match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
+
       get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
       get("/leaderboards/silver", to: "leaderboards#silver", as: :silver_leaderboard)
       get("/leaderboards/gold", to: "leaderboards#gold", as: :gold_leaderboard)

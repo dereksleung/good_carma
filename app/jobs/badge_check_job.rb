@@ -4,8 +4,7 @@ class BadgeCheckJob < ApplicationJob
   def perform(*args)
     # Do something later
     fonts_of_insp(args[0])
-    trailblazer(args[0])
-
+    
   end
   
   private
@@ -29,6 +28,7 @@ class BadgeCheckJob < ApplicationJob
       user_hash["id"] == user_id
     end
 
+    # Only add a badge if new_foi is not nil
     if new_foi != nil
       user = User.find(new_foi["id"])
       foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
@@ -37,31 +37,6 @@ class BadgeCheckJob < ApplicationJob
 
   end
   
-  def trailblazer(user_email)
-    user_id = User.find_by_email(user_email).id
   
-    tblazers_arr_of_hash = User.connection.select_all("
-      SELECT users.first_name, users.avatar, users.id, COUNT(parent_post_id) AS Inspiractions
-      FROM users
-      INNER JOIN posts ON users.id = posts.user_id
-      INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
-      WHERE post_relations.created_at > now() - interval '1 week'
-      GROUP BY users.id
-      ORDER BY COUNT(parent_post_id) DESC
-      LIMIT 5
-    ").to_hash
-    
-    new_tblazer = tblazers_arr_of_hash.find do |user_hash|
-      user_hash["id"] == user_id
-    end
-
-    if new_tblazer != nil
-      user = User.find(new_tblazer["id"])
-      tblazer_badge = Badge.find_by_name("Trailblazers - Most Inspiractions this Week")
-      
-      user.badges << tblazer_badge unless user.badges.include?(tblazer_badge)
-    end
-
-  end
 
 end

@@ -1,3 +1,7 @@
+-- Setting the weekly badge date using PostgreSQL
+
+SELECT TO_CHAR(NOW() - INTERVAL '1 week', 'Mon DD YY') || ' - ' || TO_CHAR(NOW(), 'Mon DD YY')
+
 -- Trailblazers
 
 -- Attempt at subquery - says that subquery has too many columns, error after IN.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_210531) do
+ActiveRecord::Schema.define(version: 2018_12_20_221544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2018_12_04_210531) do
     t.bigint "badge_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.daterange "Week"
+    t.string "Week_s"
     t.index ["badge_id"], name: "index_badge_earnings_on_badge_id"
     t.index ["user_id"], name: "index_badge_earnings_on_user_id"
   end

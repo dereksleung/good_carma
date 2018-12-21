@@ -34,6 +34,7 @@ gem 'rack-cors'
 gem 'active_model_serializers'
 
 gem 'delayed_job_active_record'
+gem 'delayed_job_web'
 gem 'cancancan'
 
 # Reduces boot times through caching; required in config/boot.rb
