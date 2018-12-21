@@ -9,7 +9,7 @@ class WeeklyBadgeJob < ApplicationJob
     # thought_provokers(args[0])
     # wild_growths(args[0])
 
-    WeeklyBadgeJob.set(run_at: 1.week.from_now).perform_later
+    WeeklyBadgeJob.set(wait: 1.week).perform_later
     
   end
 
