@@ -1,5 +1,5 @@
 .background-splash {
-  height: 100vh
+  min-height: 100vh
 }
 
 
@@ -7,6 +7,8 @@
 .SinglePost {
   background-color: #FFFEFF;
   opacity: 0.9;
+  min-width: 1000px;
+  max-width: 1000px;
 }
 
 .UserSinglePost {
@@ -76,8 +78,6 @@ img.badge {
 }
 
 .darken {
-
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0, 0, 0, 0.5))
 }
 
-background-color: #04a7e2;
-background-image: linear-gradient(0deg, #04a7e2 0%, #2AF598 100%);

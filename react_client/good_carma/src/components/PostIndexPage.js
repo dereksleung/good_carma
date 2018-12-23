@@ -71,25 +71,28 @@ class PostIndexPage extends Component {
     const { posts, currentUser } = this.state;
 
     return(
-    <Container className="PostIndexPage">
-      <Row>
-        <Col> 
-          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-          </PostForm> 
-        </Col>
-      </Row>
- 
-      {posts.map(post=>(
-        <Row>
-          <section key={post.id} data-id={post.id}>
-            <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-              <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+    <Container className="PostIndexPage d-flex">
+      <section className="column-1 flex-grow-3">
+      
+      </section>
+      
+      <section className="PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
+        <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+        </PostForm> 
+        {posts.map(post=>(
+          <Row>
+            <section key={post.id} data-id={post.id}>
+              <SinglePost post={post} postId={post.id} currentUser={currentUser}>
+                <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
 
-            </SinglePost>
-          </section>
-        </Row>
-      ))
-      }
+              </SinglePost>
+            </section>
+          </Row>
+        ))}
+      </section>
+
+      <section className="column-3 flex-grow-3">
+      </section>
     </Container> 
     )
   }

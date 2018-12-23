@@ -66,11 +66,7 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <div className="App">
-          <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
-
-          </NavBar>
-          <section className="background-splash" style={{
+        <div className="App" style={{
             backgroundImage: `url(${volunteers}), linear-gradient(0deg, rgba(8,174,234,1) 0%, rgba(42,245,152,1) 100%), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
             backgroundBlendMode: "multiply",
             backgroundRepeat:"no-repeat",
@@ -78,6 +74,10 @@ class App extends Component {
             backgroundPosition:"center",
             position: "relative"
           }}>
+          <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
+
+          </NavBar>
+          <section className="background-splash" >
             <Switch>
               <Route path="/" exact component={WelcomePage} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />

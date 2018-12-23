@@ -55,7 +55,7 @@ class SinglePost extends Component {
 
     if (post.color === "gold") {
       return(
-        <article className="SinglePost gold border border-white rounded m-2 p-3">
+        <article className="SinglePost gold border border-blue p-3">
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
@@ -92,7 +92,7 @@ class SinglePost extends Component {
     }
     if (post.color === "silver") {
       return(
-        <article className="SinglePost silver border border-white rounded m-2 p-3">
+        <article className="SinglePost silver border border-blue p-3">
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
@@ -127,7 +127,7 @@ class SinglePost extends Component {
       )
     }
     return(
-      <article className="SinglePost border border-white rounded m-2 p-3">
+      <article className="SinglePost border border-blue p-3">
         <section className="post-body mb-3">
 
           <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
