@@ -70,28 +70,35 @@ class PostIndexPage extends Component {
   render() {
     const { posts, currentUser } = this.state;
 
+    if (this.state.loading) {
+      return(
+        <h1>Loading...</h1>
+      )
+    }
+
     return(
-    <Container className="PostIndexPage d-flex">
+    <Container className="PostIndexPage d-flex mt-5">
       <section className="column-1 flex-grow-3">
-      
+        <section className="dummy500">
+        </section>
       </section>
       
-      <section className="PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
+      <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
         <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
         </PostForm> 
         {posts.map(post=>(
-          <Row>
             <section key={post.id} data-id={post.id}>
               <SinglePost post={post} postId={post.id} currentUser={currentUser}>
                 <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
 
               </SinglePost>
             </section>
-          </Row>
         ))}
       </section>
 
       <section className="column-3 flex-grow-3">
+        <section className="dummy500">
+        </section>
       </section>
     </Container> 
     )

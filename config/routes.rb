@@ -12,7 +12,8 @@ Rails.application.routes.draw do
       get("/leaderboards/two_wk_users", to: "leaderboards#two_wk_users", as: :two_wk_users_leaderboard)
       get("/leaderboards/most_i_actions_this_week", to: "leaderboards#most_i_actions_this_week", as: :miatw_leaderboard)
       resources :posts do
-        get("/posts/:id/tree", to: "posts#tree", as: :tree)
+        get("/tree", to: "posts#tree", as: :tree)
+        get("/i_tree", to: "posts#i_tree", as: :i_tree)
         resources :comments
         resources :inspires, shallow: true, only: [:create, :show, :destroy]
         resources :inspiractions
