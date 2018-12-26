@@ -72,6 +72,11 @@ class SinglePost extends Component {
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              <Button>
+                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+                </Link>
+              </Button>
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
@@ -109,6 +114,11 @@ class SinglePost extends Component {
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              <Button>
+                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+                </Link>
+              </Button>
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
@@ -145,6 +155,11 @@ class SinglePost extends Component {
           </Link>  
           <div>
             <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <Button>
+              <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+              </Link>
+            </Button>
             {this.props.children}
           </div>
           {currentUser.id === post.p_user_id ? 

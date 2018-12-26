@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
+import Tree from "./components/Tree";
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg";
@@ -83,7 +84,7 @@ class App extends Component {
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
               <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
-              
+              <Route path="posts/:id/tree" exact render={(routeProps)=><Tree {...routeProps} currentUser={currentUser} />} />
               <Route path="/posts/:id" exact component={PostShowPage} />
 
               <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
