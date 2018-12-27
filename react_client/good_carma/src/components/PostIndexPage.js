@@ -61,7 +61,7 @@ class PostIndexPage extends Component {
     Post.all()
       .then(res=>{
         this.setState({
-        posts: res  
+          posts: res  
         })
       })  
   }
