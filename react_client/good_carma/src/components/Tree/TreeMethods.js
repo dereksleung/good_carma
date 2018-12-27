@@ -18,13 +18,15 @@ export const TreeMethods = {
     // The leaves and fruit need to have higher priority than the branch's <img> or <section> tag either way.
     // Either an <img> or <section> tag will work.
     // Background-image will blend easily with the other background-images. But I would rather have them solid.
-
+    let branchPositions = [];
     let currStyle = {
-      position: "absolute",
-      right: "50%",
-      bottom: "0%",
-      
-      transform: "rotate(90deg)"
-    }
+        position: "absolute",
+        left: `${"50%"}`,
+        bottom: `${"-30%"}`,
+        transform: `rotate(${"-16"}deg)`,
+        minWidth: "500px",
+        overflow: "visible"
+    };
+
   }
 }

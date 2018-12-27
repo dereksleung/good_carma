@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../../requests";
 import Branch from "./branch.svg";
-import branchHrzntl from "./branchHrzntl.svg";
+import BranchHrzntl from "./branchHrzntl.svg";
 import TreeBranch from "./TreeBranch";
 import Tippy from "@tippy.js/react";
 import "tippy.js/dist/tippy.css";
@@ -50,7 +50,7 @@ class Tree extends Component {
         mixBlendMode: "normal"
       }}>
         
-        <section className="branch">
+        <section className="Trunk">
           <PopoverPost {...restProps}>
             <img src={Branch}>
             </img>
@@ -59,14 +59,15 @@ class Tree extends Component {
           {child_posts.length > 0 ? 
           child_posts.map(post=>{
             return(
-              <TreeBranch style={{
-                position: "absolute",
-                right: `${"16%"}`,
-                bottom: `${"50%"}`,
-                transform: `rotate(${-16}deg)`,
-                minWidth: "500px",
-                overflow: "visible"
-                }}>
+              <TreeBranch post={post}
+                style={{
+                  position: "absolute",
+                  left: `${"50%"}`,
+                  bottom: `${"-30%"}`,
+                  transform: `rotate(${"-16"}deg) scale(0.5,0.5)`,
+                  minWidth: "500px",
+                  overflow: "visible"
+                }} >
               </TreeBranch>
             )
           }) : ""
