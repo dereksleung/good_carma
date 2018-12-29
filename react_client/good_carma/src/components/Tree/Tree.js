@@ -11,9 +11,11 @@ class Tree extends Component {
   constructor(props) {
     super(props);
 
+    this.initAngle = -90;
     this.branchPositions = [];
     this.qtyBranches = 0;
     this.oneBranchStyle = {
+      display: "inline-block",
       position: "absolute",
       left: `${"0%"}`,
       bottom: `${"50%"}`,
@@ -21,7 +23,8 @@ class Tree extends Component {
       transformOrigin: "center left",
       minWidth: "500px",
       minHeight: "auto",
-      overflow: "visible",  
+      overflow: "visible", 
+      cummltvAngle: -20 
     }
 
     this.state = {
@@ -63,8 +66,13 @@ class Tree extends Component {
 
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
     const currAngle = parseInt(this.oneBranchStyle.transform.match(/-?\d{1,3}/)[0]);
-    this.qtyBranches = this.state.tree.child_posts.length;
 
+    if (typeof this.state.tree.child_posts !== "undefined") {
+      this.qtyBranches = this.state.tree.child_posts.length;  
+    } else {
+      this.qtyBranches = 0;
+    }
+  
     // currAngle senses which way the previous branch turned, and alternates it to the other side by changing the rotation angle.
     // In non-trunk branches, it should sense the parent branch's angle to determine whether to use the CSS `left` or `right` positioning property. 
     // For the trunk, since we're using rotate(-90deg), we should use the CSS `left` property to place branches from the bottom up.
@@ -78,12 +86,13 @@ class Tree extends Component {
 
     this.oneBranchStyle.left = `${currPlace + spacingUnit}px`;
     
-    (currAngle > 0) ? 
-      (
-        this.oneBranchStyle.transform = `rotate(${currAngle - 140}deg) ${currScale}`
-      ) : (
-        this.oneBranchStyle.transform = `rotate(${currAngle + 140}deg) ${currScale}`
-      )
+    if (currAngle > 0) {
+      this.oneBranchStyle.transform = `rotate(${currAngle - 140}deg) ${currScale}`;
+      this.oneBranchStyle.cummltvAngle -= 140;
+    } else {
+      this.oneBranchStyle.transform = `rotate(${currAngle + 140}deg) ${currScale}`;
+      this.oneBranchStyle.cummltvAngle += 140;
+    }
 
     const styleLocalClone = Object.assign({}, this.oneBranchStyle);
     this.branchPositions.push(styleLocalClone);
@@ -103,6 +112,7 @@ class Tree extends Component {
       
     return(
       <section className="Tree" style={{
+        display: "inline-block",
         position: "relative", 
         minHeight: "150vh",
         minWidth: "100vw",
@@ -111,14 +121,15 @@ class Tree extends Component {
       }}>
         
         <section className="Trunk" style={{
-            position: "absolute",
-            left: `${"50%"}`,
-            bottom: `${"0%"}`,
-            transform: `rotate(${"-90"}deg)`,
-            transformOrigin: "center left",
-            minWidth: "100vw",
-            overflow: "visible"  
-            }}>
+          display: "inline-block",
+          position: "absolute",
+          left: `${"50%"}`,
+          bottom: `${"0%"}`,
+          transform: `rotate(${"-90"}deg)`,
+          transformOrigin: "center left",
+          minWidth: "100vw",
+          overflow: "visible"  
+        }}>
           <PopoverPost {...restProps}>
             <img src={BranchHrzntl} >
             
@@ -129,7 +140,7 @@ class Tree extends Component {
               child_posts.map((post,ind)=>{ 
                 return(
                   <TreeBranch post={post}
-                    style={this.setBranchPositions(ind)} >
+                    calcStyle={this.setBranchPositions(ind)} >
                   </TreeBranch>
                 )
               }) : ""

@@ -6,9 +6,9 @@ import BranchHrzntl from "./branchHrzntl.svg";
 
 const TreeBranch = (props) => {
 
-  const { post: { child_posts, ...restProps }, ...funcProps } = props; 
+  const { post: { child_posts, ...restProps }, calcStyle } = props;
+  const {cummltvAngle, ...trueCalcStyle} = calcStyle;
 
-  debugger;
   let qtyBranches;
   if (typeof child_posts !== "undefined") {
     qtyBranches = child_posts.length;
@@ -16,22 +16,10 @@ const TreeBranch = (props) => {
     qtyBranches = 0;
   }
   let branchPositions = [];
-  const initAngle = parseInt(props.style.transform.match(/-*\d{1,3}/)[0]);
+  // const initAngle = parseInt(trueCalcStyle.transform.match(/-*\d{1,3}/)[0]);
 
-  let oneBranchStyle = props.style;
+  let oneBranchStyle = calcStyle;
   oneBranchStyle.transform = `rotate(${["","-"][Math.round(Math.random())]}24deg) scale(1,1)`;
-
-
-  
-  
-  // {
-  //   position: "absolute",
-  //   left: `${"50%"}`,
-  //   bottom: `${"50%"}`,
-  //   transform: `rotate(${"-16"}deg) scale(1,1)`,
-  //   minWidth: "500px",
-  //   overflow: "visible",  
-  // }
 
   function setBranchSize() {
 
@@ -52,53 +40,58 @@ const TreeBranch = (props) => {
 
     const currScale = oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
   
-    let currAngle = parseInt(oneBranchStyle.transform.match(/-*\d{1,3}/)[0]);
+    let currRelatvAngle = parseInt(oneBranchStyle.transform.match(/-*\d{1,3}/)[0]);
 
-    // currAngle senses which way the previous branch turned, and alternates it to the other side by changing the rotation angle.
+    // currRelatvAngle senses which way the previous branch turned, and alternates it to the other side by changing the rotation angle.
     // In non-trunk branches, it should sense the parent branch's angle to determine whether to use the CSS `left` or `right` positioning property. 
-    if (initAngle > 0) {
+
+    
+    if (cummltvAngle < -90) {
 
       if ("left" in oneBranchStyle) {
         delete oneBranchStyle.left;
       }
 
       if (ind == 0) {
-        oneBranchStyle.right = "0%"
+        oneBranchStyle.right = "0px"
       }
       const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 2);
       const currPlace = parseInt(oneBranchStyle.right.match(/\d+/)[0]);
 
-      oneBranchStyle.right = `${currPlace + spacingUnit}%`
+      oneBranchStyle.right = `${currPlace + spacingUnit}px`
+      
     }
     
-    if (initAngle <= 0) {
+    
+    if (cummltvAngle >= -90) {
       if ("right" in oneBranchStyle) {
         delete oneBranchStyle.right;
       }
 
       if (ind == 0) {
-        oneBranchStyle.left = "0%"
+        oneBranchStyle.left = "0px"
       }
       const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 2);
       const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
       
-      oneBranchStyle.left = `${currPlace + spacingUnit}%`
+      oneBranchStyle.left = `${currPlace + spacingUnit}px`
     }
     
-    (currAngle > 0) ? 
-      (
-        oneBranchStyle.transform = `rotate(${currAngle - 36}deg) ${currScale}`
-      ) : (
-        oneBranchStyle.transform = `rotate(${currAngle + 36}deg) ${currScale}`
-      )
+    if (currRelatvAngle > 0) {
+      oneBranchStyle.transform = `rotate(${currRelatvAngle - 36}deg) ${currScale}`
+      oneBranchStyle.cummltvAngle -= 36;
+    } else {
+      oneBranchStyle.transform = `rotate(${currRelatvAngle + 36}deg) ${currScale}`;
+      oneBranchStyle.cummltvAngle += 36;
+    }
 
-      const styleLocalClone = Object.assign({}, oneBranchStyle);
-      branchPositions.push(styleLocalClone);
-      return styleLocalClone;
+    const styleLocalClone = Object.assign({}, oneBranchStyle);
+    branchPositions.push(styleLocalClone);
+    return styleLocalClone;
   }
   
   return(
-    <section className="TreeBranch" style={props.style}>
+    <section className="TreeBranch" style={trueCalcStyle}>
       <PopoverPost {...restProps}>
         <img src={BranchHrzntl}>
         </img>
@@ -106,7 +99,7 @@ const TreeBranch = (props) => {
       {(typeof child_posts !== "undefined") ? 
         child_posts.map((post,ind)=>{
           return(
-            <TreeBranch post={post} style={setBranchPositions(ind)}>
+            <TreeBranch post={post} calcStyle={setBranchPositions(ind)}>
             </TreeBranch>
           )
         })
