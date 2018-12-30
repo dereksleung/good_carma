@@ -19,19 +19,18 @@ const TreeBranch = (props) => {
   // const initAngle = parseInt(trueCalcStyle.transform.match(/-*\d{1,3}/)[0]);
 
   let oneBranchStyle = calcStyle;
-  oneBranchStyle.transform = `rotate(${["","-"][Math.round(Math.random())]}24deg) scale(1,1)`;
+  const currScale = oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
+  oneBranchStyle.transform = `rotate(${["","-"][Math.round(Math.random())]}24deg) ${currScale}`;
 
   function setBranchSize() {
+    // let currMinWidth = parseInt(oneBranchStyle.minWidth.match(/\d+/g)[0]);
+    // oneBranchStyle.minWidth = `${currMinWidth * 0.66}px`;
+    
+    let currRotate = oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
+    let currScaleX = currScale.match(/\d+\.?\d*(?=,)/)[0];
+    let currScaleY = currScale.match(/\d+\.?\d*/g)[1]; 
 
-    // let currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
-    let currMinWidth = parseInt(oneBranchStyle.minWidth.match(/\d+/g)[0]);
-
-    oneBranchStyle.minWidth = `${currMinWidth * 0.66}`;
-  
-    // let currSizeX = currSize.match(/\d+\.?\d*(?=,)/)[0];
-    // let currSizeY = currSize.match(/\d+\.?\d*/g)[1]; 
-
-    // this.oneBranchStyle.transform = `${currRotate} scale(${currSizeX * 0.6},${currSizeY * 0.6})`
+    oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`
   }
 
   setBranchSize();
@@ -47,18 +46,28 @@ const TreeBranch = (props) => {
 
     
     if (cummltvAngle < -90) {
-
-      if ("left" in oneBranchStyle) {
-        delete oneBranchStyle.left;
+      if ("right" in oneBranchStyle) {
+        delete oneBranchStyle.right;
       }
 
       if (ind == 0) {
-        oneBranchStyle.right = "0px"
+        oneBranchStyle.left = "0px";
       }
-      const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 2);
-      const currPlace = parseInt(oneBranchStyle.right.match(/\d+/)[0]);
+      const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
+      const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
+      
+      oneBranchStyle.left = `${currPlace + spacingUnit}px`;
+      // if ("left" in oneBranchStyle) {
+      //   delete oneBranchStyle.left;
+      // }
 
-      oneBranchStyle.right = `${currPlace + spacingUnit}px`
+      // if (ind == 0) {
+      //   oneBranchStyle.right = "0px"
+      // }
+      // const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
+      // const currPlace = parseInt(oneBranchStyle.right.match(/\d+/)[0]);
+
+      // oneBranchStyle.right = `${currPlace + spacingUnit}px`
       
     }
     
@@ -69,12 +78,12 @@ const TreeBranch = (props) => {
       }
 
       if (ind == 0) {
-        oneBranchStyle.left = "0px"
+        oneBranchStyle.left = "0px";
       }
-      const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 2);
+      const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
       const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
       
-      oneBranchStyle.left = `${currPlace + spacingUnit}px`
+      oneBranchStyle.left = `${currPlace + spacingUnit}px`;
     }
     
     if (currRelatvAngle > 0) {

@@ -18,7 +18,7 @@ class Tree extends Component {
       display: "inline-block",
       position: "absolute",
       left: `${"0%"}`,
-      bottom: `${"50%"}`,
+      bottom: `${"0%"}`,
       transform: `rotate(${["","-"][Math.round(Math.random())]}70deg) scale(1,1)`,
       transformOrigin: "center left",
       minWidth: "500px",
@@ -51,15 +51,16 @@ class Tree extends Component {
 
   setBranchSize() {
 
-    // let currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
-    let currMinWidth = parseInt(this.oneBranchStyle.minWidth.match(/\d+/g)[0]);
+    const currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
+    const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
+    // let currMinWidth = parseInt(this.oneBranchStyle.minWidth.match(/\d+/g)[0]);
 
-    this.oneBranchStyle.minWidth = `${currMinWidth * 0.66}`
+    // this.oneBranchStyle.minWidth = `${currMinWidth * 0.66}px`
   
-    // let currSizeX = currSize.match(/\d+\.?\d*(?=,)/)[0];
-    // let currSizeY = currSize.match(/\d+\.?\d*/g)[1]; 
+    const currScaleX = currScale.match(/\d+\.?\d*(?=,)/)[0];
+    const currScaleY = currScale.match(/\d+\.?\d*/g)[1]; 
 
-    // this.oneBranchStyle.transform = `${currRotate} scale(${currSizeX * 0.6},${currSizeY * 0.6})`
+    this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`
   }
 
   setBranchPositions(ind) {
@@ -127,7 +128,7 @@ class Tree extends Component {
           bottom: `${"0%"}`,
           transform: `rotate(${"-90"}deg)`,
           transformOrigin: "center left",
-          minWidth: "100vw",
+          minWidth: "100vh",
           overflow: "visible"  
         }}>
           <PopoverPost {...restProps}>
