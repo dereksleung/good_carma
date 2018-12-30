@@ -51,12 +51,12 @@ const TreeBranch = (props) => {
       }
 
       if (ind == 0) {
-        oneBranchStyle.left = "0px";
+        oneBranchStyle.left = "0vh";
       }
       const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
       const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
       
-      oneBranchStyle.left = `${currPlace + spacingUnit}px`;
+      oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
       // if ("left" in oneBranchStyle) {
       //   delete oneBranchStyle.left;
       // }
@@ -78,12 +78,12 @@ const TreeBranch = (props) => {
       }
 
       if (ind == 0) {
-        oneBranchStyle.left = "0px";
+        oneBranchStyle.left = "0vh";
       }
       const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
       const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
       
-      oneBranchStyle.left = `${currPlace + spacingUnit}px`;
+      oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
     }
     
     if (currRelatvAngle > 0) {

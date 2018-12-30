@@ -21,7 +21,7 @@ class Tree extends Component {
       bottom: `${"0%"}`,
       transform: `rotate(${["","-"][Math.round(Math.random())]}70deg) scale(1,1)`,
       transformOrigin: "center left",
-      minWidth: "500px",
+      minWidth: "100vh",
       minHeight: "auto",
       overflow: "visible", 
       cummltvAngle: -20 
@@ -85,7 +85,7 @@ class Tree extends Component {
 
     const currPlace = parseInt(this.oneBranchStyle.left.match(/\d+/)[0]);
 
-    this.oneBranchStyle.left = `${currPlace + spacingUnit}px`;
+    this.oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
     
     if (currAngle > 0) {
       this.oneBranchStyle.transform = `rotate(${currAngle - 140}deg) ${currScale}`;
