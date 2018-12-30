@@ -6,6 +6,8 @@ import TreeBranch from "./TreeBranch";
 import Tippy from "@tippy.js/react";
 import "tippy.js/dist/tippy.css";
 import PopoverPost from "./PopoverPost";
+import Leaf from "./leaf-147490.svg";
+import InspirePopover from "./InspirePopover";
 
 class Tree extends Component {
   constructor(props) {
@@ -103,7 +105,7 @@ class Tree extends Component {
 
   render() {
     const { tree } = this.state;
-    const { child_posts, ...restProps } = tree;
+    const { child_posts, inspires, ...restProps } = tree;
 
     if (this.state.loading) {
       return(
@@ -137,15 +139,25 @@ class Tree extends Component {
             </img>
           </PopoverPost>
 
-            {child_posts.length > 0 ? 
-              child_posts.map((post,ind)=>{ 
-                return(
-                  <TreeBranch post={post}
-                    calcStyle={this.setBranchPositions(ind)} >
-                  </TreeBranch>
-                )
-              }) : ""
-            }
+          {inspires.length > 0 ? 
+            inspires.map((insp,ind)=>{
+              return(
+                <InspirePopover calcStyle={""} {...insp}>
+                  <img src={Leaf}>
+                  </img>
+                </InspirePopover>
+              )
+            }) : ""}
+
+          {child_posts.length > 0 ? 
+            child_posts.map((post,ind)=>{ 
+              return(
+                <TreeBranch post={post}
+                  calcStyle={this.setBranchPositions(ind)} >
+                </TreeBranch>
+              )
+            }) : ""
+          }
         </section>
       </section>
     )

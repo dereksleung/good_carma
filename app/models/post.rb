@@ -84,7 +84,7 @@ class Post < ApplicationRecord
 
   def attach_inspires(start_post_id, start_post_hash)
     inspires_sql = <<-SQL
-    SELECT inspires.color, inspires.created_at, (users.first_name || ' ' ||users.last_name) AS full_name
+    SELECT inspires.color, inspires.created_at, (users.first_name || ' ' ||users.last_name) AS full_name, users.avatar
       FROM inspires
       INNER JOIN users ON inspires.user_id = users.id
       WHERE inspires.inspiring_entry_type = 'Post' AND inspires.inspiring_entry_id = #{start_post_id.to_i}
