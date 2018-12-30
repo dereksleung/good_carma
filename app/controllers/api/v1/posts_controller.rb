@@ -54,6 +54,12 @@ class Api::V1::PostsController < Api::ApplicationController
     render json: @gen_query
   end
 
+  def ser_tree
+    post = Post.find params[:post_id]
+    
+    render json: @gen_query
+  end
+
   def i_tree
     # post = Post.find params[:post_id]
     @gen_query = Post.i_generations(params[:post_id])
