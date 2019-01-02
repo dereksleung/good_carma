@@ -115,16 +115,6 @@ class Tree extends Component {
   }
     
   setLeafPosition(ind) {
-    // this.oneLeafStyle = {
-    //   position: "absolute",
-    //   display: "inline-block",
-    //   height: "50px",
-    //   width: "30px",
-    //   left: "0%",
-    //   bottom: "50%",
-    //   transformOrigin: "bottom left",
-    //   transform: "scaleY(-1)"
-    // }
 
     const currScale = this.oneLeafStyle.transform.match(/(scaleY)\(-?/g)[0];
     const currFlip = currScale[7];
@@ -134,17 +124,12 @@ class Tree extends Component {
     } else {
       this.qtyLeaves = 0;
     }
-  
-    // currAngle senses which way the previous branch turned, and alternates it to the other side by changing the rotation angle.
-    // In non-trunk branches, it should sense the parent branch's angle to determine whether to use the CSS `left` or `right` positioning property. 
-    // For the trunk, since we're using rotate(-90deg), we should use the CSS `left` property to place branches from the bottom up.
 
     if (ind == 0) {
       this.oneLeafStyle.left = "0%";
     }
 
     const spacingUnit = parseInt(`${100 / this.qtyLeaves}`);
-
     const currPlace = parseInt(this.oneLeafStyle.left.match(/\d+/)[0]);
 
     this.oneLeafStyle.left = `${currPlace + spacingUnit}%`;
