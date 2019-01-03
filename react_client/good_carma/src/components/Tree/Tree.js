@@ -8,6 +8,7 @@ import "tippy.js/dist/tippy.css";
 import PopoverPost from "./PopoverPost";
 import Leaf from "./leaf-147490.svg";
 import InspirePopover from "./InspirePopover";
+import Apple from "./apple-2029586.svg";
 
 class Tree extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Tree extends Component {
       minWidth: "100vh",
       minHeight: "auto",
       overflow: "visible", 
-      cummltvAngle: -20 
+      cummltvAngle: "" 
     }
     this.oneLeafStyle = {
       position: "absolute",
@@ -48,6 +49,7 @@ class Tree extends Component {
     this.setBranchPositions = this.setBranchPositions.bind(this);
     this.setBranchSize = this.setBranchSize.bind(this);
     this.setLeafPosition = this.setLeafPosition.bind(this);
+    this.setFruitPosition = this.setFruitPosition.bind(this);
   }
 
   componentDidMount() {
@@ -92,9 +94,14 @@ class Tree extends Component {
     // In non-trunk branches, it should sense the parent branch's angle to determine whether to use the CSS `left` or `right` positioning property. 
     // For the trunk, since we're using rotate(-90deg), we should use the CSS `left` property to place branches from the bottom up.
 
-    if (ind == 0) {
+    if (ind == 0 && currAngle > 0) {
       this.oneBranchStyle.left = "0%";
+      this.oneBranchStyle.cummltvAngle = -20;
+    } else if (ind == 0 && currAngle < 0) {
+      this.oneBranchStyle.left = "0%";
+      this.oneBranchStyle.cummltvAngle = -160;
     }
+    
     const spacingUnit = parseInt(this.oneBranchStyle.minWidth.match(/\d+/)[0]) / (this.qtyBranches + 1);
 
     const currPlace = parseInt(this.oneBranchStyle.left.match(/\d+/)[0]);
@@ -111,6 +118,20 @@ class Tree extends Component {
 
     const styleLocalClone = Object.assign({}, this.oneBranchStyle);
     // this.branchPositions.push(styleLocalClone);
+    return styleLocalClone;
+  }
+
+  setFruitPosition(ind) {
+    const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
+    const currAngle = parseInt(this.oneBranchStyle.transform.match(/-?\d{1,3}/)[0]);
+    const cummltvAngle = parseInt(this.oneBranchStyle.cummltvAngle);
+    const styleLocalClone = Object.assign({}, this.oneBranchStyle);
+ 
+  
+    styleLocalClone.transform = `rotate(90deg) ${currScale}`;
+    delete styleLocalClone.minWidth;
+    styleLocalClone.maxWidth = "65px";
+
     return styleLocalClone;
   }
     
@@ -143,6 +164,8 @@ class Tree extends Component {
     const styleLocalClone = Object.assign({}, this.oneLeafStyle);
     return styleLocalClone;
   }
+
+  
 
   render() {
     const { tree } = this.state;
@@ -194,9 +217,15 @@ class Tree extends Component {
           {child_posts.length > 0 ? 
             child_posts.map((post,ind)=>{ 
               return(
-                <TreeBranch post={post}
+                <>
+                  <TreeBranch post={post}
                   calcStyle={this.setBranchPositions(ind)} >
-                </TreeBranch>
+                  </TreeBranch>
+                  <PopoverPost {...post}>
+                    <img src={Apple} style={this.setFruitPosition(ind)}>
+                    </img>
+                  </PopoverPost>
+                </>
               )
             }) : ""
           }
