@@ -17,6 +17,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module GoodCarma
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -46,5 +47,6 @@ module GoodCarma
       end
     end
     
+    config.middleware.use Apartment::Elevators::FirstSubdomain
   end
 end
