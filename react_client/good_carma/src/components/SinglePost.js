@@ -55,14 +55,14 @@ class SinglePost extends Component {
 
     if (post.color === "gold") {
       return(
-        <article className="SinglePost gold border border-white rounded m-2 p-3">
+        <article className="SinglePost gold border border-blue p-3">
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
               {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
               {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
               
             </span>
@@ -72,6 +72,11 @@ class SinglePost extends Component {
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              <Button>
+                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+                </Link>
+              </Button>
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
@@ -85,21 +90,22 @@ class SinglePost extends Component {
             }
           </section>
         <h6>Comments</h6>
-        <CommentList comments={post.comments} />
+        {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+        }
       
         </article>
       )
     }
     if (post.color === "silver") {
       return(
-        <article className="SinglePost silver border border-white rounded m-2 p-3">
+        <article className="SinglePost silver border border-blue p-3">
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
               {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
               {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
               
             </span>
@@ -109,6 +115,11 @@ class SinglePost extends Component {
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              <Button>
+                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+                </Link>
+              </Button>
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
@@ -121,13 +132,14 @@ class SinglePost extends Component {
               ""
             }
           </section>
-          <CommentList comments={post.comments} />
+          {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+          }
       
         </article>
       )
     }
     return(
-      <article className="SinglePost border border-white rounded m-2 p-3">
+      <article className="SinglePost border border-blue p-3">
         <section className="post-body mb-3">
 
           <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
@@ -135,7 +147,7 @@ class SinglePost extends Component {
           <span>
             {`${post.created_at}  `}
             {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-            {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+            {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
             {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
             
           </span>
@@ -144,7 +156,12 @@ class SinglePost extends Component {
             <img className="postpic mb-3" src={post.picture_url} />
           </Link>  
           <div>
-            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <PostInspireButtonForm postId={post.id} level={typeof currentUser.level !== "undefined" ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <Button>
+              <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
+                Tree
+              </Link>
+            </Button>
             {this.props.children}
           </div>
           {currentUser.id === post.p_user_id ? 
@@ -157,8 +174,8 @@ class SinglePost extends Component {
               ""
             }
         </section>
-        <CommentList comments={post.comments} />
-      
+        {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+        }
       </article>
     )
   }

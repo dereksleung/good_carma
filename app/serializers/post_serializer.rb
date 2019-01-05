@@ -1,11 +1,15 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id
+  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id#,:gen_query
 
   # has_many :comments
   belongs_to :user
 
 
   has_many :child_posts, through: :post_relations
+
+  # def gen_query
+  #   @gen_query = Post.includes(child_posts: {child_posts: :child_posts})#.find(object.id)
+  # end
 
   def comments
     comments = []

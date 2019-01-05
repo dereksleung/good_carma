@@ -26,6 +26,11 @@ export const Post = {
   },
   destroy() {
 
+  },
+  tree(id) {
+    return fetch(`${BASE_URL}/posts/${id}/tree`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 

@@ -32,6 +32,8 @@ module GoodCarma
 
     config.active_job.queue_adapter = :delayed_job
 
+    config.autoload_paths << Rails.root.join("app", "jobs")
+
     config.middleware.insert_before(0, Rack::Cors) do 
       allow do
         origins "localhost:3030", "localhost:3001"

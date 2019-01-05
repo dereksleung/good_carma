@@ -28,9 +28,13 @@ class Api::V1::PostsController < Api::ApplicationController
 
     if post.save
       parents_id_arr.each do |id|
-      parent = Post.find(id)
-      post.parent_posts << parent
+        parent_p = Post.find(id)
+        if parent_p.user.id != session[:user_id]
+          post.parent_posts << parent_p
+        end
       end
+
+      NewSilOrGoldUsersJob.perform_later(parents_id_arr)
     
       render json: post
     else
@@ -48,6 +52,20 @@ class Api::V1::PostsController < Api::ApplicationController
     @gen_query = post.generations(1,1)
 
     render json: @gen_query
+  end
+
+  def ser_tree
+    post = Post.find params[:post_id]
+    
+    render json: @gen_query
+  end
+
+  def i_tree
+    # post = Post.find params[:post_id]
+    @gen_query = Post.i_generations(params[:post_id])
+    render json: @gen_query
+
+    # render json: post
   end
 
   private

@@ -24,7 +24,7 @@ const PostForm = props => {
 
   return (
     
-      <form className="PostForm" onSubmit={handleSubmit}>
+      <form className="PostForm mb-3" onSubmit={handleSubmit}>
           <FormGroup>
             <Input type="textarea" name="body" id="body" placeholder="What's new?" />
           </FormGroup>
