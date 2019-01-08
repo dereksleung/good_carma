@@ -37,7 +37,7 @@ module GoodCarma
 
     config.middleware.insert_before(0, Rack::Cors) do 
       allow do
-        origins "localhost:3030", "localhost:3001"
+        origins "localhost:3030", "localhost:3001", /(http:)?\/\/(.*?)\.?lvh\.me/
         resource(
           "/api/*",
           headers: :any,

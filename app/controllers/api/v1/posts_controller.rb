@@ -70,6 +70,19 @@ class Api::V1::PostsController < Api::ApplicationController
 
   private
 
+  def find_company
+    if user_signed_in?
+      if current_user.companies.present?
+        Apartment::Tenant.switch("#{current_user.company.name}")
+      else 
+        # Calling .switch with no argument switches to the `public` schema.
+        Apartment::Tenant.switch()
+      end
+    else
+      Apartment::Tenant.switch() 
+    end
+  end
+
   def post_params
     params.require(:post).permit(:body, :picture_url, :parent_ids)
   end
