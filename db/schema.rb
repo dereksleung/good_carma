@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_20_221544) do
+ActiveRecord::Schema.define(version: 2019_01_06_053817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "logo_url"
+    t.string "password_digest"
+    t.string "email"
+    t.string "username"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -67,6 +78,15 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.string "color"
     t.index ["inspiring_entry_type", "inspiring_entry_id"], name: "index_inspires_on_inspiring_entry_type_and_inspiring_entry_id"
     t.index ["user_id"], name: "index_inspires_on_user_id"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_positions_on_company_id"
+    t.index ["user_id"], name: "index_positions_on_user_id"
   end
 
   create_table "post_relations", force: :cascade do |t|
@@ -117,6 +137,8 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "inspires", "users"
+  add_foreign_key "positions", "companies"
+  add_foreign_key "positions", "users"
   add_foreign_key "post_relations", "posts", column: "child_post_id"
   add_foreign_key "post_relations", "posts", column: "parent_post_id"
   add_foreign_key "posts", "users"

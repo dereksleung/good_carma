@@ -68,7 +68,7 @@ class SinglePost extends Component {
             </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} />
+              <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
@@ -90,7 +90,7 @@ class SinglePost extends Component {
             }
           </section>
         <h6>Comments</h6>
-        {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+        {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
         }
       
         </article>
@@ -111,7 +111,7 @@ class SinglePost extends Component {
             </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} />
+              <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
@@ -132,7 +132,7 @@ class SinglePost extends Component {
               ""
             }
           </section>
-          {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
           }
       
         </article>
@@ -153,10 +153,10 @@ class SinglePost extends Component {
           </span>
           <Link to={`posts/${post.id}`}> 
             <p>{post.body}</p>
-            <img className="postpic mb-3" src={post.picture_url} />
+            <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
           </Link>  
           <div>
-            <PostInspireButtonForm postId={post.id} level={typeof currentUser.level !== "undefined" ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+            <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
             <Button>
               <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
                 Tree
@@ -174,7 +174,7 @@ class SinglePost extends Component {
               ""
             }
         </section>
-        {typeof post.comments !== "undefined" ? <CommentList comments={post.comments} /> : ""
+        {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
         }
       </article>
     )

@@ -7,6 +7,9 @@ class User < ApplicationRecord
 
   has_many :badge_earnings, class_name: "BadgeEarning", dependent: :destroy
   has_many :badges, through: :badge_earnings
+
+  has_many :positions, dependent: :destroy
+  has_many :companies, through: :positions
   
 
   def full_name

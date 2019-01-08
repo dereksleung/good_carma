@@ -47,6 +47,6 @@ module GoodCarma
       end
     end
     
-    config.middleware.use Apartment::Elevators::FirstSubdomain
+    # config.middleware.use Apartment::Elevators::FirstSubdomain
   end
 end
