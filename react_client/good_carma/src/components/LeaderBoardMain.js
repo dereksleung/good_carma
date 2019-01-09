@@ -43,8 +43,61 @@ class LeaderBoardMain extends Component {
     const { two_wk_users } = this.state;
 
     return(
-      <Container className="LeaderBoardMain">
-          <nav>
+      <Container className="LeaderBoardMain mt-4 d-flex flex-row">
+          <section className="flex-grow-2 m-3">
+            <h3>New Blood</h3>
+            <h5>Drop in with a friendly welcome!</h5>
+            <Table className="new-posters">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Avatar</th>
+                  <th>First Post Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {new_posters.map(user=>{
+                  return(
+                    <tr>
+                      <th scope="row"></th>
+                      <td><Link to={`users/${user.full_name}`}>{user.full_name}</Link></td>
+                      <td><img src={`${user.avatar}`}></img></td>
+                      <td>{`${user.first_post_date} ago`}</td>
+                    </tr>  
+                  )
+                })}
+              </tbody>
+            </Table>
+            
+            <h3>The Up and Coming</h3>
+            <h5>Congratulate these folks for keeping up fighting the good fight!</h5>
+            <Table className="two-wk-users">
+              <h4></h4>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Avatar</th>
+                  <th>Latest Post Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {two_wk_users.map(user=>{
+                  return(
+                    <tr>
+                      <th scope="row"></th>
+                      <td><Link to={`users/${user.full_name}`}>{user.full_name}</Link></td>
+                      <td><img src={`${user.avatar}`}></img></td>
+                      <td>{`${user.latest_post_date} ago`}</td>
+                    </tr>  
+                  )
+                })}
+              </tbody>
+            </Table>
+          </section>      
+          <nav className="flex-grow-1 mt-3">
+            <h4>Categories</h4>
             <Link to={{pathname: "/leaderboards/most_i_actions_this_week", state: { loadData: this.getMostIActionsInWeek } }}>
             Trailblazers - Most Inspiractions this Week</Link><br/>
             <Link to="/leaderboards/overachievers">Overachievers - Most Badges Earned this Week
@@ -58,61 +111,10 @@ class LeaderBoardMain extends Component {
             <Link to="">Wild Growths - Users whose Posts this Week Tripled 
             </Link>
           </nav>
-          <h3>New Blood</h3>
-          <h5>Drop in with a friendly welcome!</h5>
-          <Table className="new-posters">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Avatar</th>
-                <th>First Post Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {new_posters.map(user=>{
-                return(
-                  <tr>
-                    <th scope="row"></th>
-                    <td><Link to={`users/${user.full_name}`}>{user.full_name}</Link></td>
-                    <td><img src={`${user.avatar}`}></img></td>
-                    <td>{`${user.first_post_date} ago`}</td>
-                  </tr>  
-                )
-              })}
-            </tbody>
-          </Table>
-          
-          <h3>The Up and Coming</h3>
-          <h5>Congratulate these folks for keeping up fighting the good fight!</h5>
-          <Table className="two-wk-users">
-            <h4></h4>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Avatar</th>
-                <th>Latest Post Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {two_wk_users.map(user=>{
-                return(
-                  <tr>
-                    <th scope="row"></th>
-                    <td><Link to={`users/${user.full_name}`}>{user.full_name}</Link></td>
-                    <td><img src={`${user.avatar}`}></img></td>
-                    <td>{`${user.latest_post_date} ago`}</td>
-                  </tr>  
-                )
-              })}
-            </tbody>
-          </Table>
-                
       </Container>
     )
   }
-
+  
 }
 
 export default LeaderBoardMain;
