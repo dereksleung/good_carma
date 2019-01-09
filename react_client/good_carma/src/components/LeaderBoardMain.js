@@ -74,7 +74,7 @@ class LeaderBoardMain extends Component {
                 return(
                   <tr>
                     <th scope="row"></th>
-                    <td><Link to={`users/${user.first_name}`}>{user.first_name}</Link></td>
+                    <td><Link to={`users/${user.full_name}`}>{user.full_name}</Link></td>
                     <td><img src={`${user.avatar}`}></img></td>
                     <td>{`${user.first_post_date} ago`}</td>
                   </tr>  
@@ -100,7 +100,7 @@ class LeaderBoardMain extends Component {
                 return(
                   <tr>
                     <th scope="row"></th>
-                    <td>{`${user.first_name}`}</td>
+                    <td>{`${user.full_name}`}</td>
                     <td><img src={`${user.avatar}`}></img></td>
                     <td>{`${user.latest_post_date} ago`}</td>
                   </tr>  

@@ -35,10 +35,12 @@ code {
 .SinglePost {
   background-color: #FFFEFF;
   opacity: 0.9;
-  min-width: 50%;
-  max-width: 50%;
 }
 
 .tree {
   background-color: #03A9F4;
+}
+
+.NewcomersPanel {
+  background-color: white;
 }
