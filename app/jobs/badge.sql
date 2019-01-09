@@ -22,3 +22,25 @@ SELECT TO_CHAR(NOW() - INTERVAL '1 week', 'Mon DD YY') || ' - ' || TO_CHAR(NOW()
         ORDER BY COUNT(parent_post_id) DESC
 		    LIMIT 5
     )
+
+
+-- Muses - Most Inspires this week
+ SELECT users.first_name || ' ' || users.last_name, users.avatar, users.id AS user_id, COUNT(inspires.id) AS Inspires
+    FROM users
+    INNER JOIN inspires ON users.id = inspires.user_id
+    INNER JOIN posts ON (posts.id = inspires.inspiring_entry_id AND inspiring_entry_type = 'Post')
+    WHERE inspires.created_at > now() - interval '1 week'
+    GROUP BY users.id
+    ORDER BY COUNT(inspires.id) DESC
+    LIMIT 5
+
+-- This gets the inspires per post for each post with the highest inspire count.
+
+    SELECT users.first_name || ' ' || users.last_name, users.avatar, users.id AS user_id, posts.id AS post_id, COUNT(inspires.id) AS Inspires
+    FROM users
+    INNER JOIN inspires ON users.id = inspires.user_id
+    INNER JOIN posts ON (posts.id = inspires.inspiring_entry_id AND inspiring_entry_type = 'Post')
+    WHERE inspires.created_at > now() - interval '1 week'
+    GROUP BY users.id, posts.id
+    ORDER BY COUNT(inspires.id) DESC
+    LIMIT 5
