@@ -118,4 +118,41 @@ class WeeklyBadgeJob < ApplicationJob
     end
   end
 
+  def wild_growths
+    wg_arr_of_hash = User.find_by_sql("
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.id AS user_id, COUNT(posts.id) AS Posts
+      FROM users
+      INNER JOIN posts ON users.id = posts.user_id
+      WHERE posts.created_at > now() - interval '1 week'
+      GROUP BY users.id
+      HAVING COUNT(posts.id) > 3 * (
+        SELECT COUNT(posts.id)
+        FROM posts
+        INNER JOIN users ON posts.user_id = users.id
+        WHERE posts.created_at BETWEEN (now() - interval '2 weeks') AND (now() - interval '1 week')
+      )
+      ORDER BY COUNT(posts.id) DESC
+      LIMIT 5
+    ")
+    
+    
+      muses_arr_of_hash.each do |muse_user|
+      muse_badge = Badge.find_by_name("Muse - Most Inspires this Week")
+      badge_earning = BadgeEarning.new(
+        Week: (Time.zone.today - 1.week)..Time.zone.today,
+        Week_s: "#{(Time.zone.today - 1.week).to_formatted_s(:rfc822)} - #{Time.zone.today.to_formatted_s(:rfc822)}"
+        )
+        badge_earning.user = muse_user
+        badge_earning.badge = muse_badge
+        
+      # Save the badge only if the user hasn't earned the same badge this week yet.
+      if muse_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 2)} 
+      else
+        badge_earning.save
+      end
+      
+      
+    end
+  end
+
 end
