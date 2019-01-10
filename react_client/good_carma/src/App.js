@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PostIndexPage from "./components/PostIndexPage";
 import SignInPage from "./components/SignInPage";
+import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PostShowPage from "./components/PostShowPage";
 import NavBar from "./components/NavBar";
@@ -8,6 +9,7 @@ import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 import Tree from "./components/Tree/Tree";
+
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg";
@@ -81,6 +83,7 @@ class App extends Component {
           <section className="background-splash" >
             <Switch>
               <Route path="/" exact component={WelcomePage} />
+              <Route path="/sign_up" exact render={(routeProps)=><SignUpPage />} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
               <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
