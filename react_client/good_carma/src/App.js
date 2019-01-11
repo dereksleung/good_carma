@@ -19,6 +19,7 @@ import AuthnRoute from "./components/AuthnRoute";
 import './App.css';
 import CurrentUser from './components/CurrentUser';
 import UserShowPage from './components/UserShowPage';
+import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
 
 class App extends Component {
   constructor(props) {
@@ -83,7 +84,8 @@ class App extends Component {
           <section className="background-splash" >
             <Switch>
               <Route path="/" exact component={WelcomePage} />
-              <Route path="/sign_up" exact render={(routeProps)=><SignUpPage />} />
+              <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage />} />
+              <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage/>} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
               <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />

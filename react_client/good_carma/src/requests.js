@@ -57,6 +57,37 @@ export const User = {
     return fetch(`${BASE_URL}/users/${id}`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  create(params) {
+    return fetch(`${BASE_URL}/users`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          ...params
+        }
+      })
+    }).then(res => res.json());
+  }
+}
+
+export const Company = {
+  create(params) {
+    return fetch(`${BASE_URL}/companies`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        company: {
+          ...params
+        }
+      })
+    }).then(res => res.json());
   }
 }
 

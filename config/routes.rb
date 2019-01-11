@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         get :current, on: :collection
       end
 
+      resources :companies, only: [:create]
+
       resource :sessions, only: [:create, :destroy]
     end
   end

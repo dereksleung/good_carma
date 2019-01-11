@@ -33,7 +33,7 @@ const NavBar = (props) => {
         </NavLink>
         )}
 
-      <NavLink className="text-white" exact to="/sign_up" tag={RRNavLink}>Sign Up</NavLink>
+      <NavLink className="text-white" exact to="/sign_up/company" tag={RRNavLink}>Sign Up</NavLink>
 
     </Navbar>
 

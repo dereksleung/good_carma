@@ -16,4 +16,22 @@ class Api::V1::UsersController < Api::ApplicationController
     BadgeCheckJob.perform_now(user.email)
   end
 
+  def create
+    u = User.new user_params
+    company = Company.find_by_email(params[:user][:company_email])
+    u.companies << company
+
+    if u.save
+      render json: { status: :success }
+    else
+      render(json: {status: 422, errors: u.errors.full_messages})
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+  end
+
 end

@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import { Container, Nav, NavItem, NavLink, Form, FormGroup, Label, Input } from "reactstrap";
 import { NavLink as RRNavLink } from "react-router-dom";
 
-import { Company } from "../../requests";
+import { User } from "../../requests";
 
-
-class SignUpPage extends Component {
+class UserSignUpPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       successful: "", 
-      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
+      company_email: "",
       password: "",
       password_confirmation: ""
     };
@@ -47,36 +48,14 @@ class SignUpPage extends Component {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
-    // const company_params = this.fromFormData(formData);
-    // debugger;
 
-    // fetch(currentTarget.action, {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     company: {
-    //       ...company_params
-    //     }
-    //   })
-    // })
-    //   .then(res=>res.json())
-    //   .then(data=>
-    //     this.setState({
-    //       successful: data
-    //     })
-    //   )
-      Company.create(this.fromFormData(formData))
-      .then(data=>
+    User.create(this.fromFormData(formData))
+      .then(res=>
         this.setState({
-          successful: data
+          successful: res
         })
       )
-
   }
-
 
 
   render() {
@@ -92,11 +71,20 @@ class SignUpPage extends Component {
             <NavLink exact to="/sign_up/user" tag={RRNavLink}>User</NavLink>
           </NavItem>
         </Nav>
-
-        <Form action="http://localhost:3000/api/v1/companies" onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label>Company Name</Label>
-            <Input name="name" onChange={this.handleChange} value={this.state.name} />
+            <Label>First Name</Label>
+            <Input name="first_name" onChange={this.handleChange} value={this.state.first_name} />
+          </FormGroup>
+
+          <FormGroup>
+            <Label>Last Name</Label>
+            <Input name="last_name" onChange={this.handleChange} value={this.state.last_name} />
+          </FormGroup>
+
+          <FormGroup>
+            <Label>Company Admin Email</Label>
+            <Input name="company_email" onChange={this.handleChange} value={this.state.company_email} />
           </FormGroup>
 
           <FormGroup>
@@ -106,12 +94,12 @@ class SignUpPage extends Component {
 
           <FormGroup>
             <Label>Password</Label>
-            <Input name="password" onChange={this.handleChange} value={this.state.password} type="password" />
+            <Input name="password" onChange={this.handleChange} value={this.state.password} />
           </FormGroup>
 
           <FormGroup>
             <Label>Confirm Password</Label>
-            <Input name="password_confirmation" onChange={this.handleChange} value={this.state.password_confirmation} type="password" />
+            <Input name="password_confirmation" onChange={this.handleChange} value={this.state.password_confirmation}/>
           </FormGroup>
 
           <Input type="submit" className="btn btn-secondary text-white"/>
@@ -119,7 +107,6 @@ class SignUpPage extends Component {
       </Container>
     )
   }
-
 }
 
-export default SignUpPage;
+export default UserSignUpPage;
