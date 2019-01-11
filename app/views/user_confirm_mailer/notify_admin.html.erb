@@ -1,0 +1,13 @@
+<p>Hi, <%= @c_name %></p>
+
+<p>
+  <%= @user.first_name %> with email <%= @user.email %> just registered! Click the link below if they're really with you. <br>
+  
+</p>
+
+<!--
+You need to use the _path functions for your links, because if you used the actual path within your server, your end-user's mailer will assume it's the path within THEIR OWN server or domain.
+-->
+<%= link_to("Yes I know them", confirmation_api_v1_user_url(@user.confirm_token)) %>
+
+<p>Cheers, <br> The Good Carma Team</p>

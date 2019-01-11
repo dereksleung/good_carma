@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_06_053817) do
+ActiveRecord::Schema.define(version: 2019_01_11_053516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,8 @@ ActiveRecord::Schema.define(version: 2019_01_06_053817) do
     t.string "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "confirmed", default: false
+    t.string "confirm_token"
   end
 
   add_foreign_key "badge_earnings", "badges"

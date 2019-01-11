@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
       resources :users do
         get :current, on: :collection
+        get :confirmation, on: :member
       end
 
       resources :companies, only: [:create]

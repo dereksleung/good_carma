@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Nav, NavItem, NavLink, Form, FormGroup, Label, Input } from "reactstrap";
+import { UncontrolledAlert, Container, Nav, NavItem, NavLink, Form, FormGroup, Label, Input } from "reactstrap";
 import { NavLink as RRNavLink } from "react-router-dom";
 
 import { User } from "../../requests";
@@ -62,6 +62,10 @@ class UserSignUpPage extends Component {
 
     return(
       <Container className="SignUpPage mt-4 pb-4 d-flex flex-column" style={{backgroundColor:"white", opacity:"0.9"}}>
+        {this.state.successful ? 
+          <UncontrolledAlert color="info">{this.state.successful.message}</UncontrolledAlert> 
+          : ""
+        }
         <Nav className="my-4 d-flex justify-content-center">
           <NavItem>
             <NavLink className="" exact to="/sign_up/company" tag={RRNavLink}>Company Admin</NavLink>

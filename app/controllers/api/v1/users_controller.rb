@@ -22,9 +22,10 @@ class Api::V1::UsersController < Api::ApplicationController
     u.companies << company
 
     if u.save
-      render json: { status: :success }
+      UserConfirmMailer.notify_admin(u,company)
+      render json: { status: :success, message: "Successfully signed up!" }
     else
-      render(json: {status: 422, errors: u.errors.full_messages})
+      render(json: {status: 422, errors: u.errors.full_messages, message: u.errors.full_messages})
     end
   end
 
