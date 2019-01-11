@@ -1,5 +1,6 @@
 class Api::V1::UsersController < Api::ApplicationController
 
+  before_action :set_mailer_host, only: [:create]
   # before_action :authenticate_user!
 
   def current
@@ -22,10 +23,25 @@ class Api::V1::UsersController < Api::ApplicationController
     u.companies << company
 
     if u.save
-      UserConfirmMailer.notify_admin(u,company)
-      render json: { status: :success, message: "Successfully signed up!" }
+      UserConfirmMailer.notify_admin(u,company).deliver
+      render json: { status: :success, message: "Successfully signed up! Your admin will need to verify you before you can start." }
     else
       render(json: {status: 422, errors: u.errors.full_messages, message: u.errors.full_messages})
+    end
+  end
+
+  def confirmation
+    confirm_token = params[:user_id]
+    user = User.find_by(confirm_token: confirm_token)
+    user.confirmed = true
+    full_name = user.full_name
+    
+    subdomain = Apartment::Tenant.current
+
+    if Rails.env.development?
+      redirect_to("localhost:3001/users/#{full_name}/confirmation")
+    elsif Rails.env.production?
+      redirect_to("subdomain.good_carma.herokuapp.com/users/#{full_name}/confirmation")
     end
   end
 
@@ -35,4 +51,7 @@ class Api::V1::UsersController < Api::ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 
+  def set_mailer_host
+
+  end
 end

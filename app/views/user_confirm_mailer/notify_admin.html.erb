@@ -5,9 +5,7 @@
   
 </p>
 
-<!--
-You need to use the _path functions for your links, because if you used the actual path within your server, your end-user's mailer will assume it's the path within THEIR OWN server or domain.
--->
-<%= link_to("Yes I know them", confirmation_api_v1_user_url(@user.confirm_token)) %>
+<%= link_to("Yes I know them", api_v1_user_confirmation_url(@user.confirm_token,"")) %>
+
 
 <p>Cheers, <br> The Good Carma Team</p>

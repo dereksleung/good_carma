@@ -98,12 +98,12 @@ class UserSignUpPage extends Component {
 
           <FormGroup>
             <Label>Password</Label>
-            <Input name="password" onChange={this.handleChange} value={this.state.password} />
+            <Input type="password" name="password" onChange={this.handleChange} value={this.state.password} />
           </FormGroup>
 
           <FormGroup>
             <Label>Confirm Password</Label>
-            <Input name="password_confirmation" onChange={this.handleChange} value={this.state.password_confirmation}/>
+            <Input type="password" name="password_confirmation" onChange={this.handleChange} value={this.state.password_confirmation}/>
           </FormGroup>
 
           <Input type="submit" className="btn btn-secondary text-white"/>

@@ -22,7 +22,8 @@ Rails.application.routes.draw do
 
       resources :users do
         get :current, on: :collection
-        get :confirmation, on: :member
+        get("/confirmation/:all_else", to: "users#confirmation", as: :confirmation)
+        get("/confirmation", to: "users#confirmation", as: :confirmation_2)
       end
 
       resources :companies, only: [:create]

@@ -20,6 +20,7 @@ import './App.css';
 import CurrentUser from './components/CurrentUser';
 import UserShowPage from './components/UserShowPage';
 import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
+import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
 
 class App extends Component {
   constructor(props) {
@@ -86,6 +87,7 @@ class App extends Component {
               <Route path="/" exact component={WelcomePage} />
               <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage />} />
               <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage/>} />
+              <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} />} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
               <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
