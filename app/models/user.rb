@@ -2,6 +2,8 @@ class User < ApplicationRecord
 
   before_create :confirmation_token
 
+  has_one_attached :avatar_image
+
   has_secure_password
   has_many :posts
   has_many :child_posts, through: :posts  

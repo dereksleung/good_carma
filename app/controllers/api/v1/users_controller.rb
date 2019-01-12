@@ -21,6 +21,7 @@ class Api::V1::UsersController < Api::ApplicationController
     u = User.new user_params
     company = Company.find_by_email(params[:user][:company_email])
     u.companies << company
+    user.avatar_image.attach(params[:user][:avatar_image])
 
     if u.save
       UserConfirmMailer.notify_admin(u,company).deliver
