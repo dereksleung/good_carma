@@ -4,6 +4,7 @@ class Api::V1::CompaniesController < Api::ApplicationController
     company = Company.new company_params
 
     if company.save
+      
       render json: { status: :success, message: "Successfully signed up!" }
     else
       render json: { status: 422, message: company.errors.full_messages, errors: company.errors.full_messages }

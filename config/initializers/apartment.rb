@@ -24,7 +24,7 @@ Apartment.configure do |config|
   # - an array of strings representing each Tenant name.
   # - a hash which keys are tenant names, and values custom db config (must contain all key/values required in database.yml)
   #
-  config.tenant_names = lambda{ Company.pluck(:tenant_name) }
+  config.tenant_names = lambda{ Company.pluck(:name) }
   # config.tenant_names = ['tenant1', 'tenant2']
   # config.tenant_names = {
   #   'tenant1' => {
@@ -105,5 +105,5 @@ end
 
 # Rails.application.config.middleware.use Apartment::Elevators::Domain
 # Rails.application.config.middleware.use Apartment::Elevators::Subdomain
-# Rails.application.config.middleware.use Apartment::Elevators::FirstSubdomain
+Rails.application.config.middleware.insert_before(Rack::Cors, Apartment::Elevators::FirstSubdomain)
 # Rails.application.config.middleware.use Apartment::Elevators::Host
