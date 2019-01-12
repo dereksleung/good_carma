@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
 import { User } from "../requests";
-import { Container, Row, Button } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 
 class UserShowPage extends Component {
   constructor(props) {
@@ -56,34 +56,83 @@ class UserShowPage extends Component {
 
     const { user, currentUser } = this.state;
     return(
-      <Container className="UserShowPage">
-        <h1>{user.full_name}</h1>
-        <div className="allBadges SinglePost">
-        <h4>Badges</h4>
-          {user.badges.map(badge=>(
-            <img src={badge.image_url} title={badge.name}>
-            </img>
-          ))}
-        </div>
-        {user.posts.map(post=>(
-          <Row>
-            <section key={post.id} data-id={post.id}>
-              <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-                <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+      <section className="UserShowPage">
+        <section className="personal-splash-container" style={{position: "relative"}}>
+          <section className="personal-splash-image" style={{
+            backgroundColor: "#03A9F4",
+            minWidth: "100%",
+            height: "30vh"
+          }}>
+          
+          </section>
+          <section style={{
+            position: "relative",
+            backgroundColor: "white",
+            minWidth: "100%",
+            height: "10vh"
+          }}>
 
-              </SinglePost>
+            <Container className="d-flex flex-row">
+              
+              <section style={{
+                position: "absolute",
+                display: "inline-block",
+                bottom: "-30%",
+                height: "25vh",
+                width: "25vh",
+                backgroundColor: "#03A9F4",
+                borderStyle: "solid",
+                borderColor: "white",
+                borderRadius: "100%"
+              }}>
+              </section>
+              <section className="d-flex flex-grow-1 justify-content-end">
+                <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
+                </section>
+              </section>
+            </Container>
+          </section>
+        </section>
+        <Container className="UserDetails mt-4">
+          
+            
+          
+          <section className="d-flex">
+            <section className="flex-grow-1 mr-2">
+              <section className="p-3 mb-2 bg-white">
+                <h5>{user.full_name}</h5>
+              </section>
+              <div className="allBadges SinglePost p-3">
+              <p>Badges</p>
+                {user.badges.map(badge=>(
+                  <img className="m-2" src={badge.image_url} title={badge.name}>
+                  </img>
+                ))}
+              </div>
             </section>
-          </Row>
-        ))
-        }
-        <h3>{user.first_name}'s Inspiractions</h3>
-        {user.child_posts.map(post=>{
-          return(
-            <UserSinglePost post={post}>
-            </UserSinglePost>
-          )
-        })}
-      </Container>
+            <section className="flex-grow-2">
+              {user.posts.map(post=>(
+                
+                  <section key={post.id} data-id={post.id}>
+                    <SinglePost post={post} postId={post.id} currentUser={currentUser}>
+                      <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+
+                    </SinglePost>
+                  </section>
+                
+              ))
+              }
+              <h3>{user.first_name}'s Inspiractions</h3>
+              {user.child_posts.map(post=>{
+                return(
+                  <UserSinglePost post={post}>
+                  </UserSinglePost>
+                )
+              })}
+            </section>
+          </section>
+        </Container>
+      </section>
     )
   }
 }

@@ -4,7 +4,7 @@ import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PostShowPage from "./components/PostShowPage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
