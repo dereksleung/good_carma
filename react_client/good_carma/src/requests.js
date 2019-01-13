@@ -71,6 +71,14 @@ export const User = {
         }
       })
     }).then(res => res.json());
+  },
+  uploadImage(params, id) {
+    return fetch(`${BASE_URL}/users/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
   }
 }
 

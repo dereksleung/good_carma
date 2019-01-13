@@ -3,6 +3,7 @@ class User < ApplicationRecord
   before_create :confirmation_token
 
   has_one_attached :avatar_image
+  has_one_attached :splash_image
 
   has_secure_password
   has_many :posts

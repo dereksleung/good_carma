@@ -48,7 +48,8 @@ class UserSignUpPage extends Component {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
-
+    const viewFormData = Array.from(formData);
+    console.log(viewFormData);
     User.create(this.fromFormData(formData))
       .then(res=>
         this.setState({

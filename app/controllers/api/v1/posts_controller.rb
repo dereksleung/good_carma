@@ -22,6 +22,7 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def create
+    byebug
     post = Post.new post_params
     parents_id_arr = (post_params[:parent_ids]).split(",")
     post.user = current_user

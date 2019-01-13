@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
 import { User } from "../requests";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import PictureUploadForm from "./PictureUploadForm";
 
 class UserShowPage extends Component {
   constructor(props) {
@@ -12,9 +13,11 @@ class UserShowPage extends Component {
       user: {},
       loading: true,
       parentIDs: [],
-      currentUser: props.currentUser
+      currentUser: props.currentUser,
+      toggleUploadModal: false
     }
 
+    this.toggleUploadModal = this.toggleUploadModal.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
   }
 
@@ -29,6 +32,12 @@ class UserShowPage extends Component {
         });
       })
 
+  }
+
+  toggleUploadModal() {
+    this.setState({
+      toggleUploadModal: !this.state.toggleUploadModal
+    })
   }
 
   handleClickCheckbox(id, e) {
@@ -58,12 +67,23 @@ class UserShowPage extends Component {
     return(
       <section className="UserShowPage">
         <section className="personal-splash-container" style={{position: "relative"}}>
-          <section className="personal-splash-image" style={{
-            backgroundColor: "#03A9F4",
-            minWidth: "100%",
-            height: "30vh"
-          }}>
-          
+          <section className="personal-splash-image" 
+            onClick={this.toggleUploadModal}
+            style={{
+              backgroundColor: "#03A9F4",
+              minWidth: "100%",
+              height: "30vh"
+            }} 
+          >
+            <Modal isOpen={this.state.toggleUploadModal} toggle={this.toggleUploadModal}>
+              <ModalHeader toggle={this.toggleUploadModal}>
+                Upload an Image
+              </ModalHeader>
+              <ModalBody>
+                <PictureUploadForm id={user.id}></PictureUploadForm>
+              </ModalBody>
+              
+            </Modal>
           </section>
           <section style={{
             position: "relative",
