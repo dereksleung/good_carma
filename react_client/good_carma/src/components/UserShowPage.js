@@ -14,10 +14,12 @@ class UserShowPage extends Component {
       loading: true,
       parentIDs: [],
       currentUser: props.currentUser,
-      toggleUploadModal: false
+      toggleSplashUploadModal: false,
+      toggleAvatarUploadModal: false
     }
 
-    this.toggleUploadModal = this.toggleUploadModal.bind(this);
+    this.toggleAvatarUploadModal = this.toggleAvatarUploadModal.bind(this);
+    this.toggleSplashUploadModal = this.toggleSplashUploadModal.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
   }
 
@@ -34,9 +36,15 @@ class UserShowPage extends Component {
 
   }
 
-  toggleUploadModal() {
+  toggleSplashUploadModal() {
     this.setState({
-      toggleUploadModal: !this.state.toggleUploadModal
+      toggleSplashUploadModal: !this.state.toggleSplashUploadModal
+    })
+  }
+
+  toggleAvatarUploadModal() {
+    this.setState({
+      toggleAvatarUploadModal: !this.state.toggleAvatarUploadModal
     })
   }
 
@@ -68,22 +76,22 @@ class UserShowPage extends Component {
       <section className="UserShowPage">
         <section className="personal-splash-container" style={{position: "relative"}}>
           <section className="personal-splash-image" 
-            onClick={this.toggleUploadModal}
+            onClick={this.toggleSplashUploadModal}
             style={{
               backgroundColor: "#03A9F4",
               minWidth: "100%",
               height: "30vh"
             }} 
           >
-            <Modal isOpen={this.state.toggleUploadModal} toggle={this.toggleUploadModal}>
-              <ModalHeader toggle={this.toggleUploadModal}>
+            <Modal isOpen={this.state.toggleSplashUploadModal} toggle={this.toggleSplashUploadModal}>
+              <ModalHeader toggle={this.toggleSplashUploadModal}>
                 Upload an Image
               </ModalHeader>
               <ModalBody>
-                <PictureUploadForm id={user.id}></PictureUploadForm>
-              </ModalBody>
-              
+                <PictureUploadForm id={user.id} image_type="splash"></PictureUploadForm>
+              </ModalBody>              
             </Modal>
+
           </section>
           <section style={{
             position: "relative",
@@ -104,7 +112,15 @@ class UserShowPage extends Component {
                 borderStyle: "solid",
                 borderColor: "white",
                 borderRadius: "100%"
-              }}>
+              }} onClick={this.toggleAvatarUploadModal}>
+                <Modal isOpen={this.state.toggleAvatarUploadModal} toggle={this.toggleAvatarUploadModal}>
+                  <ModalHeader toggle={this.toggleAvatarUploadModal}>
+                    Upload an Image
+                  </ModalHeader>
+                  <ModalBody>
+                    <PictureUploadForm id={user.id} image_type="avatar"></PictureUploadForm>
+                  </ModalBody>              
+                </Modal>
               </section>
               <section className="d-flex flex-grow-1 justify-content-end">
                 <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
