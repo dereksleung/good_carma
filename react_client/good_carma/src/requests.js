@@ -21,8 +21,23 @@ export const Post = {
       body: JSON.stringify(params)
     }).then(res => res.json());
   },
-  update(params) {
-
+  update(params, id) {
+    return fetch(`${BASE_URL}/posts/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
+  },
+  updateImageFile(params, id) {
+    return fetch(`${BASE_URL}/posts/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
   },
   destroy() {
 

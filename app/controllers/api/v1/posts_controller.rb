@@ -1,7 +1,7 @@
 class Api::V1::PostsController < Api::ApplicationController
 
   # before_action :authenticate_user!, only: [:create, :destroy]
-  # before_action :find_post, only: [:update, :destroy]
+  before_action :find_post, only: [:update, :destroy]
   # before_action :authorize_user!, only: [:update, :destroy]
 
   def index
@@ -22,21 +22,13 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def create
-    byebug
     post = Post.new post_params
     parents_id_arr = (post_params[:parent_ids]).split(",")
     post.user = current_user
 
     if post.save
-      parents_id_arr.each do |id|
-        parent_p = Post.find(id)
-        if parent_p.user.id != session[:user_id]
-          post.parent_posts << parent_p
-        end
-      end
-
+      assign_inspiractions(post)
       NewSilOrGoldUsersJob.perform_later(parents_id_arr)
-    
       render json: post
     else
       render json: { errors: post.errors.full_messages }
@@ -46,6 +38,22 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def update
 
+
+    byebug
+
+    if params[:image].present?
+      @post.image.attach(params[:image])
+      if @post.update post_params
+        assign_inspiractions(@post)
+        render json: @post
+      end
+    elsif @post.update post_params
+      assign_inspiractions(@post)
+      render json: @post
+    else
+      render(json: {status: 422, errors: user.errors.full_messages, message: user.errors.full_messages})
+    end
+    
   end
 
   def tree
@@ -84,12 +92,26 @@ class Api::V1::PostsController < Api::ApplicationController
     end
   end
 
+  def assign_inspiractions(post)
+    if params.include?(:parent_ids)
+      parents_id_arr = (params[:parent_ids]).split(",")
+    
+      arr.each do |id|
+        parent_p = Post.find(id)
+        if parent_p.user.id != session[:user_id]
+          post.parent_posts << parent_p
+        end
+      end
+    end
+  end
+
+
   def post_params
     params.require(:post).permit(:body, :picture_url, :parent_ids)
   end
 
   def find_post
-    post = Post.find params[:id]
+    @post = Post.find params[:id]
   end
 
   def authorize_user!

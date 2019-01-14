@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Post, LeaderBoard } from "../requests";
 import { Link, Redirect } from "react-router-dom";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
 import SinglePost from "./SinglePost";
 import NewcomersPanel from "./NewcomersPanel";
@@ -20,13 +20,15 @@ class PostIndexPage extends Component {
       posts: [],
       redirect: false,
       parentIDs: [],
-      newcomers: {}
+      newcomers: {},
+      togglePostForm: false
     }
   
     // this.deletePost = this.deletePost.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
     this.clearParentIDs = this.clearParentIDs.bind(this);
     this.showNewPost = this.showNewPost.bind(this);
+    this.togglePostForm = this.togglePostForm.bind(this);
   }
 
   componentDidMount() {
@@ -72,6 +74,11 @@ class PostIndexPage extends Component {
       })  
   }
 
+  togglePostForm() {
+    this.setState({
+      togglePostForm: !this.state.togglePostForm
+    })
+  }
 
   render() {
     const { posts } = this.state;
@@ -92,8 +99,10 @@ class PostIndexPage extends Component {
       </section>
       
       <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
-        <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-        </PostForm> 
+          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+          </PostForm>
+        <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
+        </Modal> 
         {posts.map(post=>(
             <section key={post.id} data-id={post.id}>
               <SinglePost post={post} postId={post.id} currentUser={currentUser}>
