@@ -15,6 +15,18 @@ class User < ApplicationRecord
 
   has_many :positions, dependent: :destroy
   has_many :companies, through: :positions
+
+  # Setting foreign_key: :followed_user_id here means that in each database record representing a follow, a user U's followers will be the follower_id, while U will be the followed_user_id. 
+  # class_name in this context means which class to find the follow database record in.
+  has_many :follower_follows, foreign_key: :followed_user_id, class_name: "Follow" 
+  
+  has_many :followers, through: :follower_follows, source: :follower
+
+  # Setting foreign_key: :follower_id here means that in each database record representing a follow, a user U is the follower and will be the follower_id, and the followed_users will be the follower_users_id's.
+  # class_name in this context means which class to find the follow database record in.
+  has_many :followed_user_follows, foreign_key: :follower_id, class_name: "Follow"
+
+  has_many :followed_users, through: :followed_user_follows, source: :followed_user
   
 
   def full_name

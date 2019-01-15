@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Inspire } from "../requests";
 import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
-import { Button, Collapse } from "reactstrap";
+import { Button, Collapse, UncontrolledAlert } from "reactstrap";
 import EditPostForm from "./EditPostForm";
 
 class SinglePost extends Component {
@@ -15,7 +15,7 @@ class SinglePost extends Component {
       isAuthrzd: false,
       post: props.post,
       currentUser: props.currentUser,
-      collapseEditPostForm: false
+      collapseEditPostForm: false,
     }
 
     this.toggleCollapseEditPostForm = this.toggleCollapseEditPostForm.bind(this);
@@ -37,9 +37,12 @@ class SinglePost extends Component {
   }
 
   updateAfterEdit(postData) {
-    this.setState({
-      post: postData
-    })
+    this.setState((prevState, props) => ({
+      post: {
+        ...prevState.post,
+        ...postData
+      }
+    }))
   }
 
   hndlInspireBtnSbmt(event) {
@@ -70,6 +73,10 @@ class SinglePost extends Component {
     if (post.color === "gold") {
       return(
         <article className="SinglePost gold border border-blue p-3">
+          {post.errors ?
+            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
+          : ""
+          }
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
@@ -82,7 +89,8 @@ class SinglePost extends Component {
             </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
+              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
+              }
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
@@ -94,12 +102,14 @@ class SinglePost extends Component {
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
-              <Button>
-                <Link to="">
-                  Edit
-                </Link>
-              </Button> 
-              :
+              <>
+                <Button onClick={this.toggleCollapseEditPostForm}>Edit
+                </Button> 
+                <Collapse isOpen={this.state.collapseEditPostForm}>
+                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
+                </Collapse>
+              </>
+            :
               ""
             }
           </section>
@@ -113,6 +123,10 @@ class SinglePost extends Component {
     if (post.color === "silver") {
       return(
         <article className="SinglePost silver border border-blue p-3">
+          {post.errors ?
+            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
+          : ""
+          }
           <section className="post-body mb-3">
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
@@ -125,7 +139,8 @@ class SinglePost extends Component {
             </span>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
+              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
+              }
             </Link>  
             <div>
               <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
@@ -137,12 +152,14 @@ class SinglePost extends Component {
               {this.props.children}
             </div>
             {currentUser.id === post.p_user_id ? 
-              <Button>
-                <Link to="">
-                  Edit
-                </Link>
-              </Button> 
-              :
+              <>
+                <Button onClick={this.toggleCollapseEditPostForm}>Edit
+                </Button> 
+                <Collapse isOpen={this.state.collapseEditPostForm}>
+                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
+                </Collapse>
+              </>
+            :
               ""
             }
           </section>
@@ -155,6 +172,10 @@ class SinglePost extends Component {
     return(
       
         <article className="SinglePost border border-blue p-3">
+          {post.errors ?
+            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
+          : ""
+          }
           <section className="post-body mb-3">
 
             <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
@@ -171,7 +192,6 @@ class SinglePost extends Component {
             </Collapse>
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
               {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
               }
             </Link>  
@@ -192,9 +212,9 @@ class SinglePost extends Component {
                   <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
                 </Collapse>
               </>
-                :
-                ""
-              }
+            :
+              ""
+            }
           </section>
           {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
           }
