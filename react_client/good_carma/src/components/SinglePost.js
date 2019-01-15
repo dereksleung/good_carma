@@ -172,7 +172,7 @@ class SinglePost extends Component {
             <Link to={`posts/${post.id}`}> 
               <p>{post.body}</p>
               <img className="postpic mb-3" src={post.picture_url} style={{maxWidth:"100%"}} />
-              {post.image ? <img className="postpic mb-3" src={`localhost:3000${post.image}`} style={{maxWidth:"100%"}} /> : ""
+              {post.image ? <img className="postpic mb-3" src={`http://localhost:3000${post.image}`} style={{maxWidth:"100%"}} /> : ""
               }
             </Link>  
             <div>
