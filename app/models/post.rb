@@ -2,6 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   attr_reader :gen_query
 
+  has_one_attached :image
+
   has_many :comments
   has_many :inspires, as: :inspiring_entry
 

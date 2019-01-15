@@ -1,5 +1,11 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id#,:gen_query
+
+  include Rails.application.routes.url_helpers
+
+  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id 
+  
+  attribute :image
+  #, :gen_query
 
   # has_many :comments
   belongs_to :user
@@ -10,6 +16,10 @@ class PostSerializer < ActiveModel::Serializer
   # def gen_query
   #   @gen_query = Post.includes(child_posts: {child_posts: :child_posts})#.find(object.id)
   # end
+
+  def image
+    rails_blob_url(object.image, only_path: true) if object.image.attached?
+  end
 
   def comments
     comments = []
