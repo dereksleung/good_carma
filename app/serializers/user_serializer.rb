@@ -1,5 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
+  include ActionController
   attributes :id, :full_name, :first_name, :avatar, :child_post_count, :level, :badges
+
+  # attribute :followed
 
   has_many :posts
   # has_many :comments, through: :posts
@@ -31,4 +34,31 @@ class UserSerializer < ActiveModel::Serializer
     end
     count
   end
+  
+  # def followed
+  #   follow = ActiveRecord::Base.connection.exec_query("
+  #   SELECT users.first_name
+  #   FROM users
+  #   INNER JOIN follows ON users.id = 28
+  #   WHERE followed_user_id = 26
+  #   ")
+  #   if follow.any?
+  #     true
+  #   else 
+  #     false
+  #   end
+  # end
+
+  #   follow = User.find_by_sql("
+  #   SELECT users.first_name
+  #   FROM users
+  #   INNER JOIN follows ON users.id = #{current_user.id}
+  #   WHERE followed_user_id = #{object.id}
+  #   ")
+  #   if follow.any?
+  #     true
+  #   else 
+  #     false
+  #   end
+  # end
 end

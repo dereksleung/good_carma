@@ -25,7 +25,10 @@ Rails.application.routes.draw do
         get("/confirmation/:all_else", to: "users#confirmation", as: :confirmation)
         get("/confirmation", to: "users#confirmation", as: :confirmation_2)
         
+        resources :follows, shallow: true, only: [:create, :destroy]
+        get("/follows/check", to: "follows#check", as: :check_if_followed)
       end
+
 
       resources :companies, only: [:create]
 

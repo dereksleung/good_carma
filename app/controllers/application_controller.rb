@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-
+  serialization_scope :view_context
 
   private
 

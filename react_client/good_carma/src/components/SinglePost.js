@@ -37,12 +37,14 @@ class SinglePost extends Component {
   }
 
   updateAfterEdit(postData) {
-    this.setState((prevState, props) => ({
-      post: {
+    this.setState((prevState, props) => {
+      return {
+        post: {
         ...prevState.post,
         ...postData
+        }
       }
-    }))
+    })
   }
 
   hndlInspireBtnSbmt(event) {

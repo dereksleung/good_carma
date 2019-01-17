@@ -97,6 +97,30 @@ export const User = {
   }
 }
 
+export const Follow = {
+  create(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/follows`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: null
+    }).then(res => res.json());
+  },
+  destroy(follow_id) {
+    return fetch(`${BASE_URL}/follows/${follow_id}`, {
+      method: "DELETE",
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  check(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/follows/check`, {
+      credentials: "include"
+    }).then(res => res.json());
+  }
+}
+
 export const Company = {
   create(params) {
     return fetch(`${BASE_URL}/companies`, {

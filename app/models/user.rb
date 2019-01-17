@@ -22,13 +22,46 @@ class User < ApplicationRecord
   
   has_many :followers, through: :follower_follows, source: :follower
 
-  # Setting foreign_key: :follower_id here means that in each database record representing a follow, a user U is the follower and will be the follower_id, and the followed_users will be the follower_users_id's.
+  # Setting foreign_key: :follower_id here means that in each database record representing a follow, a user U is the follower and will be the follower_id, and the other users that U follows will be the followed_user_id's.
   # class_name in this context means which class to find the follow database record in.
   has_many :followed_user_follows, foreign_key: :follower_id, class_name: "Follow"
 
   has_many :followed_users, through: :followed_user_follows, source: :followed_user
   
+  def self.current
+    Thread.current[:user]
+  end
 
+  def self.current=(user)
+    Thread.current[:user] = user
+  end
+
+  def current_user
+    if session[:user_id].present?
+      @current_user ||= User.find(session[:user_id])
+    end
+  end
+
+  def append_followed(actv_rcrd_obj, curr_user)
+    user_hash = actv_rcrd_obj.attributes
+    user_hash["followed"] = followed?(curr_user)
+    return user_hash
+  end
+
+  def followed?(curr_user)
+    follow = User.find_by_sql("
+    SELECT users.first_name
+    FROM users
+    INNER JOIN follows ON users.id = #{curr_user.id}
+    WHERE followed_user_id = #{self.id}
+    ")
+    if follow.any?
+      true
+    else 
+      false
+    end
+  end
+  
   def full_name
     "#{first_name} #{last_name}".strip
   end
@@ -43,5 +76,7 @@ class User < ApplicationRecord
       self.confirm_token = SecureRandom.urlsafe_base64.to_s
     end
   end
+
+
 
 end

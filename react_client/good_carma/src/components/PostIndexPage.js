@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Post, LeaderBoard } from "../requests";
+import { Post, LeaderBoard, Follow } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
@@ -29,6 +29,8 @@ class PostIndexPage extends Component {
     this.clearParentIDs = this.clearParentIDs.bind(this);
     this.showNewPost = this.showNewPost.bind(this);
     this.togglePostForm = this.togglePostForm.bind(this);
+    this.updateFollowButton = this.updateFollowButton.bind(this);
+    this.createFollow = this.createFollow.bind(this);
   }
 
   componentDidMount() {
@@ -77,6 +79,22 @@ class PostIndexPage extends Component {
   togglePostForm() {
     this.setState({
       togglePostForm: !this.state.togglePostForm
+    })
+  }
+
+  createFollow(user_id) {
+    Follow.create(user_id)
+      // .then(LeaderBoard.loadMain())
+      .then(data=>{
+        this.setState({
+          newcomers: data
+        })
+      });
+  }
+
+  updateFollowButton(userData) {
+    this.setState({
+      newcomers: userData
     })
   }
 

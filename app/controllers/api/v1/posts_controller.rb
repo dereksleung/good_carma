@@ -9,6 +9,7 @@ class Api::V1::PostsController < Api::ApplicationController
   def index
     posts = Post.with_attached_image.order(created_at: :desc)
     
+    
     render json: posts
   end
 
@@ -46,10 +47,10 @@ class Api::V1::PostsController < Api::ApplicationController
 
     if params[:image].present?
       @post.image.attach(params[:image])
-      if @post.update post_params
-        assign_inspiractions(@post)
+      # if @post.update post_params
+      #   assign_inspiractions(@post)
         render json: @post
-      end
+      # end
     elsif @post.update post_params
       assign_inspiractions(@post)
       render json: @post
@@ -110,7 +111,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
 
   def post_params
-    params.require(:post).permit(:body, :picture_url, :parent_ids)
+    params.require(:post).permit(:body, :picture_url, :parent_ids, :image)
   end
 
   def find_post

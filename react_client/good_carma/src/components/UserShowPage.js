@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
-import { User } from "../requests";
+import { User, Follow } from "../requests";
 import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PictureUploadForm from "./PictureUploadForm";
 
@@ -21,6 +21,8 @@ class UserShowPage extends Component {
     this.toggleAvatarUploadModal = this.toggleAvatarUploadModal.bind(this);
     this.toggleSplashUploadModal = this.toggleSplashUploadModal.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
+    this.createFollow = this.createFollow.bind(this);
+    this.destroyFollow = this.destroyFollow.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +35,20 @@ class UserShowPage extends Component {
           loading: false
         });
       })
+      // .then(res=>{
+      Follow.check(id)
+      // })
+      .then(res=>{
 
+        this.setState((prevState, props)=>{
+          return {
+            ...prevState,
+            followed: res.followed,
+            follow_id: res.follow_id
+          }
+        });
+      });
+      
   }
 
   toggleSplashUploadModal() {
@@ -61,6 +76,25 @@ class UserShowPage extends Component {
     }
   }
 
+  createFollow() {
+    Follow.create(this.state.user.id)
+      .then(userInfo=>{
+        this.setState((prevState, props)=>({
+        ...prevState,
+          followed: userInfo.followed,
+          follow_id: userInfo.follow_id
+        }))
+      })
+  }
+
+  destroyFollow() {
+    Follow.destroy(this.state.follow_id)
+      .then(res=>this.setState({
+        followed: false,
+        follow_id: null
+      }))
+  }
+
   render() {
 
     if (this.state.loading) {
@@ -72,6 +106,12 @@ class UserShowPage extends Component {
     }
 
     const { user, currentUser } = this.state;
+    let followButton;
+
+
+
+
+
     return(
       <section className="UserShowPage">
         <section className="personal-splash-container" style={{position: "relative"}}>
@@ -137,6 +177,12 @@ class UserShowPage extends Component {
             <section className="flex-grow-1 mr-2">
               <section className="p-3 mb-2 bg-white">
                 <h5>{user.full_name}</h5>
+                {this.state.followed ? 
+                  <button onClick={this.destroyFollow} className="btn btn-primary btn-sm" style={{borderRadius: "24px"}}>Unfollow</button>
+                :
+                  <button onClick={this.createFollow} className="btn btn-primary btn-sm" style={{borderRadius: "24px"}}>Follow</button>
+                }
+
               </section>
               <div className="allBadges SinglePost p-3">
               <p>Badges</p>
