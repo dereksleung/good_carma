@@ -41,6 +41,19 @@ class Api::V1::FollowsController < Api::ApplicationController
     end
   end
 
+  def show_followers
+    user = User.find params[:user_id]
+    followers = user.followers.with_attached_avatar_image
+
+    render json: followers
+  end
+
+  def show_followed_users
+    user = User.find params[:user_id]
+    followed_users = user.followed_users.with_attached_avatar_image
+
+    render json: followed_users
+  end
 
 
 

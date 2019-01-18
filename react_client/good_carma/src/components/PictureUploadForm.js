@@ -44,7 +44,7 @@ class PictureUploadForm extends Component {
   render() {
     return(
       <Form className="PictureUploadForm" onSubmit={this.handleSubmit}>
-        <Label className="custom-file-label">Avatar</Label>
+        <Label className="custom-file-label">{this.props.image_type}</Label>
         <Input type="file" name={`${this.props.image_type}_image`} className="custom-file-input" ref={this.fileInput}></Input>
 
         <Input type="submit" className="btn btn-secondary"/>

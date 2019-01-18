@@ -35,9 +35,8 @@ class UserShowPage extends Component {
           loading: false
         });
       })
-      // .then(res=>{
-      Follow.check(id)
-      // })
+
+    Follow.check(id)
       .then(res=>{
 
         this.setState((prevState, props)=>{
@@ -48,7 +47,6 @@ class UserShowPage extends Component {
           }
         });
       });
-      
   }
 
   toggleSplashUploadModal() {
@@ -106,11 +104,6 @@ class UserShowPage extends Component {
     }
 
     const { user, currentUser } = this.state;
-    let followButton;
-
-
-
-
 
     return(
       <section className="UserShowPage">
@@ -119,8 +112,11 @@ class UserShowPage extends Component {
             onClick={this.toggleSplashUploadModal}
             style={{
               backgroundColor: "#03A9F4",
+              backgroundImage: `url(${user.splash_image})`,
+              backgroundSize: "cover",
               minWidth: "100%",
-              height: "30vh"
+              minHeight: "30vh",
+              maxHeight: "50vh"
             }} 
           >
             <Modal isOpen={this.state.toggleSplashUploadModal} toggle={this.toggleSplashUploadModal}>
@@ -149,6 +145,8 @@ class UserShowPage extends Component {
                 height: "25vh",
                 width: "25vh",
                 backgroundColor: "#03A9F4",
+                backgroundImage: `url(${user.avatar_image})`,
+                backgroundSize: "contain",
                 borderStyle: "solid",
                 borderColor: "white",
                 borderRadius: "100%"

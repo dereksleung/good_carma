@@ -118,6 +118,16 @@ export const Follow = {
     return fetch(`${BASE_URL}/users/${user_id}/follows/check`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  showFollowers(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/followers`, {
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  showFollowedUsers(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/followed_users`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 

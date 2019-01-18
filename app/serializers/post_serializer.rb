@@ -21,7 +21,7 @@ class PostSerializer < ActiveModel::Serializer
     if Rails.env.development?
       return "http://localhost:3000#{rails_blob_url(object.image, only_path: true)}" if object.image.attached?
     else 
-      rails_blob_url(object.image, only_path: true)
+      rails_blob_url(object.image, only_path: true) if object.image.attached?
     end
   end
 

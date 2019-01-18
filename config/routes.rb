@@ -27,6 +27,8 @@ Rails.application.routes.draw do
         
         resources :follows, shallow: true, only: [:create, :destroy]
         get("/follows/check", to: "follows#check", as: :check_if_followed)
+        get("/followers", to: "follows#show_followers", as: :show_followers)
+        get("/followed_users", to: "follows#show_followed_users", as: :show_followed_users)
       end
 
 

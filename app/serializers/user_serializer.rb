@@ -1,8 +1,10 @@
 class UserSerializer < ActiveModel::Serializer
-  include ActionController
-  attributes :id, :full_name, :first_name, :avatar, :child_post_count, :level, :badges
+  # include ActionController
+  include Rails.application.routes.url_helpers
 
-  # attribute :followed
+  attributes :id, :full_name, :first_name, :avatar, :avatar_image, :splash_image, :child_post_count, :level, :badges
+
+  attribute :avatar_image
 
   has_many :posts
   # has_many :comments, through: :posts
@@ -35,30 +37,20 @@ class UserSerializer < ActiveModel::Serializer
     count
   end
   
-  # def followed
-  #   follow = ActiveRecord::Base.connection.exec_query("
-  #   SELECT users.first_name
-  #   FROM users
-  #   INNER JOIN follows ON users.id = 28
-  #   WHERE followed_user_id = 26
-  #   ")
-  #   if follow.any?
-  #     true
-  #   else 
-  #     false
-  #   end
-  # end
+  def avatar_image
+    if Rails.env.development?
+      return "http://localhost:3000#{rails_blob_url(object.avatar_image, only_path: true)}" if object.avatar_image.attached?
+    else 
+      rails_blob_url(object.avatar_image, only_path: true) if object.avatar_image.attached?
+    end
+  end
 
-  #   follow = User.find_by_sql("
-  #   SELECT users.first_name
-  #   FROM users
-  #   INNER JOIN follows ON users.id = #{current_user.id}
-  #   WHERE followed_user_id = #{object.id}
-  #   ")
-  #   if follow.any?
-  #     true
-  #   else 
-  #     false
-  #   end
-  # end
+  def splash_image
+    if Rails.env.development?
+      return "http://localhost:3000#{rails_blob_url(object.splash_image, only_path: true)}" if object.splash_image.attached?
+    else 
+      rails_blob_url(object.splash_image, only_path: true) if object.splash_image.attached?
+    end
+  end
+
 end
