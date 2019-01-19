@@ -38,7 +38,6 @@ class UserShowPage extends Component {
 
     Follow.check(id)
       .then(res=>{
-
         this.setState((prevState, props)=>{
           return {
             ...prevState,
@@ -159,6 +158,10 @@ class UserShowPage extends Component {
                     <PictureUploadForm id={user.id} image_type="avatar"></PictureUploadForm>
                   </ModalBody>              
                 </Modal>
+              </section>
+              <section className="d-flex flex-grow-1 justify-content-end">
+                <section className="align-content-around"><small>Followers</small><br/>{user.child_post_count}
+                </section>
               </section>
               <section className="d-flex flex-grow-1 justify-content-end">
                 <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
