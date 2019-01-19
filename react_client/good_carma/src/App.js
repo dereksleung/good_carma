@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PostIndexPage from "./components/PostIndexPage";
 import SignInPage from "./components/SignInPage";
+import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PostShowPage from "./components/PostShowPage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import LeaderBoardMain from "./components/LeaderBoardMain";
-import { User, Session } from "./requests";
+import { User, Session, Follow } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 import Tree from "./components/Tree/Tree";
+
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg";
@@ -17,6 +19,9 @@ import AuthnRoute from "./components/AuthnRoute";
 import './App.css';
 import CurrentUser from './components/CurrentUser';
 import UserShowPage from './components/UserShowPage';
+import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
+import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
+import UserList from "./components/UserList";
 
 class App extends Component {
   constructor(props) {
@@ -81,6 +86,11 @@ class App extends Component {
           <section className="background-splash" >
             <Switch>
               <Route path="/" exact component={WelcomePage} />
+              <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage />} />
+              <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage/>} />
+              <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} />} />
+              <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} />} />
+              <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} />} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
               <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />

@@ -36,6 +36,7 @@ gem 'active_model_serializers'
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 gem 'cancancan'
+gem 'apartment'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

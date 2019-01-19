@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Post } from "../requests";
+import { Post, LeaderBoard, Follow } from "../requests";
 import { Link, Redirect } from "react-router-dom";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
 import SinglePost from "./SinglePost";
+import NewcomersPanel from "./NewcomersPanel";
 
 
 import UserBasicStats from "./UserBasicStats";
@@ -19,13 +20,17 @@ class PostIndexPage extends Component {
       posts: [],
       redirect: false,
       parentIDs: [],
-      
+      newcomers: {},
+      togglePostForm: false
     }
   
     // this.deletePost = this.deletePost.bind(this);
     this.handleClickCheckbox = this.handleClickCheckbox.bind(this);
     this.clearParentIDs = this.clearParentIDs.bind(this);
     this.showNewPost = this.showNewPost.bind(this);
+    this.togglePostForm = this.togglePostForm.bind(this);
+    this.updateFollowButton = this.updateFollowButton.bind(this);
+    this.createFollow = this.createFollow.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +41,11 @@ class PostIndexPage extends Component {
         redirect: false
       });
     });
+    LeaderBoard.loadMain().then(newcomers=>{
+      this.setState({
+        newcomers: newcomers
+      });
+    });  
   }
 
   clearParentIDs() {
@@ -66,10 +76,32 @@ class PostIndexPage extends Component {
       })  
   }
 
+  togglePostForm() {
+    this.setState({
+      togglePostForm: !this.state.togglePostForm
+    })
+  }
+
+  createFollow(user_id) {
+    Follow.create(user_id)
+      // .then(LeaderBoard.loadMain())
+      .then(data=>{
+        this.setState({
+          newcomers: data
+        })
+      });
+  }
+
+  updateFollowButton(userData) {
+    this.setState({
+      newcomers: userData
+    })
+  }
 
   render() {
     const { posts } = this.state;
     const { currentUser } = this.props;
+    const { newcomers: { new_posters, arr_two_wk } } = this.state;
 
     if (this.state.loading) {
       return(
@@ -81,11 +113,14 @@ class PostIndexPage extends Component {
     <Container className="PostIndexPage d-flex mt-5">
       <section className="column-1 flex-grow-3 mr-2">
         <UserBasicStats {...currentUser}/>
+        
       </section>
       
       <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
-        <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-        </PostForm> 
+          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+          </PostForm>
+        <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
+        </Modal> 
         {posts.map(post=>(
             <section key={post.id} data-id={post.id}>
               <SinglePost post={post} postId={post.id} currentUser={currentUser}>
@@ -96,9 +131,8 @@ class PostIndexPage extends Component {
         ))}
       </section>
 
-      <section className="column-3 flex-grow-3">
-        <section className="dummy500">
-        </section>
+      <section className="column-3 flex-grow-3 ml-2">
+        <NewcomersPanel new_posters={new_posters} arr_two_wk={arr_two_wk} />
       </section>
     </Container> 
     )

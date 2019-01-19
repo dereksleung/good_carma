@@ -21,8 +21,23 @@ export const Post = {
       body: JSON.stringify(params)
     }).then(res => res.json());
   },
-  update(params) {
-
+  update(params, id) {
+    return fetch(`${BASE_URL}/posts/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res => res.json());
+  },
+  updateImageFile(params, id) {
+    return fetch(`${BASE_URL}/posts/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
   },
   destroy() {
 
@@ -56,6 +71,79 @@ export const User = {
   show(id) {
     return fetch(`${BASE_URL}/users/${id}`, {
       credentials: "include"
+    }).then(res => res.json());
+  },
+  create(params) {
+    return fetch(`${BASE_URL}/users`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          ...params
+        }
+      })
+    }).then(res => res.json());
+  },
+  uploadImage(params, id) {
+    return fetch(`${BASE_URL}/users/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
+  }
+}
+
+export const Follow = {
+  create(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/follows`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: null
+    }).then(res => res.json());
+  },
+  destroy(follow_id) {
+    return fetch(`${BASE_URL}/follows/${follow_id}`, {
+      method: "DELETE",
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  check(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/follows/check`, {
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  showFollowers(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/followers`, {
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  showFollowedUsers(user_id) {
+    return fetch(`${BASE_URL}/users/${user_id}/followed_users`, {
+      credentials: "include"
+    }).then(res => res.json());
+  }
+}
+
+export const Company = {
+  create(params) {
+    return fetch(`${BASE_URL}/companies`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        company: {
+          ...params
+        }
+      })
     }).then(res => res.json());
   }
 }

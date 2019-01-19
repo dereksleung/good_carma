@@ -3,16 +3,16 @@ class Api::V1::LeaderboardsController < ApplicationController
   def main
     all_leaderboard_results = {}
     new_posters_sql = <<-SQL
-      SELECT users.first_name, users.avatar, DATE_TRUNC('days', MIN(AGE(now(),posts.created_at))) AS first_post_date
-        FROM users
-        INNER JOIN posts ON posts.user_id = users.id
-        WHERE posts.created_at > now() - interval '1 week' AND NOT EXISTS(
-          SELECT users.first_name
-          FROM users
-          INNER JOIN posts ON posts.user_id = users.id
-          WHERE posts.created_at <= now() - interval '1 week'
-        )
-        GROUP BY users.id
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, DATE_TRUNC('days', MIN(AGE(now(),posts.created_at))) AS first_post_date
+      FROM users
+      INNER JOIN posts ON posts.user_id = users.id
+      WHERE (posts.created_at > now() - interval '1 week') AND NOT EXISTS(
+        SELECT 1
+        FROM posts p
+        WHERE p.user_id = users.id
+        AND posts.created_at <= now() - interval '1 week'
+      )
+      GROUP BY users.id
     SQL
 
     arr_new_posters = ActiveRecord::Base.connection.execute(new_posters_sql)
@@ -20,14 +20,14 @@ class Api::V1::LeaderboardsController < ApplicationController
     all_leaderboard_results[:new_posters] = arr_new_posters
 
     two_wk_users_sql = <<-SQL
-      SELECT users.first_name, users.avatar, DATE_TRUNC('days', MAX(AGE(now(),posts.created_at))) AS latest_post_date
+      SELECT users.first_name  || ' ' || users.last_name AS full_name, users.avatar, DATE_TRUNC('days', MAX(AGE(now(),posts.created_at))) AS latest_post_date
         FROM users
         INNER JOIN posts ON posts.user_id = users.id
         WHERE posts.created_at > now() - interval '2 weeks' AND NOT EXISTS(
-          SELECT users.first_name
-          FROM users
-          INNER JOIN posts ON posts.user_id = users.id
-          WHERE posts.created_at <= now() - interval '2 weeks'
+          SELECT 1
+          FROM posts p
+          WHERE p.user_id = users.id 
+          AND posts.created_at <= now() - interval '2 weeks'
         )
         GROUP BY users.id
         HAVING COUNT(posts.user_id) > 1

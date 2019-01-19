@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_20_221544) do
+ActiveRecord::Schema.define(version: 2019_01_15_224648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "badge_earnings", force: :cascade do |t|
     t.bigint "user_id"
@@ -43,6 +64,17 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "logo_url"
+    t.string "password_digest"
+    t.string "email"
+    t.string "username"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -58,6 +90,14 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_id", "followed_user_id"], name: "index_follows_on_follower_id_and_followed_user_id", unique: true
+  end
+
   create_table "inspires", force: :cascade do |t|
     t.integer "inspiring_entry_id"
     t.string "inspiring_entry_type"
@@ -67,6 +107,15 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.string "color"
     t.index ["inspiring_entry_type", "inspiring_entry_id"], name: "index_inspires_on_inspiring_entry_type_and_inspiring_entry_id"
     t.index ["user_id"], name: "index_inspires_on_user_id"
+  end
+
+  create_table "positions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_positions_on_company_id"
+    t.index ["user_id"], name: "index_positions_on_user_id"
   end
 
   create_table "post_relations", force: :cascade do |t|
@@ -110,13 +159,20 @@ ActiveRecord::Schema.define(version: 2018_12_20_221544) do
     t.string "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "confirmed", default: false
+    t.string "confirm_token"
+    t.text "avatar_img"
   end
 
   add_foreign_key "badge_earnings", "badges"
   add_foreign_key "badge_earnings", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "follows", "users", column: "followed_user_id"
+  add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "inspires", "users"
+  add_foreign_key "positions", "companies"
+  add_foreign_key "positions", "users"
   add_foreign_key "post_relations", "posts", column: "child_post_id"
   add_foreign_key "post_relations", "posts", column: "parent_post_id"
   add_foreign_key "posts", "users"

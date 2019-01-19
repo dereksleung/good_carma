@@ -1,0 +1,12 @@
+nav {
+  background: white;
+  /* opacity: 0.9; */
+}
+
+nav > .nav-link {
+  font-size: 0.8rem;
+}
+
+nav > a {
+  font-size: 0.8rem;
+}

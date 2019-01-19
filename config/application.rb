@@ -17,6 +17,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module GoodCarma
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -36,7 +37,7 @@ module GoodCarma
 
     config.middleware.insert_before(0, Rack::Cors) do 
       allow do
-        origins "localhost:3030", "localhost:3001"
+        origins "localhost:3030", "localhost:3001", /(http:)?\/\/(.*?)\.?lvh\.me/
         resource(
           "/api/*",
           headers: :any,
@@ -46,5 +47,6 @@ module GoodCarma
       end
     end
     
+    # config.middleware.use Apartment::Elevators::FirstSubdomain
   end
 end
