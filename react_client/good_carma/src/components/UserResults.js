@@ -1,54 +1,35 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom"; 
-import { Follow, User } from "../requests";
+import { Search } from "../requests";
 import { Container, Row, Col, Card, CardImg, CardTitle, CardBody } from "reactstrap";
 
-class UserList extends Component {
+class UserResults extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      startUser: {},
       users: []
     }
   }
 
   componentDidMount() {
-
-    const id = this.props.match.params.id;
-    this.props.loadUsers(id)
+    const query = this.props.query;
+    Search.users(query)
       .then(res=>{
         this.setState({
             users: res
-        });
-      });
-    
-    User.show(id)
-      .then(res=>{
-        this.setState((prevState, props) => {
-          return {
-            ...prevState,
-            startUser: res
-          }
         });
       });
 
   }
 
   render() {
-    const { startUser, users } = this.state;
-    const id = this.props.match.params.id;
+    const { users } = this.state;
 
     return(
-      <section className="UserList">
+      <section className="UserResults">
         <Container className="mt-5">
           <Row>
-            <Col className="col-sm-4 col-md-3">
-              <section className="p-3 mb-2 bg-white">
-                <h5>{startUser.full_name}</h5>
-                <p>{this.props.listType}</p>
-              </section>
-            </Col>
             {users.map(user=>{
               return(
                 <Col className="User col-sm-4 col-md-3">
@@ -92,4 +73,4 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+export default UserResults;

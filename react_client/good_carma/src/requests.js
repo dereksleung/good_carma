@@ -131,6 +131,14 @@ export const Follow = {
   }
 }
 
+export const Search = {
+  users(query) {
+    return fetch(`${BASE_URL}/users/search?query=${query}`, {
+      credentials: "include"
+    }).then(res=>res.json());
+  }
+}
+
 export const Company = {
   create(params) {
     return fetch(`${BASE_URL}/companies`, {

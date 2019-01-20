@@ -3,6 +3,7 @@ import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
 import { User, Follow } from "../requests";
 import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Link } from "react-router-dom";
 import PictureUploadForm from "./PictureUploadForm";
 
 class UserShowPage extends Component {
@@ -103,6 +104,7 @@ class UserShowPage extends Component {
     }
 
     const { user, currentUser } = this.state;
+    const id = this.props.match.params.id;
 
     return(
       <section className="UserShowPage">
@@ -159,10 +161,20 @@ class UserShowPage extends Component {
                   </ModalBody>              
                 </Modal>
               </section>
+              
               <section className="d-flex flex-grow-1 justify-content-end">
-                <section className="align-content-around"><small>Followers</small><br/>{user.child_post_count}
-                </section>
+                <Link to={`/users/${id}/followers`}>
+                  <section className="align-content-around"><small>Followers</small><br/>{user.child_post_count}
+                  </section>
+                </Link>
               </section>
+              <section className="d-flex flex-grow-1 justify-content-end">
+                <Link to={`/users/${id}/followed_users`}>
+                  <section className="align-content-around"><small>Followed Users</small><br/>{user.child_post_count}
+                  </section>
+                </Link>
+              </section>
+              
               <section className="d-flex flex-grow-1 justify-content-end">
                 <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
                 </section>

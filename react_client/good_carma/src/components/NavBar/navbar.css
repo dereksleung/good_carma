@@ -3,10 +3,17 @@ nav {
   /* opacity: 0.9; */
 }
 
-nav > .nav-link {
+nav .nav-link {
   font-size: 0.8rem;
 }
 
-nav > a {
+nav a {
   font-size: 0.8rem;
 }
+
+#nav-right {
+  position: relative;
+}
+
+
+

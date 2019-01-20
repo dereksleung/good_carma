@@ -24,11 +24,13 @@ Rails.application.routes.draw do
         get :current, on: :collection
         get("/confirmation/:all_else", to: "users#confirmation", as: :confirmation)
         get("/confirmation", to: "users#confirmation", as: :confirmation_2)
+        get("search", on: :collection)
         
         resources :follows, shallow: true, only: [:create, :destroy]
         get("/follows/check", to: "follows#check", as: :check_if_followed)
         get("/followers", to: "follows#show_followers", as: :show_followers)
         get("/followed_users", to: "follows#show_followed_users", as: :show_followed_users)
+
       end
 
 
