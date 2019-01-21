@@ -2,7 +2,7 @@ class PostSerializer < ActiveModel::Serializer
 
   include Rails.application.routes.url_helpers
 
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id 
+  attributes :slug, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id 
   
   attribute :image
   #, :gen_query

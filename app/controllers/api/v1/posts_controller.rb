@@ -14,12 +14,12 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def show
-    post = Post.find params[:id]
+    post = Post.friendly.find params[:id]
     render json: post
   end
 
   def destroy
-    post = Post.find params[:id]
+    post = Post.friendly.find params[:id]
     post.destroy
 
     render json: { status: :success }
@@ -29,7 +29,7 @@ class Api::V1::PostsController < Api::ApplicationController
     post = Post.new post_params
     parents_id_arr = (post_params[:parent_ids]).split(",")
     post.user = current_user
-
+    byebug
     if post.save
       assign_inspiractions(post)
       NewSilOrGoldUsersJob.perform_later(parents_id_arr)
@@ -41,9 +41,6 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def update
-
-
-    byebug
 
     if params[:image].present?
       @post.image.attach(params[:image])
@@ -61,20 +58,20 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def tree
-    post = Post.find params[:post_id]
+    post = Post.friendly.find params[:post_id]
     @gen_query = post.generations(1,1)
 
     render json: @gen_query
   end
 
   def ser_tree
-    post = Post.find params[:post_id]
+    post = Post.friendly.find params[:post_id]
     
     render json: @gen_query
   end
 
   def i_tree
-    # post = Post.find params[:post_id]
+    # post = Post.friendly.find params[:post_id]
     @gen_query = Post.i_generations(params[:post_id])
     render json: @gen_query
 
@@ -100,8 +97,8 @@ class Api::V1::PostsController < Api::ApplicationController
     if params.include?(:parent_ids)
       parents_id_arr = (params[:parent_ids]).split(",")
     
-      arr.each do |id|
-        parent_p = Post.find(id)
+      parents_id_arr.each do |id|
+        parent_p = Post.friendly.find(id)
         if parent_p.user.id != session[:user_id]
           post.parent_posts << parent_p
         end

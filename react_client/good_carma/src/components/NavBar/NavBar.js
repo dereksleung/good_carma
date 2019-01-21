@@ -27,7 +27,7 @@ const NavBar = (props) => {
       <div id="nav-right" className="d-flex flex-grow-1 justify-content-end">
         {currentUser ? (
         <>
-        <NavLink className="text-dark" exact to="users/current" tag={RRNavLink}>{currentUser.full_name}</NavLink>
+        <NavLink className="text-dark" exact to={`users/${currentUser.slug}`} tag={RRNavLink}>{currentUser.full_name}</NavLink>
         <a href="#" id="sign-out-btn" className="text-dark align-self-center mr-2" onClick={handleSignOutClick}>Sign Out</a>
         </> 
         ) : (

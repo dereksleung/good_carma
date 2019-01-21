@@ -59,7 +59,7 @@ class PostIndexPage extends Component {
     const { parentIDs } = this.state;
     if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) == false) {
       const allParentIDs = this.state.parentIDs;
-      allParentIDs.push(id)
+      allParentIDs.push(id);
       this.setState({
         parentIDs: allParentIDs
       })
@@ -122,9 +122,9 @@ class PostIndexPage extends Component {
         <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
         </Modal> 
         {posts.map(post=>(
-            <section key={post.id} data-id={post.id}>
-              <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-                <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+            <section key={post.slug} data-slug={post.slug}>
+              <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
+                <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!</Button>
 
               </SinglePost>
             </section>

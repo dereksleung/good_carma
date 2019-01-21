@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+
+
   belongs_to :user
   attr_reader :gen_query
 
@@ -19,17 +21,8 @@ class Post < ApplicationRecord
   # source: :child_post matches with the belongs_to :child_post identification in the PostRelation model
   has_many :child_posts, through: :child_relations, source: :child_post#, inverse_of :child_post
 
-  # has_and_belongs_to_many(:child_posts,
-  #   class_name: "Post",
-  #   join_table: :post_relations,
-  #   foreign_key: :parent_post_id,
-  #   association_foreign_key: :child_post_id)
-
-  # has_and_belongs_to_many(:parent_posts,
-  #   class_name: "Post",
-  #   join_table: :post_relations,
-  #   foreign_key: :child_post_id,
-  #   association_foreign_key: :parent_post_id)
+  extend FriendlyId
+  friendly_id :body, use: [:slugged, :history, :finders]
   
   # has_many :inspires, dependent: :destroy
 
