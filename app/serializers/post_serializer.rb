@@ -30,6 +30,7 @@ class PostSerializer < ActiveModel::Serializer
     object.comments.each do |c|
       comments << { body: c.body,
                     c_user: c.user.full_name,
+                    c_user_slug: c.user.slug,
                     created_at: c.created_at.to_formatted_s(:long),
                     updated_at: c.updated_at.to_formatted_s(:long)
                   }
@@ -42,7 +43,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def p_user_id
-    object.user.id
+    object.user.slug
   end
 
   def created_at

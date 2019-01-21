@@ -12,7 +12,7 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def show
-    user = User.find params[:id]
+    user = User.friendly.find params[:id]
     render json: user
     BadgeCheckJob.perform_now(user.email)
   end
@@ -43,12 +43,12 @@ class Api::V1::UsersController < Api::ApplicationController
     if Rails.env.development?
       redirect_to("localhost:3001/users/#{full_name}/confirmation")
     elsif Rails.env.production?
-      redirect_to("subdomain.good_carma.herokuapp.com/users/#{full_name}/confirmation")
+      redirect_to("#{subdomain}.good_carma.herokuapp.com/users/#{full_name}/confirmation")
     end
   end
 
   def update
-    user = User.find params[:id]
+    user = User.friendly.find params[:id]
     
     # Image uploads happen separately from other profile updates, hence the renders ending early.
     if params[:avatar_image].present?

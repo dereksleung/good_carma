@@ -2,7 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   # include ActionController
   include Rails.application.routes.url_helpers
 
-  attributes :id, :full_name, :first_name, :avatar, :avatar_image, :splash_image, :child_post_count, :followed_users_count, :followers_count,:level, :badges
+  attributes :slug, :full_name, :first_name, :avatar, :avatar_image, :splash_image, :child_post_count, :followed_users_count, :followers_count,:level, :badges
 
   attribute :avatar_image
 

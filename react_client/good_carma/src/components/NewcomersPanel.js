@@ -24,7 +24,7 @@ const NewcomersPanel = (props) => {
           <section id="new-blood-group">
             {props.new_posters ? props.new_posters.map(user=>{
               return(
-                <Link className="d-flex flex-column mb-2" to={`/users/${user.full_name}`}>
+                <Link className="d-flex flex-column mb-2" to={`/users/${user.slug}`}>
                   <section className="d-flex flex-row">
                     <img src={user.avatar} className="mr-2"></img>
                     <span className="flex-grow-1" style={{fontSize:"0.8em"}}>{user.full_name}</span>
@@ -37,7 +37,7 @@ const NewcomersPanel = (props) => {
             <p style={{fontSize: "0.9em"}}>Up and Comings</p>
             {props.arr_two_wk ? props.arr_two_wk.map(user=>{
               return(
-                <Link className="d-flex flex-column" to={`/users/${user.full_name}`}>
+                <Link className="d-flex flex-column" to={`/users/${user.slug}`}>
                   <section className="d-flex flex-row">
                     <img src={user.avatar} className="mr-2"></img>
                     <span className="flex-grow-1" style={{fontSize:"0.8em"}}>{user.full_name}</span>

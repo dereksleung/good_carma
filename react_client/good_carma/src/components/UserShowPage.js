@@ -75,7 +75,7 @@ class UserShowPage extends Component {
   }
 
   createFollow() {
-    Follow.create(this.state.user.id)
+    Follow.create(this.state.user.slug)
       .then(userInfo=>{
         this.setState((prevState, props)=>({
         ...prevState,
@@ -125,7 +125,7 @@ class UserShowPage extends Component {
                 Upload an Image
               </ModalHeader>
               <ModalBody>
-                <PictureUploadForm id={user.id} image_type="splash"></PictureUploadForm>
+                <PictureUploadForm id={user.slug} image_type="splash"></PictureUploadForm>
               </ModalBody>              
             </Modal>
 
@@ -157,20 +157,20 @@ class UserShowPage extends Component {
                     Upload an Image
                   </ModalHeader>
                   <ModalBody>
-                    <PictureUploadForm id={user.id} image_type="avatar"></PictureUploadForm>
+                    <PictureUploadForm id={user.slug} image_type="avatar"></PictureUploadForm>
                   </ModalBody>              
                 </Modal>
               </section>
               
               <section className="d-flex flex-grow-1 justify-content-end">
                 <Link to={`/users/${id}/followers`}>
-                  <section className="align-content-around"><small>Followers</small><br/>{user.child_post_count}
+                  <section className="align-content-around"><small>Followers</small><br/>{user.followers_count}
                   </section>
                 </Link>
               </section>
               <section className="d-flex flex-grow-1 justify-content-end">
                 <Link to={`/users/${id}/followed_users`}>
-                  <section className="align-content-around"><small>Followed Users</small><br/>{user.child_post_count}
+                  <section className="align-content-around"><small>Followed Users</small><br/>{user.followed_users_count}
                   </section>
                 </Link>
               </section>

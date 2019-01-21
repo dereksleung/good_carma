@@ -80,7 +80,7 @@ class SinglePost extends Component {
           : ""
           }
           <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -103,7 +103,7 @@ class SinglePost extends Component {
               </Button>
               {this.props.children}
             </div>
-            {currentUser.id === post.p_user_id ? 
+            {currentUser.slug === post.p_user_id ? 
               <>
                 <Button onClick={this.toggleCollapseEditPostForm}>Edit
                 </Button> 
@@ -130,7 +130,7 @@ class SinglePost extends Component {
           : ""
           }
           <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -153,7 +153,7 @@ class SinglePost extends Component {
               </Button>
               {this.props.children}
             </div>
-            {currentUser.id === post.p_user_id ? 
+            {currentUser.slug === post.p_user_id ? 
               <>
                 <Button onClick={this.toggleCollapseEditPostForm}>Edit
                 </Button> 
@@ -180,7 +180,7 @@ class SinglePost extends Component {
           }
           <section className="post-body mb-3">
 
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.p_user_full_name}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -206,7 +206,7 @@ class SinglePost extends Component {
               </Button>
               {this.props.children}
             </div>
-            {currentUser.id === post.p_user_id ? 
+            {currentUser.slug === post.p_user_id ? 
               <>
                 <Button onClick={this.toggleCollapseEditPostForm}>Edit
                 </Button> 

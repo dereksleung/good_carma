@@ -39,6 +39,7 @@ gem 'cancancan'
 gem 'apartment'
 gem 'devise'
 gem 'activeadmin'
+gem 'friendly_id'
 
 
 # Reduces boot times through caching; required in config/boot.rb

@@ -2,7 +2,7 @@ class Api::V1::FollowsController < Api::ApplicationController
 
   def check
     follower = current_user
-    followed_user = User.find(params[:user_id])
+    followed_user = User.friendly.find(params[:user_id])
 
     follow = Follow.find_by(follower_id: follower.id, followed_user_id: followed_user.id)
 

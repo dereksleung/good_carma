@@ -33,7 +33,7 @@ class UserResults extends Component {
             {users.map(user=>{
               return(
                 <Col className="User col-sm-4 col-md-3">
-                  <Link to={`/users/${user.id}`}>
+                  <Link to={`/users/${user.slug}`}>
                     <Card>
                       <CardImg top src={user.splash_image} 
                         style={{

@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  
+
   before_create :confirmation_token
 
   has_one_attached :avatar_image
@@ -72,6 +74,13 @@ class User < ApplicationRecord
 
   # has_many :inspires, dependent: :destroy
   # has_many :posts_inspiring_them, through: :inspires, source: :post
+  
+  extend FriendlyId
+  friendly_id :full_name_plus_integer, use: [:slugged, :history, :finders]
+
+  def full_name_plus_integer
+    "#{full_name}-#{rand(0..1000)}"
+  end
 
   private
 

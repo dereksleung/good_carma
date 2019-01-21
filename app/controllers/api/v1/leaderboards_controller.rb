@@ -3,7 +3,7 @@ class Api::V1::LeaderboardsController < ApplicationController
   def main
     all_leaderboard_results = {}
     new_posters_sql = <<-SQL
-      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, DATE_TRUNC('days', MIN(AGE(now(),posts.created_at))) AS first_post_date
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.slug, users.avatar, DATE_TRUNC('days', MIN(AGE(now(),posts.created_at))) AS first_post_date
       FROM users
       INNER JOIN posts ON posts.user_id = users.id
       WHERE (posts.created_at > now() - interval '1 week') AND NOT EXISTS(
@@ -20,7 +20,7 @@ class Api::V1::LeaderboardsController < ApplicationController
     all_leaderboard_results[:new_posters] = arr_new_posters
 
     two_wk_users_sql = <<-SQL
-      SELECT users.first_name  || ' ' || users.last_name AS full_name, users.avatar, DATE_TRUNC('days', MAX(AGE(now(),posts.created_at))) AS latest_post_date
+      SELECT users.first_name  || ' ' || users.last_name AS full_name, users.slug, users.avatar, DATE_TRUNC('days', MAX(AGE(now(),posts.created_at))) AS latest_post_date
         FROM users
         INNER JOIN posts ON posts.user_id = users.id
         WHERE posts.created_at > now() - interval '2 weeks' AND NOT EXISTS(
