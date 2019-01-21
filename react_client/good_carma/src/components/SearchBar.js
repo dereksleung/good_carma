@@ -10,16 +10,7 @@ class SearchBar extends Component {
       query: ""
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.fromFormData = this.fromFormData.bind(this);
-  }
- 
-  handleSubmit(event) {
-    const { currentTarget } = event;
-    const formData = new FormData(currentTarget);
-
-    Search.user(this.fromFormData(formData))
   }
 
   handleChange(event) {
@@ -29,16 +20,6 @@ class SearchBar extends Component {
     this.setState({
       [name]: value
     });
-  }
-
-  fromFormData(formData) {
-    const obj = {};
-
-    for (let [name, val] of formData.entries()) {
-      obj[name] = val;
-    }
-
-    return obj;
   }
 
   render() {
