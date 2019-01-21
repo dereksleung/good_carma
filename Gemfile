@@ -37,6 +37,9 @@ gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 gem 'cancancan'
 gem 'apartment'
+gem 'devise'
+gem 'activeadmin'
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

@@ -78,3 +78,4 @@ pchild1.child_posts << pgrandchild1
 #   end
 # end
 
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
