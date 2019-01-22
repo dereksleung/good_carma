@@ -57,12 +57,12 @@ const TreeBranch = (props) => {
     // currRelatvAngle senses which way the previous branch turned. We alternate it to the other side by changing the rotation angle.
     
     if (ind == 0) {
-      oneBranchStyle.left = "0vh";
+      oneBranchStyle.left = "0%";
     }
-    const spacingUnit = parseInt(oneBranchStyle.minWidth.match(/\d+/)[0]) / (qtyBranches + 1);
+    const spacingUnit = 100 / (qtyBranches + 1);
     const currPlace = parseInt(oneBranchStyle.left.match(/\d+/)[0]);
     
-    oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
+    oneBranchStyle.left = `${currPlace + spacingUnit}%`;
     
     if (currRelatvAngle > 0) {
       oneBranchStyle.transform = `rotate(${currRelatvAngle - 36}deg) ${currScale}`
@@ -137,7 +137,7 @@ const TreeBranch = (props) => {
     <section className="TreeBranch" style={trueCalcStyle}>
       <PopoverPost {...restProps}>
         
-        <img src={BranchHrzntl}>
+        <img src={BranchHrzntl} style={{width: "100%"}}>
         </img>
       </PopoverPost>
       {typeof inspires !== "undefined" ? 

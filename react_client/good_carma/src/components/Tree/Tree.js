@@ -28,6 +28,7 @@ class Tree extends Component {
       transform: `rotate(${["","-"][Math.round(Math.random())]}70deg) scale(1,1)`,
       transformOrigin: "center left",
       minWidth: "100vh",
+      maxWidth: "100vh",
       minHeight: "auto",
       overflow: "visible", 
       cummltvAngle: "" 
@@ -64,22 +65,23 @@ class Tree extends Component {
         });
         console.log("tree:", res);
       })
+      
+      this.setBranchSize();
 
-
-    this.setBranchSize();
+    
   }
 
   setBranchSize() {
-    const child_posts = this.state.tree.child_posts;
-    let trunkSize;
-    if (typeof child_posts != "undefined") {
-      trunkSize = `${0.7 * child_posts.length * 20}vh`;
-      this.oneBranchStyle.minWidth = `${trunkSize}`;
-    } else {
-      trunkSize = `${0.7 * 150}vh`;
-      this.oneBranchStyle.minWidth = `${trunkSize}`;
-    }
-    debugger;
+    // const child_posts = this.state.tree.child_posts;
+    // let trunkSize;
+    // if (typeof child_posts != "undefined") {
+    //   trunkSize = `${0.7 * child_posts.length * 20}vh`;
+    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
+    // } else {
+    //   trunkSize = `${0.7 * 150}vh`;
+    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
+    // }
+
 
     const currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
@@ -87,10 +89,12 @@ class Tree extends Component {
 
     // this.oneBranchStyle.minWidth = `${currMinWidth * 0.66}px`
   
-    const currScaleX = currScale.match(/\d+\.?\d*(?=,)/)[0];
-    const currScaleY = currScale.match(/\d+\.?\d*/g)[1]; 
+    const currScaleX = parseFloat(currScale.match(/\d+\.?\d*(?=,)/)[0]);
+    const currScaleY = parseFloat(currScale.match(/\d+\.?\d*/g)[1]); 
 
-    this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`
+    this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`;
+
+    debugger;
   }
 
   setBranchPositions(ind) {
@@ -116,11 +120,13 @@ class Tree extends Component {
       this.oneBranchStyle.cummltvAngle = -160;
     }
     
-    const spacingUnit = parseInt(this.oneBranchStyle.minWidth.match(/\d+/)[0]) / (this.qtyBranches + 1);
+    const spacingUnit = 100 / (this.qtyBranches + 1);
 
     const currPlace = parseInt(this.oneBranchStyle.left.match(/\d+/)[0]);
 
-    this.oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
+    this.oneBranchStyle.left = `${currPlace + spacingUnit}%`;
+
+    // debugger;
     
     if (currAngle > 0) {
       this.oneBranchStyle.transform = `rotate(${currAngle - 140}deg) ${currScale}`;
@@ -189,16 +195,20 @@ class Tree extends Component {
     let trunkSize;
 
     if (typeof child_posts != "undefined") {
-      bushSize = `${child_posts.length * 20}vh`;
-      divSize = `${1.5 * child_posts.length * 20}vh`;
-      trunkSize = `${0.7 * child_posts.length * 20}vh`;
+      bushSize = `${1.2 * child_posts.length * 25}vh`;
+      divSize = `${1.5 * child_posts.length * 25}vh`;
+      trunkSize = `${0.7 * child_posts.length * 25}vh`;
+      this.oneBranchStyle.minWidth = trunkSize;
+      this.oneBranchStyle.maxWidth = trunkSize;
     } else {
       bushSize = "150vh";
       divSize = `${1.5 * 150}vh`;
       trunkSize = `${0.7 * 150}vh`;
+      this.oneBranchStyle.minWidth = trunkSize;
+      this.oneBranchStyle.maxWidth = trunkSize;
     }
    
-    // debugger;
+    debugger;
 
     if (this.state.loading) {
       return(
@@ -223,8 +233,9 @@ class Tree extends Component {
         <section className="TreeBush" style={{
           display: "inline-block",
           position: "absolute",
-          top: "0%", 
-          minHeight: "150vh",
+          bottom: "0%", 
+          right: "50%",
+
           height: `${bushSize}`,
           minWidth: "100vw",
           backgroundImage: `url(${TreeBush})`,
@@ -242,6 +253,7 @@ class Tree extends Component {
             transform: `rotate(${"-90"}deg)`,
             transformOrigin: "center left",
             minWidth: `${trunkSize}`,
+            maxWidth: `${trunkSize}`,
             overflow: "visible"  
           }}>
             <PopoverPost {...restProps}>
