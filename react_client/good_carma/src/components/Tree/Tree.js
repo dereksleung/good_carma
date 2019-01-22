@@ -10,6 +10,7 @@ import Leaf from "./leaf-147490.svg";
 import InspirePopover from "./InspirePopover";
 import Apple from "./apple-2029586.svg";
 import TreeBush from "./TreeBush.svg";
+import Background from "./BackgroundAligned.svg";
 
 class Tree extends Component {
   constructor(props) {
@@ -63,10 +64,22 @@ class Tree extends Component {
         });
         console.log("tree:", res);
       })
+
+
     this.setBranchSize();
   }
 
   setBranchSize() {
+    const child_posts = this.state.tree.child_posts;
+    let trunkSize;
+    if (typeof child_posts != "undefined") {
+      trunkSize = `${0.7 * child_posts.length * 20}vh`;
+      this.oneBranchStyle.minWidth = `${trunkSize}`;
+    } else {
+      trunkSize = `${0.7 * 150}vh`;
+      this.oneBranchStyle.minWidth = `${trunkSize}`;
+    }
+    debugger;
 
     const currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
@@ -173,15 +186,19 @@ class Tree extends Component {
     const { child_posts, inspires, ...restProps } = tree;
     let divSize;
     let bushSize;
+    let trunkSize;
 
     if (typeof child_posts != "undefined") {
       bushSize = `${child_posts.length * 20}vh`;
-      divSize = `${1.5 * child_posts.length * 20}vh`
+      divSize = `${1.5 * child_posts.length * 20}vh`;
+      trunkSize = `${0.7 * child_posts.length * 20}vh`;
     } else {
       bushSize = "150vh";
       divSize = `${1.5 * 150}vh`;
+      trunkSize = `${0.7 * 150}vh`;
     }
    
+    // debugger;
 
     if (this.state.loading) {
       return(
@@ -195,8 +212,12 @@ class Tree extends Component {
         position: "relative", 
         minHeight: "150vh",
         height: `${divSize}`,
-        minWidth: "100vw",
+        minWidth: "200vw",
         backgroundColor: "#29e0ff",
+        backgroundImage: `url(${Background})`,
+        backgroundSize: "100%",
+        backgroundPosition: "bottom",
+        backgroundRepeat: "no-repeat",
         mixBlendMode: "normal"
       }}>
         <section className="TreeBush" style={{
@@ -209,7 +230,7 @@ class Tree extends Component {
           backgroundImage: `url(${TreeBush})`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "top center",
+          backgroundPosition: "bottom center",
           mixBlendMode: "normal"
         }}>
         
@@ -220,11 +241,11 @@ class Tree extends Component {
             bottom: `${"0%"}`,
             transform: `rotate(${"-90"}deg)`,
             transformOrigin: "center left",
-            minWidth: "100vh",
+            minWidth: `${trunkSize}`,
             overflow: "visible"  
           }}>
             <PopoverPost {...restProps}>
-              <img src={BranchHrzntl} >
+              <img src={BranchHrzntl} style={{maxWidth: "100%"}}>
               
               </img>
             </PopoverPost>

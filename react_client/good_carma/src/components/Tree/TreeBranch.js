@@ -12,7 +12,7 @@ const TreeBranch = (props) => {
   const { post: { child_posts, ...restProps }, calcStyle } = props;
   const { inspires } = restProps;
   const {cummltvAngle, ...trueCalcStyle} = calcStyle;
-  debugger;
+
   let qtyBranches;
   if (typeof child_posts !== "undefined") {
     qtyBranches = child_posts.length;
