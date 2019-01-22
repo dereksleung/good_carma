@@ -208,22 +208,22 @@ class UserShowPage extends Component {
             <section className="flex-grow-2">
               {user.posts.map(post=>(
                 
-                  <section key={post.id} data-id={post.id}>
-                    <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-                      <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+                  <section key={post.slug} data-id={post.slug}>
+                    <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
+                      <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!</Button>
 
                     </SinglePost>
                   </section>
                 
               ))
               }
-              <h3>{user.first_name}'s Inspiractions</h3>
+              {/* <h3>{user.first_name}'s Inspiractions</h3>
               {user.child_posts.map(post=>{
                 return(
-                  <UserSinglePost post={post}>
-                  </UserSinglePost>
+                  <SinglePost post={post}>
+                  </SinglePost>
                 )
-              })}
+              })} */}
             </section>
           </section>
         </Container>

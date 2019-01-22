@@ -55,7 +55,7 @@ class UserSinglePost extends Component {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
         <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.ia_user_fullname}`}>{post.ia_user_fullname}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -77,7 +77,7 @@ class UserSinglePost extends Component {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
         <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.ia_user_fullname}`}>{post.ia_user_fullname}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
             </Link>
             <span>
               {`${post.created_at}  `}
@@ -98,7 +98,7 @@ class UserSinglePost extends Component {
     return(
       <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.ia_user_fullname}`}>{post.ia_user_fullname}
+            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
             </Link>
             <span>
               {`${post.created_at}  `}

@@ -7,7 +7,7 @@ class Api::V1::InspiresController < Api::ApplicationController
 
     if params[:inspiring_entry_type] == "Post"
       insp_entry_id = params[:post_id]
-      inspire.inspiring_entry = Post.find insp_entry_id
+      inspire.inspiring_entry = Post.friendly.find insp_entry_id
     elsif params[:inspiring_entry_type] == "Comment"
       insp_entry_id = params[:comment_id]
       inspire.inspiring_entry = Comment.find insp_entry_id
@@ -41,7 +41,7 @@ class Api::V1::InspiresController < Api::ApplicationController
   private
   
   def find_post
-    post = Post.find params[:post_id]
+    post = Post.friendly.find params[:post_id]
   end
 
   def inspire_params
