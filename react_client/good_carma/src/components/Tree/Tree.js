@@ -9,6 +9,7 @@ import PopoverPost from "./PopoverPost";
 import Leaf from "./leaf-147490.svg";
 import InspirePopover from "./InspirePopover";
 import Apple from "./apple-2029586.svg";
+import TreeBush from "./TreeBush.svg";
 
 class Tree extends Component {
   constructor(props) {
@@ -170,6 +171,17 @@ class Tree extends Component {
   render() {
     const { tree } = this.state;
     const { child_posts, inspires, ...restProps } = tree;
+    let divSize;
+    let bushSize;
+
+    if (typeof child_posts != "undefined") {
+      bushSize = `${child_posts.length * 20}vh`;
+      divSize = `${1.5 * child_posts.length * 20}vh`
+    } else {
+      bushSize = "150vh";
+      divSize = `${1.5 * 150}vh`;
+    }
+   
 
     if (this.state.loading) {
       return(
@@ -182,53 +194,68 @@ class Tree extends Component {
         display: "inline-block",
         position: "relative", 
         minHeight: "150vh",
+        height: `${divSize}`,
         minWidth: "100vw",
-        backgroundColor: "white",
+        backgroundColor: "#29e0ff",
         mixBlendMode: "normal"
       }}>
-        
-        <section className="Trunk" style={{
+        <section className="TreeBush" style={{
           display: "inline-block",
           position: "absolute",
-          left: `${"50%"}`,
-          bottom: `${"0%"}`,
-          transform: `rotate(${"-90"}deg)`,
-          transformOrigin: "center left",
-          minWidth: "100vh",
-          overflow: "visible"  
+          top: "0%", 
+          minHeight: "150vh",
+          height: `${bushSize}`,
+          minWidth: "100vw",
+          backgroundImage: `url(${TreeBush})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "top center",
+          mixBlendMode: "normal"
         }}>
-          <PopoverPost {...restProps}>
-            <img src={BranchHrzntl} >
-            
-            </img>
-          </PopoverPost>
+        
+          <section className="Trunk" style={{
+            display: "inline-block",
+            position: "absolute",
+            left: `${"50%"}`,
+            bottom: `${"0%"}`,
+            transform: `rotate(${"-90"}deg)`,
+            transformOrigin: "center left",
+            minWidth: "100vh",
+            overflow: "visible"  
+          }}>
+            <PopoverPost {...restProps}>
+              <img src={BranchHrzntl} >
+              
+              </img>
+            </PopoverPost>
 
-          {inspires.length > 0 ? 
-            inspires.map((insp,ind)=>{
-              return(
-                <InspirePopover calcStyle={this.setLeafPosition(ind)} {...insp}>
-                  <img src={Leaf}>
-                  </img>
-                </InspirePopover>
-              )
-            }) : ""
-          }
-
-          {child_posts.length > 0 ? 
-            child_posts.map((post,ind)=>{ 
-              return(
-                <>
-                  <TreeBranch post={post}
-                  calcStyle={this.setBranchPositions(ind)} >
-                  </TreeBranch>
-                  <PopoverPost {...post}>
-                    <img src={Apple} style={this.setFruitPosition(ind)}>
+            {inspires.length > 0 ? 
+              inspires.map((insp,ind)=>{
+                return(
+                  <InspirePopover calcStyle={this.setLeafPosition(ind)} {...insp}>
+                    <img src={Leaf}>
                     </img>
-                  </PopoverPost>
-                </>
-              )
-            }) : ""
-          }
+                  </InspirePopover>
+                )
+              }) : ""
+            }
+
+            {child_posts.length > 0 ? 
+              child_posts.map((post,ind)=>{ 
+                return(
+                  <>
+                    <TreeBranch post={post}
+                    calcStyle={this.setBranchPositions(ind)} >
+                    </TreeBranch>
+                    <PopoverPost {...post}>
+                      <img src={Apple} style={this.setFruitPosition(ind)}>
+                      </img>
+                    </PopoverPost>
+                  </>
+                )
+              }) : ""
+            }
+          </section>
         </section>
       </section>
     )
