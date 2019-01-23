@@ -1,5 +1,81 @@
 class Api::V1::LeaderboardsController < ApplicationController
 
+  def overachievers_this_week
+    oa_sql = <<-SQL
+      SELECT users.first_name || ' ' || users.last_name, users.avatar, users.id, COUNT(badge_earnings.id) AS Badges
+      FROM users
+      INNER JOIN badge_earnings ON users.id = badge_earnings.user_id
+      INNER JOIN badges ON badge_earnings.badge_id = badges.id 
+      WHERE badge_earnings.created_at > now() - interval '1 week'
+      GROUP BY users.id
+      ORDER BY COUNT(badge_earnings.id) DESC
+      LIMIT 5
+    SQL
+
+    records_array = ActiveRecord::Base.connection.exec_query(oa_sql)
+    oa_badge = Badge.find_by_name("Overachievers")
+
+    render json: {records_array: records_array, image: get_badge_image_url(oa_badge)}
+  end
+
+  def muses_this_week
+    m_sql = <<-SQL
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.id AS user_id, COUNT(inspires.id) AS Inspires
+      FROM users
+      INNER JOIN inspires ON users.id = inspires.user_id
+      INNER JOIN posts ON (posts.id = inspires.inspiring_entry_id AND inspiring_entry_type = 'Post')
+      WHERE inspires.created_at > now() - interval '1 week'
+      GROUP BY users.id
+      ORDER BY COUNT(inspires.id) DESC
+      LIMIT 5
+    SQL
+
+    records_array = ActiveRecord::Base.connection.exec_query(m_sql)
+    m_badge = Badge.find_by_name("Muse - Most Inspires this Week")
+    
+    render json: {records_array: records_array, image: get_badge_image_url(m_badge)}
+  end
+
+  def foi_this_week
+    foi_sql = <<-SQL
+      SELECT users.id, users.first_name, users.avatar, COUNT(inspiring_entry_id) AS Inspires
+      FROM users
+      INNER JOIN posts ON users.id = posts.user_id
+      INNER JOIN inspires ON inspires.inspiring_entry_type = 'Post' AND posts.id = inspires.inspiring_entry_id
+      WHERE users.id = #{current_user.id}
+      GROUP BY users.id
+      HAVING COUNT(inspiring_entry_id) > 14
+    SQL
+
+    records_array = ActiveRecord::Base.connection.exec_query(foi_sql)
+    foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
+    
+    render json: {records_array: records_array, image: get_badge_image_url(foi_badge)}
+  end
+
+  def wild_growths_this_week
+    wg_sql = <<-SQL
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.id AS user_id, COUNT(posts.id) AS Posts
+      FROM users
+      INNER JOIN posts ON users.id = posts.user_id
+      WHERE posts.created_at > now() - interval '1 week'
+      GROUP BY users.id
+      HAVING COUNT(posts.id) > 3 * (
+        SELECT COUNT(posts.id)
+        FROM posts
+        INNER JOIN users ON posts.user_id = users.id
+        WHERE posts.created_at BETWEEN (now() - interval '2 weeks') AND (now() - interval '1 week')
+      )
+      ORDER BY COUNT(posts.id) DESC
+      LIMIT 5
+    SQL
+
+    records_array = ActiveRecord::Base.connection.exec_query(wg_sql)
+    wg_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
+    
+    render json: {records_array: records_array, image: get_badge_image_url(wg_badge)}
+  end
+
   def main
     all_leaderboard_results = {}
     new_posters_sql = <<-SQL
@@ -110,10 +186,21 @@ class Api::V1::LeaderboardsController < ApplicationController
       ORDER BY COUNT(parent_post_id) DESC
     SQL
 
-    arr_miatw = ActiveRecord::Base.connection.execute(miatw_sql)
+    records_array = ActiveRecord::Base.connection.exec_query(miatw_sql)
+    tb_badge = Badge.find_by_name("Trailblazers - Most Inspiractions this Week")
+    
+    render json: {records_array: records_array, image: get_badge_image_url(tb_badge)}
 
-    render json: arr_miatw
+  end
 
+  private
+
+  def get_badge_image_url(badge)
+    if Rails.env.development?
+      return "http://localhost:3000#{rails_blob_url(badge.image, only_path: true)}" if badge.image.attached?
+    else 
+      rails_blob_url(badge.image, only_path: true) if badge.image.attached?
+    end
   end
 
 end

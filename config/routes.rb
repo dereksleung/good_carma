@@ -9,11 +9,6 @@ Rails.application.routes.draw do
 
       match "/delayed_job" => DelayedJobWeb, :anchor => false, :via => [:get, :post]
 
-      get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
-      get("/leaderboards/silver", to: "leaderboards#silver", as: :silver_leaderboard)
-      get("/leaderboards/gold", to: "leaderboards#gold", as: :gold_leaderboard)
-      get("/leaderboards/two_wk_users", to: "leaderboards#two_wk_users", as: :two_wk_users_leaderboard)
-      get("/leaderboards/most_i_actions_this_week", to: "leaderboards#most_i_actions_this_week", as: :miatw_leaderboard)
       resources :posts do
         get("/tree", to: "posts#tree", as: :tree)
         get("/i_tree", to: "posts#i_tree", as: :i_tree)
@@ -36,10 +31,19 @@ Rails.application.routes.draw do
 
       end
 
-
       resources :companies, only: [:create]
 
       resource :sessions, only: [:create, :destroy]
+
+      get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
+      get("/leaderboards/silver", to: "leaderboards#silver", as: :silver_leaderboard)
+      get("/leaderboards/gold", to: "leaderboards#gold", as: :gold_leaderboard)
+      get("/leaderboards/two_wk_users", to: "leaderboards#two_wk_users", as: :two_wk_users_leaderboard)
+      get("/leaderboards/trailblazers_this_week", to: "leaderboards#most_i_actions_this_week", as: :miatw_leaderboard)
+      get("/leaderboards/overachievers_this_week", to: "leaderboards#overachievers_this_week", as: :oa_tw_leaderboard)
+      get("/leaderboards/muses_this_week", to: "leaderboards#muses_this_week", as: :m_tw_leaderboard)
+      get("/leaderboards/foi_this_week", to: "leaderboards#foi_this_week", as: :foi_tw_leaderboard)
+      get("/leaderboards/wild_growths_this_week", to: "leaderboards#wild_growths_this_week", as: :wg_tw_leaderboard)
     end
   end
 

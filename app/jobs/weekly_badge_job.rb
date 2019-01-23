@@ -136,8 +136,8 @@ class WeeklyBadgeJob < ApplicationJob
     ")
     
     
-      muses_arr_of_hash.each do |muse_user|
-      muse_badge = Badge.find_by_name("Muse - Most Inspires this Week")
+      wg_arr_of_hash.each do |wg_user|
+      wg_badge = Badge.find_by_name("Muse - Most Inspires this Week")
       badge_earning = BadgeEarning.new(
         Week: (Time.zone.today - 1.week)..Time.zone.today,
         Week_s: "#{(Time.zone.today - 1.week).to_formatted_s(:rfc822)} - #{Time.zone.today.to_formatted_s(:rfc822)}"

@@ -95,7 +95,8 @@ class App extends Component {
               <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} />} />
               <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
               <Route path="/leaderboards" exact component={LeaderBoardMain} />
-              <Route path="/leaderboards/most_i_actions_this_week" exact component={OtherLeaderboard} />
+              <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} />} />
+              
               <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} />} />
               <Route path="/posts/:id" exact component={PostShowPage} />
 
