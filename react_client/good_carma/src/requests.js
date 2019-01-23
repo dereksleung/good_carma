@@ -55,8 +55,8 @@ export const LeaderBoard = {
       credentials: "include"
     }).then(res => res.json());
   },
-  mostIActionsInWeek() {
-    return fetch(`${BASE_URL}/leaderboards/most_i_actions_this_week`, {
+  loadWeeklyOther(badge_name) {
+    return fetch(`${BASE_URL}/leaderboards/${badge_name}_this_week`, {
       credentials: "include"
     }).then(res => res.json());
   }

@@ -2,17 +2,18 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def overachievers_this_week
     oa_sql = <<-SQL
-      SELECT users.first_name || ' ' || users.last_name, users.avatar, users.id, COUNT(badge_earnings.id) AS Badges
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.slug, COUNT(badge_earnings.id) AS Badges
       FROM users
       INNER JOIN badge_earnings ON users.id = badge_earnings.user_id
       INNER JOIN badges ON badge_earnings.badge_id = badges.id 
       WHERE badge_earnings.created_at > now() - interval '1 week'
-      GROUP BY users.id
+      GROUP BY users.slug, full_name, users.avatar
       ORDER BY COUNT(badge_earnings.id) DESC
       LIMIT 5
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(oa_sql)
+    attach_user_avatar(records_array)
     oa_badge = Badge.find_by_name("Overachievers")
 
     render json: {records_array: records_array, image: get_badge_image_url(oa_badge)}
@@ -20,17 +21,18 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def muses_this_week
     m_sql = <<-SQL
-      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.id AS user_id, COUNT(inspires.id) AS Inspires
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.slug, COUNT(inspires.id) AS Inspires
       FROM users
       INNER JOIN inspires ON users.id = inspires.user_id
       INNER JOIN posts ON (posts.id = inspires.inspiring_entry_id AND inspiring_entry_type = 'Post')
       WHERE inspires.created_at > now() - interval '1 week'
-      GROUP BY users.id
+      GROUP BY users.slug, full_name, users.avatar
       ORDER BY COUNT(inspires.id) DESC
       LIMIT 5
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(m_sql)
+    attach_user_avatar(records_array)
     m_badge = Badge.find_by_name("Muse - Most Inspires this Week")
     
     render json: {records_array: records_array, image: get_badge_image_url(m_badge)}
@@ -38,24 +40,25 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def foi_this_week
     foi_sql = <<-SQL
-      SELECT users.id, users.first_name, users.avatar, COUNT(inspiring_entry_id) AS Inspires
+      SELECT users.slug, users.first_name || ' ' || users.last_name AS full_name, users.avatar, COUNT(inspiring_entry_id) AS Inspires
       FROM users
       INNER JOIN posts ON users.id = posts.user_id
       INNER JOIN inspires ON inspires.inspiring_entry_type = 'Post' AND posts.id = inspires.inspiring_entry_id
-      WHERE users.id = #{current_user.id}
-      GROUP BY users.id
+      WHERE inspires.created_at > now() - interval '12 weeks'
+      GROUP BY users.slug, full_name, users.avatar
       HAVING COUNT(inspiring_entry_id) > 14
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(foi_sql)
+    attach_user_avatar(records_array)
     foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
     
-    render json: {records_array: records_array, image: get_badge_image_url(foi_badge)}
+    render json: records_array
   end
 
   def wild_growths_this_week
     wg_sql = <<-SQL
-      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.id AS user_id, COUNT(posts.id) AS Posts
+      SELECT users.first_name || ' ' || users.last_name AS full_name, users.avatar, users.slug, COUNT(posts.id) AS Posts
       FROM users
       INNER JOIN posts ON users.id = posts.user_id
       WHERE posts.created_at > now() - interval '1 week'
@@ -71,6 +74,7 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(wg_sql)
+    attach_user_avatar(records_array)
     wg_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
     
     render json: {records_array: records_array, image: get_badge_image_url(wg_badge)}
@@ -177,16 +181,17 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def most_i_actions_this_week
     miatw_sql = <<-SQL
-    SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
+    SELECT users.slug, users.first_name || ' ' || users.last_name AS full_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
       FROM users
       INNER JOIN posts ON users.id = posts.user_id
       INNER JOIN post_relations ON posts.id = post_relations.parent_post_id
       WHERE post_relations.created_at > now() - interval '1 week'
-      GROUP BY users.id
+      GROUP BY users.slug, full_name, users.avatar
       ORDER BY COUNT(parent_post_id) DESC
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(miatw_sql)
+    attach_user_avatar(records_array)
     tb_badge = Badge.find_by_name("Trailblazers - Most Inspiractions this Week")
     
     render json: {records_array: records_array, image: get_badge_image_url(tb_badge)}
@@ -203,4 +208,17 @@ class Api::V1::LeaderboardsController < ApplicationController
     end
   end
 
+  def attach_user_avatar(records_array)
+    records_array.each {|user|
+      user_record = User.find_by_slug(user["slug"]) 
+      byebug
+      if Rails.env.development?
+        if user_record.avatar_image.attached?
+          user["avatar_image"] = "http://localhost:3000#{rails_blob_url(user_record.avatar_image, only_path: true)}" 
+        end
+      else 
+        user["avatar_image"] = rails_blob_url(user_record.avatar_image, only_path: true) if user_record.avatar_image.attached?
+      end
+    }
+  end
 end

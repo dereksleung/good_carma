@@ -3,9 +3,6 @@ import { LeaderBoard } from "../requests";
 import { Link } from "react-router-dom";
 import { ListGroup, ListGroupItem, Table, Container, Col, Row } from 'reactstrap';
 
-
-
-
 class LeaderBoardMain extends Component {
   constructor(props) {
     super(props);
@@ -98,18 +95,17 @@ class LeaderBoardMain extends Component {
           </section>      
           <nav className="flex-grow-1 mt-3">
             <h4>Categories</h4>
-            <Link to={{pathname: "/leaderboards/most_i_actions_this_week", state: { loadData: this.getMostIActionsInWeek } }}>
-            Trailblazers - Most Inspiractions this Week</Link><br/>
-            <Link to="/leaderboards/overachievers">Overachievers - Most Badges Earned this Week
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "trailblazers" } }} title="Most Inspiractions this Week">
+            Trailblazers</Link><br/>
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "overachievers"}}} title="Most Badges Earned this Week">Overachievers
             </Link><br/>
-            <Link to="/leaderboards/muses">Muses - Most Inspires this Week
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "muses"}}} title="Most Inspires this Week">Muses</Link><br/>
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "fois"}}} title="Fifteen Inspires from One Post">Fonts of Inspiration
             </Link><br/>
-            <Link to="/leaderboards/10_inspires_one_post">Fonts of Inspiration - Fifteen Inspires from One Post
+            {/* <Link to="">Thought Provokers - Longest Posts earning 10 Inspires 
             </Link><br/>
-            <Link to="">Thought Provokers - Longest Posts earning 10 Inspires 
-            </Link><br/>
-            <Link to="">Wild Growths - Users whose Posts this Week Tripled 
-            </Link>
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "overachievers"}}} title="Most Badges Earned this Week">Wild Growths - Users whose Posts this Week Tripled 
+            </Link> */}
           </nav>
       </Container>
     )
