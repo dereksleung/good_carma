@@ -77,7 +77,7 @@ class OtherLeaderboard extends Component {
     
 
     return(
-        <Container className="OtherLeaderboard mt-4 d-flex flex-row">
+        <Container className="OtherLeaderboard mt-4 d-flex flex-row justify-content-center">
           <section className="flex-grow-2 m-3">
             <h3>{human_badge_name}</h3>
             
@@ -85,7 +85,7 @@ class OtherLeaderboard extends Component {
               <thead>
                 <tr>
                   {titles_array.map(title=>(
-                    <th>{humanizeTitle(title)}</th>
+                    <th key={title}>{humanizeTitle(title)}</th>
                   ))}
                 </tr>
               </thead>

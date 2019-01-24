@@ -29,7 +29,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: {id: 0},
+      currentUser: "",
       loading: true
     }
 
@@ -81,9 +81,9 @@ class App extends Component {
             backgroundPosition:"center",
             position: "relative"
           }}>
-          <NavBar currentUser={currentUser} onSignOut={this.destroySession}>
+          <NavBar currentUser={currentUser} onSignOut={this.destroySession}/>
 
-          </NavBar>
+
           <section className="background-splash" >
             <Switch>
               <Route path="/" exact component={WelcomePage} />

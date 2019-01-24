@@ -112,13 +112,12 @@ class PostIndexPage extends Component {
     return(
     <Container className="PostIndexPage d-flex mt-5">
       <section className="column-1 flex-grow-3 mr-2">
-        <UserBasicStats {...currentUser}/>
-        
+        <UserBasicStats {...currentUser}/> 
       </section>
       
       <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
-          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-          </PostForm>
+        <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+        </PostForm>
         <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
         </Modal> 
         {posts.map(post=>(

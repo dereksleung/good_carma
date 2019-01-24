@@ -36,14 +36,20 @@ class Api::V1::UsersController < Api::ApplicationController
     confirm_token = params[:user_id]
     user = User.find_by(confirm_token: confirm_token)
     user.confirmed = true
+    user.save
+    byebug
     slug = user.slug
-    
-    subdomain = Apartment::Tenant.current
+
+    if Apartment::Tenant.current == "public"
+      subdomain = ""
+    else
+      subdomain = "#{Apartment::Tenant.current}."
+    end
 
     if Rails.env.development?
-      redirect_to("localhost:3001/users/#{slug}")
+      redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
     elsif Rails.env.production?
-      redirect_to("#{subdomain}.good_carma.herokuapp.com/users/#{slug}")
+      redirect_to("#{subdomain}good_carma.herokuapp.com/users/#{slug}")
     end
   end
 

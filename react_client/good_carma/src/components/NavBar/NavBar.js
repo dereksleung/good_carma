@@ -28,7 +28,7 @@ const NavBar = (props) => {
         {currentUser ? (
         <>
         <NavLink className="text-dark" exact to={`users/${currentUser.slug}`} tag={RRNavLink}>{currentUser.full_name}</NavLink>
-        <a href="#" id="sign-out-btn" className="text-dark align-self-center mr-2" onClick={handleSignOutClick}>Sign Out</a>
+        <a href="/#" id="sign-out-btn" className="text-dark align-self-center mr-2" onClick={handleSignOutClick}>Sign Out</a>
         </> 
         ) : (
         <NavLink className="text-dark" exact to="/session/new" tag={RRNavLink}>
