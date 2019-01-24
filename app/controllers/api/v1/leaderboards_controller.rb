@@ -13,10 +13,16 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(oa_sql)
+    titles_array = []
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
     attach_user_avatar(records_array)
     oa_badge = Badge.find_by_name("Overachievers")
 
-    render json: {records_array: records_array, image: get_badge_image_url(oa_badge)}
+    render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(oa_badge)}
   end
 
   def muses_this_week
@@ -32,10 +38,20 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(m_sql)
+    
+    titles_array = []
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
     attach_user_avatar(records_array)
+    records_array.each {|user| 
+      user
+    }
     m_badge = Badge.find_by_name("Muse - Most Inspires this Week")
     
-    render json: {records_array: records_array, image: get_badge_image_url(m_badge)}
+    render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(m_badge)}
   end
 
   def foi_this_week
@@ -50,10 +66,16 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(foi_sql)
+    titles_array = []
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
     attach_user_avatar(records_array)
     foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
     
-    render json: records_array
+    render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(foi_badge)}
   end
 
   def wild_growths_this_week
@@ -74,10 +96,16 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(wg_sql)
+    titles_array = []
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
     attach_user_avatar(records_array)
     wg_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
     
-    render json: {records_array: records_array, image: get_badge_image_url(wg_badge)}
+    render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(wg_badge)}
   end
 
   def main
@@ -191,10 +219,16 @@ class Api::V1::LeaderboardsController < ApplicationController
     SQL
 
     records_array = ActiveRecord::Base.connection.exec_query(miatw_sql)
+    titles_array = []
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
     attach_user_avatar(records_array)
     tb_badge = Badge.find_by_name("Trailblazers - Most Inspiractions this Week")
     
-    render json: {records_array: records_array, image: get_badge_image_url(tb_badge)}
+    render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(tb_badge)}
 
   end
 
@@ -202,16 +236,24 @@ class Api::V1::LeaderboardsController < ApplicationController
 
   def get_badge_image_url(badge)
     if Rails.env.development?
-      return "http://localhost:3000#{rails_blob_url(badge.image, only_path: true)}" if badge.image.attached?
+      if badge.image.attached?
+        return "http://localhost:3000#{rails_blob_url(badge.image, only_path: true)}" 
+      else
+        ""
+      end
     else 
-      rails_blob_url(badge.image, only_path: true) if badge.image.attached?
+      if badge.image.attached?
+        rails_blob_url(badge.image, only_path: true) 
+      else 
+        ""
+      end
     end
   end
 
   def attach_user_avatar(records_array)
     records_array.each {|user|
       user_record = User.find_by_slug(user["slug"]) 
-      byebug
+      
       if Rails.env.development?
         if user_record.avatar_image.attached?
           user["avatar_image"] = "http://localhost:3000#{rails_blob_url(user_record.avatar_image, only_path: true)}" 
@@ -220,5 +262,14 @@ class Api::V1::LeaderboardsController < ApplicationController
         user["avatar_image"] = rails_blob_url(user_record.avatar_image, only_path: true) if user_record.avatar_image.attached?
       end
     }
+  end
+
+  def set_titles_array(titles_array, records_array)
+    
+    if records_array.present?
+      titles_array = records_array[0].to_hash.keys
+      titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
+      # return titles_array
+    end
   end
 end

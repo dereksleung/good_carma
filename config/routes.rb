@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       get("/leaderboards/trailblazers_this_week", to: "leaderboards#most_i_actions_this_week", as: :miatw_leaderboard)
       get("/leaderboards/overachievers_this_week", to: "leaderboards#overachievers_this_week", as: :oa_tw_leaderboard)
       get("/leaderboards/muses_this_week", to: "leaderboards#muses_this_week", as: :m_tw_leaderboard)
-      get("/leaderboards/foi_this_week", to: "leaderboards#foi_this_week", as: :foi_tw_leaderboard)
+      get("/leaderboards/fonts_of_inspiration_this_week", to: "leaderboards#foi_this_week", as: :foi_tw_leaderboard)
       get("/leaderboards/wild_growths_this_week", to: "leaderboards#wild_growths_this_week", as: :wg_tw_leaderboard)
     end
   end
