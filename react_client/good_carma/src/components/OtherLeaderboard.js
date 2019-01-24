@@ -42,10 +42,15 @@ class OtherLeaderboard extends Component {
   render() {
     const { titles_array, records_array, badge_image_url } = this.state;
 
-    // Deep copying the badge_name because the .replace function doesn't seem to work otherwise.
-    const badge_name = (' ' + this.props.location.state.badge_name).slice(1);
-    badge_name.replace(badge_name.charAt(0), badge_name.charAt(0).toUpperCase());
-    
+
+    const badge_name = (this.props.location.state.badge_name);
+    const human_badge_name = badge_name.split("_").map(word=>`${word.charAt(0).toUpperCase()}${word.slice(1)}`).join(" ");
+
+    const humanizeTitle = (title) => {
+      const hTitle = title.split("_").map(word=>`${word.charAt(0).toUpperCase()}${word.slice(1)}`).join(" ");
+      return hTitle;
+    }
+
     let rows = [];
 
     for (let user of records_array) {
@@ -74,13 +79,13 @@ class OtherLeaderboard extends Component {
     return(
         <Container className="OtherLeaderboard mt-4 d-flex flex-row">
           <section className="flex-grow-2 m-3">
-            <h3>{badge_name}}</h3>
+            <h3>{human_badge_name}</h3>
             
             <Table className={this.props.location.state.badge_name}>
               <thead>
                 <tr>
                   {titles_array.map(title=>(
-                    <th>{title}</th>
+                    <th>{humanizeTitle(title)}</th>
                   ))}
                 </tr>
               </thead>
