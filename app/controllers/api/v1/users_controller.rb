@@ -74,7 +74,7 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def search 
-    byebug
+   
     results = User.search(params[:query])
     render json: results
   end

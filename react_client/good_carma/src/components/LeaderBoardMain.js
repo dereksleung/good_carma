@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { LeaderBoard } from "../requests";
 import { Link } from "react-router-dom";
 import { ListGroup, ListGroupItem, Table, Container, Col, Row } from 'reactstrap';
+import UserAvatarSmall from "./UserAvatarSmall";
 
 class LeaderBoardMain extends Component {
   constructor(props) {
@@ -58,8 +59,8 @@ class LeaderBoardMain extends Component {
                   return(
                     <tr>
                       <th scope="row"></th>
-                      <td><Link to={`users/${user.slug}`}>{user.full_name}</Link></td>
-                      <td><img src={`${user.avatar}`}></img></td>
+                      <td><Link to={`/users/${user.slug}`}>{user.full_name}</Link></td>
+                      <td><UserAvatarSmall avatar_image={user.avatar_image} size="50"/></td>
                       <td>{`${user.first_post_date} ago`}</td>
                     </tr>  
                   )
@@ -84,8 +85,8 @@ class LeaderBoardMain extends Component {
                   return(
                     <tr>
                       <th scope="row"></th>
-                      <td><Link to={`users/${user.slug}`}>{user.full_name}</Link></td>
-                      <td><img src={`${user.avatar}`}></img></td>
+                      <td><Link to={`/users/${user.slug}`}>{user.full_name}</Link></td>
+                      <td><UserAvatarSmall avatar_image={user.avatar_image} size="50"/></td>
                       <td>{`${user.latest_post_date} ago`}</td>
                     </tr>  
                   )

@@ -99,26 +99,28 @@ class SinglePost extends Component {
               {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
               }
             </Link>  
-            <div>
-              <PostInspireButtonForm style={{display: "inline-block"}} postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              <Button style={{display: "inline"}}>
-                <Link to={{pathname:`/posts/${post.slug}/tree`, state: {postId: post.slug}}}>
-                  Tree
-                </Link>
-              </Button>
-              {this.props.children}
+            <div className="d-flex">
+              <div className="d-flex justify-content-between">
+                <PostInspireButtonForm style={{display: "inline-block"}} postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+                
+                <Link className="btn btn-secondary mr-2" to={{pathname:`/posts/${post.slug}/tree`, state: {postId: post.slug}}}>Tree</Link>
+                
+                {this.props.children}
+              
+                {currentUser.slug === post.p_user_id ? 
+                  <>
+                    <Button onClick={this.toggleCollapseEditPostForm}>Edit
+                    </Button> 
+                    <Collapse isOpen={this.state.collapseEditPostForm}>
+                      <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
+                    </Collapse>
+                  </>
+                :
+                  ""
+                }
+              </div>
+              <div className="flex-grow-1"></div>
             </div>
-            {currentUser.slug === post.p_user_id ? 
-              <>
-                <Button onClick={this.toggleCollapseEditPostForm}>Edit
-                </Button> 
-                <Collapse isOpen={this.state.collapseEditPostForm}>
-                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
-                </Collapse>
-              </>
-            :
-              ""
-            }
           </section>
           {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
           }

@@ -31,7 +31,7 @@ class User < ApplicationRecord
   has_many :followed_users, through: :followed_user_follows, source: :followed_user
   
   def self.search(query) 
-    where("first_name LIKE ?", "#{query}%").or(User.where("last_name LIKE ?", "#{query}%")).or(User.where("first_name || ' ' || last_name LIKE ?", "%#{query}%"))
+    where("first_name ILIKE ?", "#{query}%").or(User.where("last_name ILIKE ?", "#{query}%")).or(User.where("first_name || ' ' || last_name ILIKE ?", "%#{query}%"))
   end
 
   def self.current

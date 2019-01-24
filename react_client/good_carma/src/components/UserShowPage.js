@@ -141,9 +141,9 @@ class UserShowPage extends Component {
               
               <section className=""
                 style={{
-                position: "absolute",
+                position: "relative",
                 display: "inline-block",
-                bottom: "-30%",
+                top: "-12vh",
                 height: "25vh",
                 width: "25vh",
                 backgroundColor: "#03A9F4",

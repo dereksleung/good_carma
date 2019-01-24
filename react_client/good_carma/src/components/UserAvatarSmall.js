@@ -2,7 +2,7 @@ import React from "react";
 
 const UserAvatarSmall = (props) => {
   return(
-    <div style={{
+    <div className="UserAvatarSmall mr-2" style={{
       backgroundImage: `url(${props.avatar_image})`,
       backgroundColor: "#03A9F4",
       display: "inline-block",

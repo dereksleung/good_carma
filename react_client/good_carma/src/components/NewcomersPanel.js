@@ -1,6 +1,7 @@
 import React from "react";
 import { LeaderBoard } from "../requests";
 import { Link } from "react-router-dom";
+import UserAvatarSmall from "./UserAvatarSmall";
 
 const NewcomersPanel = (props) => {
 
@@ -26,7 +27,7 @@ const NewcomersPanel = (props) => {
               return(
                 <Link className="d-flex flex-column mb-2" to={`/users/${user.slug}`}>
                   <section className="d-flex flex-row">
-                    <img src={user.avatar} className="mr-2"></img>
+                    <UserAvatarSmall avatar_image={user.avatar_image} size="50"/>
                     <span className="flex-grow-1" style={{fontSize:"0.8em"}}>{user.full_name}</span>
                   </section>
                 </Link>
@@ -39,7 +40,7 @@ const NewcomersPanel = (props) => {
               return(
                 <Link className="d-flex flex-column" to={`/users/${user.slug}`}>
                   <section className="d-flex flex-row">
-                    <img src={user.avatar} className="mr-2"></img>
+                    <UserAvatarSmall avatar_image={user.avatar_image} size="50"/>
                     <span className="flex-grow-1" style={{fontSize:"0.8em"}}>{user.full_name}</span>
                   </section>
                 </Link>

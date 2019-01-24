@@ -123,7 +123,8 @@ class Api::V1::LeaderboardsController < ApplicationController
       GROUP BY users.id
     SQL
 
-    arr_new_posters = ActiveRecord::Base.connection.execute(new_posters_sql)
+    arr_new_posters = ActiveRecord::Base.connection.exec_query(new_posters_sql)
+    attach_user_avatar(arr_new_posters)
 
     all_leaderboard_results[:new_posters] = arr_new_posters
 
@@ -141,7 +142,9 @@ class Api::V1::LeaderboardsController < ApplicationController
         HAVING COUNT(posts.user_id) > 1
     SQL
     
-    all_leaderboard_results[:arr_two_wk] = ActiveRecord::Base.connection.execute(two_wk_users_sql)
+    array_two_wk = ActiveRecord::Base.connection.exec_query(two_wk_users_sql)
+    attach_user_avatar(array_two_wk)
+    all_leaderboard_results[:arr_two_wk] = array_two_wk
 
     render json: all_leaderboard_results 
   end
