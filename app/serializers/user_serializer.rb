@@ -27,6 +27,16 @@ class UserSerializer < ActiveModel::Serializer
   #   end
   # end
 
+  def badges
+    object.badges.each {|badge|
+      if Rails.env.development?
+        badge["image"] = "http://localhost:3000#{rails_blob_url(badge.image, only_path: true)}" if badge.image.attached?
+      else 
+        badge["image"] = rails_blob_url(badge.image, only_path: true) if badge.image.attached?
+      end
+    }
+  end
+
   def followers_count
     object.followers.size
   end

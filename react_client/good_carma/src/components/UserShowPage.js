@@ -139,7 +139,8 @@ class UserShowPage extends Component {
 
             <Container className="d-flex flex-row">
               
-              <section style={{
+              <section className=""
+                style={{
                 position: "absolute",
                 display: "inline-block",
                 bottom: "-30%",
@@ -161,22 +162,28 @@ class UserShowPage extends Component {
                   </ModalBody>              
                 </Modal>
               </section>
-              
-              <section className="d-flex flex-grow-1 justify-content-end">
-                <Link to={`/users/${id}/followers`}>
-                  <section className="align-content-around"><small>Followers</small><br/>{user.followers_count}
+
+              <section className="d-flex flex-grow-1">
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <Link className="d-flex flex-column align-items-center" to={`/users/${id}/followers`}>
+                    <section className=""><small>Followers</small></section>
+                    <section>{user.followers_count}</section> 
+                  </Link>
+                </section>
+
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <Link className="d-flex flex-column align-items-center" to={`/users/${id}/followed_users`} >
+                    <section className="align-content-around"><small>Followed Users</small>
+                    </section>
+                    <section>{user.followed_users_count}</section> 
+                  </Link>
+                </section>
+                
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <section className="d-flex flex-column align-items-center">
+                    <section><small>Inspiractions</small></section>
+                    <section>{user.child_post_count}</section>
                   </section>
-                </Link>
-              </section>
-              <section className="d-flex flex-grow-1 justify-content-end">
-                <Link to={`/users/${id}/followed_users`}>
-                  <section className="align-content-around"><small>Followed Users</small><br/>{user.followed_users_count}
-                  </section>
-                </Link>
-              </section>
-              
-              <section className="d-flex flex-grow-1 justify-content-end">
-                <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
                 </section>
               </section>
             </Container>
@@ -200,6 +207,7 @@ class UserShowPage extends Component {
               <div className="allBadges SinglePost p-3">
               <p>Badges</p>
                 {user.badges.map(badge=>(
+                  
                   <img className="m-2" src={badge.image_url} title={badge.name}>
                   </img>
                 ))}
@@ -208,14 +216,14 @@ class UserShowPage extends Component {
             <section className="flex-grow-2">
               {user.posts.map(post=>(
                 <section key={post.slug} data-id={post.slug}>
-                  <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={user.avatar_image}>
                     <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
                     </Button>
                   </SinglePost>
                 </section> 
               ))}
               
-              <h3>{user.first_name}'s Inspiractions</h3>
+              {/* <h3>{user.first_name}'s Inspiractions</h3>
               {user.child_posts.map(post=>{
                 return(
                   <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
@@ -223,7 +231,7 @@ class UserShowPage extends Component {
                     </Button>
                   </SinglePost>
                 )
-              })}
+              })} */}
             </section>
           </section>
         </Container>

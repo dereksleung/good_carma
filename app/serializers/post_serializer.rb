@@ -25,6 +25,14 @@ class PostSerializer < ActiveModel::Serializer
     end
   end
 
+  def c_user_avatar_image(comment)
+    if Rails.env.development?
+      return "http://localhost:3000#{rails_blob_url(comment.user.avatar_image, only_path: true)}" if comment.user.avatar_image.attached?
+    else 
+      rails_blob_url(comment.user.avatar_image, only_path: true) if comment.user.avatar_image.attached?
+    end
+  end
+
   def comments
     comments = []
     object.comments.each do |c|
@@ -32,7 +40,8 @@ class PostSerializer < ActiveModel::Serializer
                     c_user: c.user.full_name,
                     c_user_slug: c.user.slug,
                     created_at: c.created_at.to_formatted_s(:long),
-                    updated_at: c.updated_at.to_formatted_s(:long)
+                    updated_at: c.updated_at.to_formatted_s(:long),
+                    c_user_avatar_image: c_user_avatar_image(c) 
                   }
     end
     comments

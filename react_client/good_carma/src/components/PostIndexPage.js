@@ -122,7 +122,7 @@ class PostIndexPage extends Component {
         </Modal> 
         {posts.map(post=>(
             <section key={post.slug} data-slug={post.slug}>
-              <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
+              <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image}>
                 <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!</Button>
 
               </SinglePost>

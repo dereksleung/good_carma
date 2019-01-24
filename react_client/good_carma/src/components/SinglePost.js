@@ -6,6 +6,7 @@ import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
 import { Button, Collapse, UncontrolledAlert } from "reactstrap";
 import EditPostForm from "./EditPostForm";
+import UserAvatarSmall from "./UserAvatarSmall";
 
 class SinglePost extends Component {
   constructor(props) {
@@ -78,16 +79,18 @@ class SinglePost extends Component {
           : ""
           }
           <section className="post-body mb-3">
-
-            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.p_user_full_name}
-            </Link>
-            <span>
-              {`${post.created_at}  `}
-              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
-              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
-              
-            </span>
+            <section className="d-flex align-items-center">
+              <Link className="mr-2 d-flex align-items-center" to={`/users/${post.p_user_id}`}>
+                <UserAvatarSmall avatar_image={this.props.avatar_image} size={50} />
+                <span className="ml-2">{post.p_user_full_name}</span>
+              </Link>
+              <span style={{fontSize: "0.8rem", color: "gray"}}>
+                {`${post.created_at}  `}
+                {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+                {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
+                {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+              </span>
+            </section>
             <Collapse isOpen={this.state.collapseEditPostForm}>
             <strong>Current</strong>
             </Collapse>
@@ -97,8 +100,8 @@ class SinglePost extends Component {
               }
             </Link>  
             <div>
-              <PostInspireButtonForm postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              <Button>
+              <PostInspireButtonForm style={{display: "inline-block"}} postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+              <Button style={{display: "inline"}}>
                 <Link to={{pathname:`/posts/${post.slug}/tree`, state: {postId: post.slug}}}>
                   Tree
                 </Link>

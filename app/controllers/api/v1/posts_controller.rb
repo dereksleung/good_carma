@@ -1,6 +1,5 @@
 class Api::V1::PostsController < Api::ApplicationController
 
-  include ActionController::Serialization
 
   # before_action :authenticate_user!, only: [:create, :destroy]
   before_action :find_post, only: [:update, :destroy]
@@ -8,8 +7,7 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def index
     posts = Post.with_attached_image.order(created_at: :desc)
-    
-    
+
     render json: posts
   end
 

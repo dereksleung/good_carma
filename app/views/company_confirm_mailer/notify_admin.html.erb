@@ -1,0 +1,11 @@
+<p>Hi, <%= @company.name %></p>
+
+<p>
+  Someone with email <%= @company.email %> just registered! Click the link below if they're really with you. <br>
+  
+</p>
+
+<%= link_to("Yes we wanted this!", api_v1_company_confirmation_url(@company.confirm_token,"")) %>
+
+
+<p>Cheers, <br> The Good Carma Team</p>
