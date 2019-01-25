@@ -39,6 +39,7 @@ class PostSerializer < ActiveModel::Serializer
       comments << { body: c.body,
                     c_user: c.user.full_name,
                     c_user_slug: c.user.slug,
+                    c_slug: c.slug,
                     created_at: c.created_at.to_formatted_s(:long),
                     updated_at: c.updated_at.to_formatted_s(:long),
                     c_user_avatar_image: c_user_avatar_image(c) 

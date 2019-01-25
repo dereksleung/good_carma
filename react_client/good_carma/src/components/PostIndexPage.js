@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Post, LeaderBoard, Follow } from "../requests";
+import { Post, LeaderBoard, Follow, Comment } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
@@ -21,7 +21,8 @@ class PostIndexPage extends Component {
       redirect: false,
       parentIDs: [],
       newcomers: {},
-      togglePostForm: false
+      togglePostForm: false,
+      errors: []
     }
   
     // this.deletePost = this.deletePost.bind(this);
@@ -31,6 +32,7 @@ class PostIndexPage extends Component {
     this.togglePostForm = this.togglePostForm.bind(this);
     this.updateFollowButton = this.updateFollowButton.bind(this);
     this.createFollow = this.createFollow.bind(this);
+    this.submitComment = this.submitComment.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +50,7 @@ class PostIndexPage extends Component {
     });  
   }
 
+  
   clearParentIDs() {
     this.setState({
       parentIDs: []
@@ -75,6 +78,49 @@ class PostIndexPage extends Component {
         })
       })  
   }
+
+  submitComment(event, postSlug) {
+    event.preventDefault();
+
+    const { currentTarget } = event;
+    const formData = new FormData(currentTarget);
+    Comment
+      .create({
+        body: formData.get("body")
+      }, postSlug)
+      .then(res=>{
+        this.showNewPost();
+        this.clearParentIDs();        
+      })
+      
+      // this.setState((prevState, props)=>{
+      //   const posts = prevState.posts.map((post, ind)=>{
+      //     if (post.slug === res.p_slug) {
+      //       post.comments = [...post.comments, res]
+      //     }
+      //   })
+      //   return { posts: posts };
+      // }) 
+        
+      ;
+      // CommentUpdate(event, slug)
+
+      // .then(res=>{
+      //   this.setState((prevState, props)=>{
+      //     const posts = prevState.posts.map((post, ind)=>{
+      //       post.comments.map(comm=>{
+      //         if (comm.slug === slug) {
+      //           comm = res;
+      //         }
+      //       })
+      //     })
+      //   return { posts };
+      //   }) 
+        
+      // });
+    currentTarget.reset();
+  };
+
 
   togglePostForm() {
     this.setState({
@@ -122,7 +168,7 @@ class PostIndexPage extends Component {
         </Modal> 
         {posts.map(post=>(
             <section key={post.slug} data-slug={post.slug}>
-              <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image}>
+              <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
                 <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!</Button>
 
               </SinglePost>

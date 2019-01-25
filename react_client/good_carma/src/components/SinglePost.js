@@ -122,7 +122,7 @@ class SinglePost extends Component {
               <div className="flex-grow-1"></div>
             </div>
           </section>
-          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
+          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} postId={post.slug} submitComment={this.props.submitComment} /> : ""
           }
         </article>
       

@@ -27,7 +27,7 @@ class Api::V1::PostsController < Api::ApplicationController
     post = Post.new post_params
     parents_id_arr = (post_params[:parent_ids]).split(",")
     post.user = current_user
-    byebug
+    
     if post.save
       assign_inspiractions(post)
       NewSilOrGoldUsersJob.perform_later(parents_id_arr)
@@ -114,7 +114,7 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def authorize_user!
-    unless can? :manage, post
+    unless can? :manage, @post
       render(json: { errors: ["Unauthorized"]}, status: 401 )
     end
   end

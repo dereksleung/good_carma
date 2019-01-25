@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Session } from "../requests";
+import { Form, FormGroup, Label, Input } from "reactstrap";
 
 const fromFormData = formData => {
   
@@ -69,27 +70,28 @@ export default class SignInPage extends Component {
 
     const { errors } = this.state;
     return (
-      <main className="SignInPage">
-        <h1>Sign In</h1>
-        <form onSubmit={this.createSession}>
-          {/* We use a ternary because it's an expression, and JSX handles expressions. A regular if condition is instead a `statement`, which does not return a value, whereas expressions return values.  */}
-          {errors.length > 0 ? (
-            <p className="FormErrors">{errors.join(", ")}</p>
-          ) : null}
-          <div>
-            <label htmlFor="email">Email</label>
-            <br />
-            <input type="email" name="email" id="email" />
-          </div>
+      <main className="SignInPage d-flex justify-content-center">
+        <section className="d-flex flex-column p-3 mt-5 SinglePost">
+          <h1>Sign In</h1>
+          <Form onSubmit={this.createSession}>
+            {errors.length > 0 ? (
+              <p className="FormErrors">{errors.join(", ")}</p>
+            ) : null}
+            <FormGroup>
+              <Label htmlFor="email">Email</Label>
+              <br />
+              <Input type="email" name="email" id="email" />
+            </FormGroup>
 
-          <div>
-            <label htmlFor="password">Password</label>
-            <br />
-            <input type="password" name="password" id="password" />
-          </div>
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <br />
+              <Input type="password" name="password" id="password" />
+            </FormGroup>
 
-          <input type="submit" value="submit" />
-        </form>
+            <Input className="btn btn-secondary mt-3" type="submit" value="Submit" />
+          </Form>
+        </section>
       </main>
     );
   }

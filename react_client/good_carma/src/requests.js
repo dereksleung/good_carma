@@ -204,8 +204,15 @@ export const Inspire = {
 }
 
 export const Comment = {
-  create(params) {
-
+  create(params, postId) {
+    return fetch(`${BASE_URL}/posts/${postId}/comments`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    })
   },
   update(params) {
 
