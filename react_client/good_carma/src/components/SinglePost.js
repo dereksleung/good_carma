@@ -89,36 +89,37 @@ class SinglePost extends Component {
                 {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
                 {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
                 {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+                {currentUser.slug === post.p_user_id ? 
+                  <>
+                    <Link to="#" onClick={this.toggleCollapseEditPostForm}>Edit
+                    </Link>
+                    <div className="w-100"></div>
+                  </>
+                :""  
+                }
               </span>
             </section>
-            <Collapse isOpen={this.state.collapseEditPostForm}>
-            <strong>Current</strong>
-            </Collapse>
-            <Link to={`/posts/${post.slug}`}> 
-              <p>{post.body}</p>
-              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
-              }
-            </Link>  
-            <div className="d-flex">
+
+            <p>{post.body}</p>
+            {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
+            }
+
+            <div className="d-flex flex-wrap">
               <div className="d-flex justify-content-between">
                 <PostInspireButtonForm style={{display: "inline-block"}} postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
                 
                 <Link className="btn btn-secondary mr-2" to={{pathname:`/posts/${post.slug}/tree`, state: {postId: post.slug}}}>Tree</Link>
                 
                 {this.props.children}
-              
-                {currentUser.slug === post.p_user_id ? 
-                  <>
-                    <Button onClick={this.toggleCollapseEditPostForm}>Edit
-                    </Button> 
-                    <Collapse isOpen={this.state.collapseEditPostForm}>
-                      <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
-                    </Collapse>
-                  </>
-                :
-                  ""
-                }
               </div>
+                
+                {currentUser.slug === post.p_user_id ? 
+                  <Collapse isOpen={this.state.collapseEditPostForm}>
+                    <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
+                  </Collapse>
+                : ""
+                }
+              
               <div className="flex-grow-1"></div>
             </div>
           </section>

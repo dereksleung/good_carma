@@ -16,7 +16,7 @@ export const Post = {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type":"application/json"
       },
       body: JSON.stringify(params)
     }).then(res => res.json());
@@ -46,6 +46,14 @@ export const Post = {
     return fetch(`${BASE_URL}/posts/${id}/tree`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  postImageFile(params) {
+    return fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
   }
 }
 

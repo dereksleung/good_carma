@@ -1,8 +1,8 @@
-ActiveAdmin.register Inspire do
+ActiveAdmin.register PostRelation do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :inspiring_entry_id, :inspiring_entry_type, :user_id, :color
+permit_params :parent_post_id, :child_post_id
 #
 # or
 #

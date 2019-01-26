@@ -217,7 +217,7 @@ class UserShowPage extends Component {
               {user.posts.map(post=>(
                 <section key={post.slug} data-id={post.slug}>
                   <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={user.avatar_image}>
-                    <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
+                    <Button active className="" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
                     </Button>
                   </SinglePost>
                 </section> 

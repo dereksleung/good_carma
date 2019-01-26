@@ -25,11 +25,11 @@ const CommentForm = props => {
     
       <form className="CommentForm mb-3 d-flex flex-row" onSubmit={(event)=>props.submitComment(event,props.postId)}>
           <FormGroup className="flex-grow-1">
-            <Input name="body" id="body" placeholder="What do you think?" />
+            <Input name="body" id="body" placeholder="What do you think?" bsSize="sm"/>
           </FormGroup>
 
         <div>
-          <input type="submit" value="Post" className="btn btn-primary" />
+          <input type="submit" value="Post" className="btn btn-primary btn-sm" />
         </div>
       </form>
     

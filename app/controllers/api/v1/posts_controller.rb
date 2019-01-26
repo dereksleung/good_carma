@@ -24,11 +24,19 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def create
+    byebug
     post = Post.new post_params
-    parents_id_arr = (post_params[:parent_ids]).split(",")
+
+    if params[:parent_ids].present?
+      parents_id_arr = (post_params[:parent_ids]).split(",")
+    end
     post.user = current_user
     
+    
     if post.save
+      if params[:image].present?
+        post.image.attach(params[:image])
+      end
       assign_inspiractions(post)
       NewSilOrGoldUsersJob.perform_later(parents_id_arr)
       render json: post
