@@ -10,7 +10,7 @@ import Leaf from "./leaf-147490.svg";
 import InspirePopover from "./InspirePopover";
 import Apple from "./apple-2029586.svg";
 import TreeBush from "./TreeBush.svg";
-import Background from "./BackgroundAligned.svg";
+import Background from "./Background.svg";
 
 class Tree extends Component {
   constructor(props) {
@@ -94,7 +94,7 @@ class Tree extends Component {
 
     this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`;
 
-    debugger;
+    // debugger;
   }
 
   setBranchPositions(ind) {
@@ -149,6 +149,7 @@ class Tree extends Component {
  
   
     styleLocalClone.transform = `rotate(90deg) ${currScale}`;
+    styleLocalClone.left = `${parseInt(styleLocalClone.left.match(/\d+/)[0])-5}%`
     delete styleLocalClone.minWidth;
     styleLocalClone.maxWidth = "65px";
 
@@ -193,22 +194,37 @@ class Tree extends Component {
     let divSize;
     let bushSize;
     let trunkSize;
+    let right;
 
     if (typeof child_posts != "undefined") {
       bushSize = `${1.2 * child_posts.length * 25}vh`;
       divSize = `${1.5 * child_posts.length * 25}vh`;
       trunkSize = `${0.7 * child_posts.length * 25}vh`;
-      this.oneBranchStyle.minWidth = trunkSize;
-      this.oneBranchStyle.maxWidth = trunkSize;
+      right = "40%";
+      if (window.innerWidth < 900) {
+        bushSize = `${1.2 * child_posts.length * 25}vh`;
+        trunkSize = `${0.5 * child_posts.length * 25}vh`;
+        right = "10%";  
+      } else if (window.innerWidth < 350) {
+        bushSize = `${1.2 * child_posts.length * 25}vh`;
+        right = "10%";  
+      }
     } else {
-      bushSize = "150vh";
-      divSize = `${1.5 * 150}vh`;
-      trunkSize = `${0.7 * 150}vh`;
-      this.oneBranchStyle.minWidth = trunkSize;
-      this.oneBranchStyle.maxWidth = trunkSize;
+      bushSize = "25vh";
+      divSize = `${1.5 * 25}vh`;
+      trunkSize = `${0.7 * 25}vh`;
+      right = "40%";
+      if (window.innerWidth < 900) {
+        right = "10%";  
+        trunkSize = `${0.5 * 25}vh`;  
+      } else if (window.innerWidth < 350) {
+        bushSize = `${2 * 25}vh`;
+        right = "10%";
+      }
     }
-   
-    debugger;
+
+    this.oneBranchStyle.minWidth = trunkSize;
+    this.oneBranchStyle.maxWidth = trunkSize;
 
     if (this.state.loading) {
       return(
@@ -220,9 +236,10 @@ class Tree extends Component {
       <section className="Tree" style={{
         display: "inline-block",
         position: "relative", 
-        minHeight: "150vh",
+        minHeight: "100vh",
         height: `${divSize}`,
-        minWidth: "200vw",
+        minWidth: "100vw",
+        width: `${divSize}`,
         backgroundColor: "#29e0ff",
         backgroundImage: `url(${Background})`,
         backgroundSize: "100%",
@@ -234,10 +251,10 @@ class Tree extends Component {
           display: "inline-block",
           position: "absolute",
           bottom: "0%", 
-          right: "50%",
+          right: `${right}`,
 
           height: `${bushSize}`,
-          minWidth: "100vw",
+          minWidth: `${bushSize}`,
           backgroundImage: `url(${TreeBush})`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",

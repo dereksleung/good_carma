@@ -82,6 +82,36 @@ Post.all.each {|post|
   end
 }
 
+# Ensuring Leaderboard Entries Exist
+  # Newcomers
+
+2.times do
+  user = User.all.sample
+  Post.where({user: user}).each do |post|
+    post.update(created_at: Time.now - rand(3600..3600*24*9))
+  end
+end
+
+# Weekly Trailblazers(Inspiractions)
+
+5.times do
+  posts = Post.all
+  post = posts.sample
+  
+  rand(2..6).times do
+    if post.child_posts.present?
+      post.child_relations.each do |cr|
+        cr.update(created_at: Time.now - rand(3600..3600*24*7))
+      end
+      break
+    else
+      post.child_posts << posts.sample
+    end
+  end
+
+end
+
+
 # 10.times do
 #   p = posts.sample
 #   unless p.parent.present?

@@ -60,7 +60,7 @@ class Api::V1::LeaderboardsController < ApplicationController
       FROM users
       INNER JOIN posts ON users.id = posts.user_id
       INNER JOIN inspires ON inspires.inspiring_entry_type = 'Post' AND posts.id = inspires.inspiring_entry_id
-      WHERE inspires.created_at > now() - interval '12 weeks'
+      WHERE inspires.created_at > now() - interval '1 week'
       GROUP BY users.slug, full_name, users.avatar
       HAVING COUNT(inspiring_entry_id) > 14
     SQL

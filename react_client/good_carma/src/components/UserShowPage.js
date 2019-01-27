@@ -146,6 +146,8 @@ class UserShowPage extends Component {
                 top: "-12vh",
                 height: "25vh",
                 width: "25vh",
+                maxHeight: "240px",
+                maxWidth:"240px",
                 backgroundColor: "#03A9F4",
                 backgroundImage: `url(${user.avatar_image})`,
                 backgroundSize: "contain",
