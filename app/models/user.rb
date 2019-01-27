@@ -15,8 +15,8 @@ class User < ApplicationRecord
   has_many :badge_earnings, class_name: "BadgeEarning", dependent: :destroy
   has_many :badges, through: :badge_earnings
 
-  has_many :positions, dependent: :destroy
-  has_many :companies, through: :positions
+  # has_many :positions, dependent: :destroy
+  belongs_to :company
 
   # Setting foreign_key: :followed_user_id here means that in each database record representing a follow, a user U's followers will be the follower_id, while U will be the followed_user_id. 
   # class_name in this context means which class to find the follow database record in.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_223720) do
+ActiveRecord::Schema.define(version: 2019_01_27_050101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,8 @@ ActiveRecord::Schema.define(version: 2019_01_24_223720) do
     t.string "parent_ids"
     t.string "color"
     t.string "slug"
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_posts_on_company_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -209,6 +211,8 @@ ActiveRecord::Schema.define(version: 2019_01_24_223720) do
     t.string "confirm_token"
     t.text "avatar_img"
     t.string "slug"
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
@@ -223,8 +227,10 @@ ActiveRecord::Schema.define(version: 2019_01_24_223720) do
   add_foreign_key "positions", "users"
   add_foreign_key "post_relations", "posts", column: "child_post_id"
   add_foreign_key "post_relations", "posts", column: "parent_post_id"
+  add_foreign_key "posts", "companies"
   add_foreign_key "posts", "users"
   add_foreign_key "sympathies", "comments"
   add_foreign_key "sympathies", "posts"
   add_foreign_key "sympathies", "users"
+  add_foreign_key "users", "companies"
 end

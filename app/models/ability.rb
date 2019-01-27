@@ -35,7 +35,19 @@ class Ability
     can(:delete, Comment) do |c|
       user == c.post.user
     end
-    #
+
+    can(:manage, User) do |u|
+      user == u
+    end
+
+    can(:read, Post) do |p|
+      user.company.id = p.company_id
+    end
+
+    can(:read, User) do |u|
+      user.company_id = u.company_id
+    end
+      #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end

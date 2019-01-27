@@ -161,7 +161,7 @@ class PostIndexPage extends Component {
         <UserBasicStats {...currentUser}/> 
       </section>
       
-      <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
+      <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch" style={{width: "100%"}}>
         <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
         </PostForm>
         <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
@@ -169,7 +169,7 @@ class PostIndexPage extends Component {
         {posts.map(post=>(
             <section key={post.slug} data-slug={post.slug}>
               <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
-                <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!</Button>
+                <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
 
               </SinglePost>
             </section>

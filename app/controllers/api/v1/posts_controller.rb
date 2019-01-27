@@ -1,12 +1,17 @@
 class Api::V1::PostsController < Api::ApplicationController
 
 
-  # before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :find_company, only: [:index]
   before_action :find_post, only: [:update, :destroy]
-  # before_action :authorize_user!, only: [:update, :destroy]
+  before_action :authorize_user!, only: [:update, :destroy]
 
   def index
-    posts = Post.with_attached_image.order(created_at: :desc)
+    if user_signed_in?
+      posts = Post.where({company_id: @curr_company}).with_attached_image.order(created_at: :desc)
+    else 
+      posts = Post.where({company_id: Company.find_by_name("Demo").id}).with_attached_image.order(created_at: :desc)
+    end
 
     render json: posts
   end
@@ -124,6 +129,14 @@ class Api::V1::PostsController < Api::ApplicationController
   def authorize_user!
     unless can? :manage, @post
       render(json: { errors: ["Unauthorized"]}, status: 401 )
+    end
+  end
+
+  def find_company
+    if user_signed_in?
+      @curr_company = current_user.company.id
+    else
+      @curr_company = Company.find_by_name("Demo").id
     end
   end
 

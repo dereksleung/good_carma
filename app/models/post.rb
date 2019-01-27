@@ -2,6 +2,7 @@ class Post < ApplicationRecord
 
 
   belongs_to :user
+  belongs_to :company
   attr_reader :gen_query
 
   has_one_attached :image
