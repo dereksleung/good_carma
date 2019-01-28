@@ -35,6 +35,15 @@ class App extends Component {
 
     this.getUser = this.getUser.bind(this);
     this.destroySession = this.destroySession.bind(this);
+
+    this.majorBackgroundStyle = {
+      backgroundImage: `url(${volunteers}), linear-gradient(0deg, rgba(8,174,234,1) 0%, rgba(42,245,152,1) 100%), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
+      backgroundBlendMode: "multiply",
+      backgroundRepeat:"no-repeat",
+      backgroundAttachment: "fixed",
+      backgroundPosition:"center",
+      position: "relative"
+    }
   }
 
   getUser() {
@@ -73,38 +82,32 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <div className="App" style={{
-            backgroundImage: `url(${volunteers}), linear-gradient(0deg, rgba(8,174,234,1) 0%, rgba(42,245,152,1) 100%), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
-            backgroundBlendMode: "multiply",
-            backgroundRepeat:"no-repeat",
-            backgroundAttachment:"fixed",
-            backgroundPosition:"center",
-            position: "relative"
-          }}>
+        <div className="App">
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}/>
 
 
           <section className="background-splash" >
             <Switch>
-              <Route path="/" exact component={WelcomePage} />
-              <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage />} />
-              <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage/>} />
-              <Route path="/search" exact render={(routeProps=><SearchResults {...routeProps} />)} />
-              <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} />} />
-              <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} />} />
-              <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} />} />
-              <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} />} />
-              <Route path="/leaderboards" exact component={LeaderBoardMain} />
-              <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} />} />
-              
-              <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} />} />
-              <Route path="/posts/:id" exact component={PostShowPage} />
+              <Route path="/" exact render={(routeProps)=><WelcomePage {...routeProps} bground={this.majorBackgroundStyle}/>} />
+              <section style={this.majorBackgroundStyle}>
+              ` <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage bground={this.majorBackgroundStyle}/>} />
+                <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage bground={this.majorBackgroundStyle}/>} />
+                <Route path="/search" exact render={(routeProps=><SearchResults {...routeProps} bground={this.majorBackgroundStyle}/>)} />
+                <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} bground={this.majorBackgroundStyle}/>} />
+                
+                <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
 
-              <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} />} />
-              <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} />} />
+                <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
 
-              <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} />} />
-
+                <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />`
+              </section>
             </Switch>
           </section>
         </div>
