@@ -1,10 +1,13 @@
 class Post < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :user
+  belongs_to :company
   attr_reader :gen_query
 
   has_one_attached :image
 
-  has_many :comments
+  has_many :comments, dependent: :destroy
   has_many :inspires, as: :inspiring_entry
 
   # :parent_relations "names" the PostRelation join table for accessing through the :parent_posts association
@@ -19,17 +22,8 @@ class Post < ApplicationRecord
   # source: :child_post matches with the belongs_to :child_post identification in the PostRelation model
   has_many :child_posts, through: :child_relations, source: :child_post#, inverse_of :child_post
 
-  # has_and_belongs_to_many(:child_posts,
-  #   class_name: "Post",
-  #   join_table: :post_relations,
-  #   foreign_key: :parent_post_id,
-  #   association_foreign_key: :child_post_id)
-
-  # has_and_belongs_to_many(:parent_posts,
-  #   class_name: "Post",
-  #   join_table: :post_relations,
-  #   foreign_key: :child_post_id,
-  #   association_foreign_key: :parent_post_id)
+  extend FriendlyId
+  friendly_id :body, use: [:slugged, :history, :finders]
   
   # has_many :inspires, dependent: :destroy
 
@@ -48,7 +42,14 @@ class Post < ApplicationRecord
 
   end
 
-
+  def attach_avatar_image(hash_with_user_id, user)
+    
+    if Rails.env.development?
+      hash_with_user_id["avatar_image"] = "http://localhost:3000#{rails_blob_url(user.avatar_image, only_path: true)}" if user.avatar_image.attached?
+    else 
+      hash_with_user_id["avatar_image"] = rails_blob_url(user.avatar_image, only_path: true) if user.avatar_image.attached?
+    end
+  end
   # Recursive: if prnt_id.present?, string interpolate code for 1) finding prnt_id, 2) accessing another level deeper into the hash.
   # This expects positive numbers or zero for both how many generations above and below to query.
 
@@ -86,12 +87,21 @@ class Post < ApplicationRecord
 
   def attach_inspires(start_post_id, start_post_hash)
     inspires_sql = <<-SQL
-    SELECT inspires.color, inspires.created_at, (users.first_name || ' ' ||users.last_name) AS full_name, users.avatar
+    SELECT inspires.color, inspires.created_at, (users.first_name || ' ' ||users.last_name) AS full_name, users.slug
       FROM inspires
       INNER JOIN users ON inspires.user_id = users.id
       WHERE inspires.inspiring_entry_type = 'Post' AND inspires.inspiring_entry_id = #{start_post_id.to_i}
     SQL
-  start_post_hash["inspires"] = ActiveRecord::Base.connection.execute(inspires_sql)
+
+    start_post_hash["inspires"] = ActiveRecord::Base.connection.exec_query(inspires_sql)
+    start_post_hash["inspires"].each { |insp|
+      u = User.friendly.find(insp["slug"])
+      if Rails.env.development?
+        insp["avatar_image"] = "http://localhost:3000#{rails_blob_url(u.avatar_image, only_path: true)}" if u.avatar_image.attached?
+      else 
+        insp["avatar_image"] = rails_blob_url(u.avatar_image, only_path: true) if u.avatar_image.attached?
+      end
+      }
   end
 
   def generations(above, below)
@@ -103,6 +113,13 @@ class Post < ApplicationRecord
     
     start_post = self
     start_post_hash = start_post.attributes
+    user = User.find(start_post_hash["user_id"])
+    start_post_hash["full_name"] = user.full_name
+    start_post_hash["user_slug"] = user.slug
+    start_post_hash.delete("user_id")
+
+    attach_avatar_image(start_post_hash, user)
+    
     start_post_id = self.id
 
     attach_inspires(start_post_id, start_post_hash)
@@ -114,6 +131,11 @@ class Post < ApplicationRecord
     # For every child that has further children, we will set a key-value pair child_posts => [] to mark that we need to query its children too later.
     start_post.child_posts.each do |child| 
       child_hash = child.attributes
+      user = User.find(child_hash["user_id"])
+      child_hash["full_name"] = user.full_name
+      child_hash["user_slug"] = user.slug
+      child_hash.delete("user_id")
+      attach_avatar_image(child_hash, user)
       attach_inspires(child_hash["id"], child_hash)
 
       if child.child_posts.any?
@@ -138,6 +160,11 @@ class Post < ApplicationRecord
         start_post = Post.find(curr_target_id)
         start_post.child_posts.each do |grandchild|
           gc_hash = grandchild.attributes
+          user = User.find(gc_hash["user_id"])
+          gc_hash["full_name"] = user.full_name
+          gc_hash["user_slug"] = user.slug
+          gc_hash.delete("user_id")
+          attach_avatar_image(gc_hash, user)
           gc_hash[:prnt_id] = curr_target_id
           attach_inspires(gc_hash["id"],gc_hash)
 

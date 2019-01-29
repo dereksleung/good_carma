@@ -16,7 +16,7 @@ export const Post = {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type":"application/json"
       },
       body: JSON.stringify(params)
     }).then(res => res.json());
@@ -46,6 +46,14 @@ export const Post = {
     return fetch(`${BASE_URL}/posts/${id}/tree`, {
       credentials: "include"
     }).then(res => res.json());
+  },
+  postImageFile(params) {
+    return fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
   }
 }
 
@@ -55,8 +63,8 @@ export const LeaderBoard = {
       credentials: "include"
     }).then(res => res.json());
   },
-  mostIActionsInWeek() {
-    return fetch(`${BASE_URL}/leaderboards/most_i_actions_this_week`, {
+  loadWeeklyOther(badge_name) {
+    return fetch(`${BASE_URL}/leaderboards/${badge_name}_this_week`, {
       credentials: "include"
     }).then(res => res.json());
   }
@@ -131,6 +139,14 @@ export const Follow = {
   }
 }
 
+export const Search = {
+  users(query) {
+    return fetch(`${BASE_URL}/users/search?query=${query}`, {
+      credentials: "include"
+    }).then(res=>res.json());
+  }
+}
+
 export const Company = {
   create(params) {
     return fetch(`${BASE_URL}/companies`, {
@@ -196,8 +212,15 @@ export const Inspire = {
 }
 
 export const Comment = {
-  create(params) {
-
+  create(params, postId) {
+    return fetch(`${BASE_URL}/posts/${postId}/comments`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    })
   },
   update(params) {
 

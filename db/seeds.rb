@@ -70,6 +70,47 @@ p.child_posts << pchild1
 p.child_posts << pchild2
 pchild1.child_posts << pgrandchild1
 
+# Add Inspires
+Post.all.each {|post| 
+  rand(2..8).times do
+    i = Inspire.new(user: User.all.sample)
+    u_color = i.user.level
+    if u_color.present?
+      i.color = i.user.level
+    end
+    post.inspires << i
+  end
+}
+
+# Ensuring Leaderboard Entries Exist
+  # Newcomers
+
+2.times do
+  user = User.all.sample
+  Post.where({user: user}).each do |post|
+    post.update(created_at: Time.now - rand(3600..3600*24*9))
+  end
+end
+
+# Weekly Trailblazers(Inspiractions)
+
+5.times do
+  posts = Post.all
+  post = posts.sample
+  
+  rand(2..6).times do
+    if post.child_posts.present?
+      post.child_relations.each do |cr|
+        cr.update(created_at: Time.now - rand(3600..3600*24*7))
+      end
+      break
+    else
+      post.child_posts << posts.sample
+    end
+  end
+
+end
+
 
 # 10.times do
 #   p = posts.sample
@@ -78,3 +119,4 @@ pchild1.child_posts << pgrandchild1
 #   end
 # end
 
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

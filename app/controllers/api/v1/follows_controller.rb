@@ -2,7 +2,7 @@ class Api::V1::FollowsController < Api::ApplicationController
 
   def check
     follower = current_user
-    followed_user = User.find(params[:user_id])
+    followed_user = User.friendly.find(params[:user_id])
 
     follow = Follow.find_by(follower_id: follower.id, followed_user_id: followed_user.id)
 
@@ -18,7 +18,7 @@ class Api::V1::FollowsController < Api::ApplicationController
   end
 
   def create
-    followed_user = User.find(params[:user_id])
+    followed_user = User.friendly.find(params[:user_id])
     follow = Follow.new(follower_id: current_user.id, followed_user_id: followed_user.id)
 
     if follow.save
@@ -42,14 +42,14 @@ class Api::V1::FollowsController < Api::ApplicationController
   end
 
   def show_followers
-    user = User.find params[:user_id]
+    user = User.friendly.find params[:user_id]
     followers = user.followers.with_attached_avatar_image
 
     render json: followers
   end
 
   def show_followed_users
-    user = User.find params[:user_id]
+    user = User.friendly.find params[:user_id]
     followed_users = user.followed_users.with_attached_avatar_image
 
     render json: followed_users

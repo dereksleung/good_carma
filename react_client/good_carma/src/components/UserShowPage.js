@@ -3,6 +3,7 @@ import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
 import { User, Follow } from "../requests";
 import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Link } from "react-router-dom";
 import PictureUploadForm from "./PictureUploadForm";
 
 class UserShowPage extends Component {
@@ -74,7 +75,7 @@ class UserShowPage extends Component {
   }
 
   createFollow() {
-    Follow.create(this.state.user.id)
+    Follow.create(this.state.user.slug)
       .then(userInfo=>{
         this.setState((prevState, props)=>({
         ...prevState,
@@ -103,6 +104,7 @@ class UserShowPage extends Component {
     }
 
     const { user, currentUser } = this.state;
+    const id = this.props.match.params.id;
 
     return(
       <section className="UserShowPage">
@@ -123,7 +125,7 @@ class UserShowPage extends Component {
                 Upload an Image
               </ModalHeader>
               <ModalBody>
-                <PictureUploadForm id={user.id} image_type="splash"></PictureUploadForm>
+                <PictureUploadForm id={user.slug} image_type="splash"></PictureUploadForm>
               </ModalBody>              
             </Modal>
 
@@ -137,12 +139,15 @@ class UserShowPage extends Component {
 
             <Container className="d-flex flex-row">
               
-              <section style={{
-                position: "absolute",
+              <section className=""
+                style={{
+                position: "relative",
                 display: "inline-block",
-                bottom: "-30%",
+                top: "-12vh",
                 height: "25vh",
                 width: "25vh",
+                maxHeight: "240px",
+                maxWidth:"240px",
                 backgroundColor: "#03A9F4",
                 backgroundImage: `url(${user.avatar_image})`,
                 backgroundSize: "contain",
@@ -155,16 +160,32 @@ class UserShowPage extends Component {
                     Upload an Image
                   </ModalHeader>
                   <ModalBody>
-                    <PictureUploadForm id={user.id} image_type="avatar"></PictureUploadForm>
+                    <PictureUploadForm id={user.slug} image_type="avatar"></PictureUploadForm>
                   </ModalBody>              
                 </Modal>
               </section>
-              <section className="d-flex flex-grow-1 justify-content-end">
-                <section className="align-content-around"><small>Followers</small><br/>{user.child_post_count}
+
+              <section className="d-flex flex-grow-1">
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <Link className="d-flex flex-column align-items-center" to={`/users/${id}/followers`}>
+                    <section className=""><small>Followers</small></section>
+                    <section>{user.followers_count}</section> 
+                  </Link>
                 </section>
-              </section>
-              <section className="d-flex flex-grow-1 justify-content-end">
-                <section className="align-content-around"><small>Inspiractions</small><br/>{user.child_post_count}
+
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <Link className="d-flex flex-column align-items-center" to={`/users/${id}/followed_users`} >
+                    <section className="align-content-around"><small>Followed Users</small>
+                    </section>
+                    <section>{user.followed_users_count}</section> 
+                  </Link>
+                </section>
+                
+                <section className="d-flex flex-grow-1 justify-content-end">
+                  <section className="d-flex flex-column align-items-center">
+                    <section><small>Inspiractions</small></section>
+                    <section>{user.child_post_count}</section>
+                  </section>
                 </section>
               </section>
             </Container>
@@ -188,6 +209,7 @@ class UserShowPage extends Component {
               <div className="allBadges SinglePost p-3">
               <p>Badges</p>
                 {user.badges.map(badge=>(
+                  
                   <img className="m-2" src={badge.image_url} title={badge.name}>
                   </img>
                 ))}
@@ -195,23 +217,23 @@ class UserShowPage extends Component {
             </section>
             <section className="flex-grow-2">
               {user.posts.map(post=>(
-                
-                  <section key={post.id} data-id={post.id}>
-                    <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-                      <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
-
-                    </SinglePost>
-                  </section>
-                
-              ))
-              }
-              <h3>{user.first_name}'s Inspiractions</h3>
+                <section key={post.slug} data-id={post.slug}>
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={user.avatar_image}>
+                    <Button active className="" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
+                    </Button>
+                  </SinglePost>
+                </section> 
+              ))}
+              
+              {/* <h3>{user.first_name}'s Inspiractions</h3>
               {user.child_posts.map(post=>{
                 return(
-                  <UserSinglePost post={post}>
-                  </UserSinglePost>
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
+                    <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
+                    </Button>
+                  </SinglePost>
                 )
-              })}
+              })} */}
             </section>
           </section>
         </Container>

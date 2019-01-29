@@ -6,6 +6,7 @@ import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
 import { Button, Collapse, UncontrolledAlert } from "reactstrap";
 import EditPostForm from "./EditPostForm";
+import UserAvatarSmall from "./UserAvatarSmall";
 
 class SinglePost extends Component {
   constructor(props) {
@@ -13,8 +14,6 @@ class SinglePost extends Component {
 
     this.state = {
       isAuthrzd: false,
-      post: props.post,
-      currentUser: props.currentUser,
       collapseEditPostForm: false,
     }
 
@@ -69,156 +68,62 @@ class SinglePost extends Component {
       const level = this.state.currentUser.level || null;
       console.log('sending level', currentUser.level);
     }
-    const { currentUser } = this.state;
-    const { post } = this.state;
+    const { currentUser } = this.props;
+    const { post } = this.props;
 
-    if (post.color === "gold") {
-      return(
-        <article className="SinglePost gold border border-blue p-3">
-          {post.errors ?
-            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
-          : ""
-          }
-          <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
-            </Link>
-            <span>
-              {`${post.created_at}  `}
-              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
-              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
-              
-            </span>
-            <Link to={`posts/${post.id}`}> 
-              <p>{post.body}</p>
-              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
-              }
-            </Link>  
-            <div>
-              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              <Button>
-                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
-                Tree
-                </Link>
-              </Button>
-              {this.props.children}
-            </div>
-            {currentUser.id === post.p_user_id ? 
-              <>
-                <Button onClick={this.toggleCollapseEditPostForm}>Edit
-                </Button> 
-                <Collapse isOpen={this.state.collapseEditPostForm}>
-                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
-                </Collapse>
-              </>
-            :
-              ""
-            }
-          </section>
-        <h6>Comments</h6>
-        {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
-        }
-      
-        </article>
-      )
-    }
-    if (post.color === "silver") {
-      return(
-        <article className="SinglePost silver border border-blue p-3">
-          {post.errors ?
-            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
-          : ""
-          }
-          <section className="post-body mb-3">
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
-            </Link>
-            <span>
-              {`${post.created_at}  `}
-              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
-              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
-              
-            </span>
-            <Link to={`posts/${post.id}`}> 
-              <p>{post.body}</p>
-              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
-              }
-            </Link>  
-            <div>
-              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              <Button>
-                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
-                Tree
-                </Link>
-              </Button>
-              {this.props.children}
-            </div>
-            {currentUser.id === post.p_user_id ? 
-              <>
-                <Button onClick={this.toggleCollapseEditPostForm}>Edit
-                </Button> 
-                <Collapse isOpen={this.state.collapseEditPostForm}>
-                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
-                </Collapse>
-              </>
-            :
-              ""
-            }
-          </section>
-          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
-          }
-      
-        </article>
-      )
-    }
     return(
       
-        <article className="SinglePost border border-blue p-3">
+        <article className={`SinglePost ${post.color} border border-blue p-3`}>
           {post.errors ?
             <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
           : ""
           }
           <section className="post-body mb-3">
+            <section className="d-flex align-items-center">
+              <Link className="mr-2 d-flex align-items-center" to={`/users/${post.p_user_id}`}>
+                <UserAvatarSmall avatar_image={this.props.avatar_image} size={50} />
+                <span className="ml-2">{post.p_user_full_name}</span>
+              </Link>
+              <span style={{fontSize: "0.8rem", color: "gray"}}>
+                {`${post.created_at}  `}
+                {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+                {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
+                {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
+                {currentUser.slug === post.p_user_id ? 
+                  <>
+                    <Link to="#" onClick={this.toggleCollapseEditPostForm}>Edit
+                    </Link>
+                    <div className="w-100"></div>
+                  </>
+                :""  
+                }
+              </span>
+            </section>
 
-            <Link className="mr-2" to={`users/${post.p_user_id}`}>{post.p_user_full_name}
-            </Link>
-            <span>
-              {`${post.created_at}  `}
-              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.gold_inspires} Gold Inspires  ` : ""}
-              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
-              
-            </span>
-            <Collapse isOpen={this.state.collapseEditPostForm}>
-            <strong>Current</strong>
-            </Collapse>
-            <Link to={`posts/${post.id}`}> 
-              <p>{post.body}</p>
-              {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
-              }
-            </Link>  
-            <div>
-              <PostInspireButtonForm postId={post.id} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
-              <Button>
-                <Link to={{pathname:`posts/${post.id}/tree`, state: {postId: post.id}}}>
-                  Tree
-                </Link>
-              </Button>
-              {this.props.children}
-            </div>
-            {currentUser.id === post.p_user_id ? 
-              <>
-                <Button onClick={this.toggleCollapseEditPostForm}>Edit
-                </Button> 
-                <Collapse isOpen={this.state.collapseEditPostForm}>
-                  <EditPostForm body={post.body} picture_url={post.picture_url} id={post.id} updateAfterEdit={this.updateAfterEdit} />
-                </Collapse>
-              </>
-            :
-              ""
+            <p>{post.body}</p>
+            {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
             }
+
+            <div className="d-flex flex-wrap">
+              <div className="d-flex justify-content-between">
+                <PostInspireButtonForm style={{display: "inline-block"}} postId={post.slug} level={currentUser ? currentUser.level : null} handleSubmit={this.hndlInspireBtnSbmt} />
+                
+                <Link className="btn btn-secondary mr-2" to={{pathname:`/posts/${post.slug}/tree`, state: {postId: post.slug}}}>Tree</Link>
+                
+                {this.props.children}
+              </div>
+                
+                {currentUser.slug === post.p_user_id ? 
+                  <Collapse isOpen={this.state.collapseEditPostForm}>
+                    <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
+                  </Collapse>
+                : ""
+                }
+              
+              <div className="flex-grow-1"></div>
+            </div>
           </section>
-          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} /> : ""
+          {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} postId={post.slug} submitComment={this.props.submitComment} /> : ""
           }
         </article>
       

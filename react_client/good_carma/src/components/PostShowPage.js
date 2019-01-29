@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Post } from "../requests";
-import PostDetails from "./PostDetails";
+
+import SinglePost from "./SinglePost";
 
 class PostShowPage extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class PostShowPage extends Component {
   render() {
     return(
       <article className="PostShowPage">
-        <PostDetails {...this.state.post} />
+        <SinglePost post={this.state.post} />
       
       </article>
     )

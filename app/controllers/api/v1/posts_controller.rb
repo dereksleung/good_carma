@@ -1,25 +1,28 @@
 class Api::V1::PostsController < Api::ApplicationController
 
-  include ActionController::Serialization
 
-  # before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :find_company, only: [:index]
   before_action :find_post, only: [:update, :destroy]
-  # before_action :authorize_user!, only: [:update, :destroy]
+  before_action :authorize_user!, only: [:update, :destroy]
 
   def index
-    posts = Post.with_attached_image.order(created_at: :desc)
-    
-    
+    if user_signed_in?
+      posts = Post.where({company_id: @curr_company}).with_attached_image.order(created_at: :desc)
+    else 
+      posts = Post.where({company_id: Company.find_by_name("Demo").id}).with_attached_image.order(created_at: :desc)
+    end
+
     render json: posts
   end
 
   def show
-    post = Post.find params[:id]
+    post = Post.friendly.find params[:id]
     render json: post
   end
 
   def destroy
-    post = Post.find params[:id]
+    post = Post.friendly.find params[:id]
     post.destroy
 
     render json: { status: :success }
@@ -27,10 +30,17 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def create
     post = Post.new post_params
-    parents_id_arr = (post_params[:parent_ids]).split(",")
-    post.user = current_user
 
+    if params[:parent_ids].present?
+      parents_id_arr = (post_params[:parent_ids]).split(",")
+    end
+    post.user = current_user
+    post.company_id = current_user.company_id
+    
     if post.save
+      if params[:image].present?
+        post.image.attach(params[:image])
+      end
       assign_inspiractions(post)
       NewSilOrGoldUsersJob.perform_later(parents_id_arr)
       render json: post
@@ -41,9 +51,6 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def update
-
-
-    byebug
 
     if params[:image].present?
       @post.image.attach(params[:image])
@@ -61,20 +68,20 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def tree
-    post = Post.find params[:post_id]
+    post = Post.friendly.find params[:post_id]
     @gen_query = post.generations(1,1)
 
     render json: @gen_query
   end
 
   def ser_tree
-    post = Post.find params[:post_id]
+    post = Post.friendly.find params[:post_id]
     
     render json: @gen_query
   end
 
   def i_tree
-    # post = Post.find params[:post_id]
+    # post = Post.friendly.find params[:post_id]
     @gen_query = Post.i_generations(params[:post_id])
     render json: @gen_query
 
@@ -100,8 +107,8 @@ class Api::V1::PostsController < Api::ApplicationController
     if params.include?(:parent_ids)
       parents_id_arr = (params[:parent_ids]).split(",")
     
-      arr.each do |id|
-        parent_p = Post.find(id)
+      parents_id_arr.each do |id|
+        parent_p = Post.friendly.find(id)
         if parent_p.user.id != session[:user_id]
           post.parent_posts << parent_p
         end
@@ -119,8 +126,16 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def authorize_user!
-    unless can? :manage, post
+    unless can? :manage, @post
       render(json: { errors: ["Unauthorized"]}, status: 401 )
+    end
+  end
+
+  def find_company
+    if user_signed_in?
+      @curr_company = current_user.company.id
+    else
+      @curr_company = Company.find_by_name("Demo").id
     end
   end
 

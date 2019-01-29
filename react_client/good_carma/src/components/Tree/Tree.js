@@ -9,6 +9,8 @@ import PopoverPost from "./PopoverPost";
 import Leaf from "./leaf-147490.svg";
 import InspirePopover from "./InspirePopover";
 import Apple from "./apple-2029586.svg";
+import TreeBush from "./TreeBush.svg";
+import Background from "./Background.svg";
 
 class Tree extends Component {
   constructor(props) {
@@ -26,6 +28,7 @@ class Tree extends Component {
       transform: `rotate(${["","-"][Math.round(Math.random())]}70deg) scale(1,1)`,
       transformOrigin: "center left",
       minWidth: "100vh",
+      maxWidth: "100vh",
       minHeight: "auto",
       overflow: "visible", 
       cummltvAngle: "" 
@@ -62,10 +65,23 @@ class Tree extends Component {
         });
         console.log("tree:", res);
       })
-    this.setBranchSize();
+      
+      this.setBranchSize();
+
+    
   }
 
   setBranchSize() {
+    // const child_posts = this.state.tree.child_posts;
+    // let trunkSize;
+    // if (typeof child_posts != "undefined") {
+    //   trunkSize = `${0.7 * child_posts.length * 20}vh`;
+    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
+    // } else {
+    //   trunkSize = `${0.7 * 150}vh`;
+    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
+    // }
+
 
     const currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
@@ -73,10 +89,12 @@ class Tree extends Component {
 
     // this.oneBranchStyle.minWidth = `${currMinWidth * 0.66}px`
   
-    const currScaleX = currScale.match(/\d+\.?\d*(?=,)/)[0];
-    const currScaleY = currScale.match(/\d+\.?\d*/g)[1]; 
+    const currScaleX = parseFloat(currScale.match(/\d+\.?\d*(?=,)/)[0]);
+    const currScaleY = parseFloat(currScale.match(/\d+\.?\d*/g)[1]); 
 
-    this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`
+    this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`;
+
+    // debugger;
   }
 
   setBranchPositions(ind) {
@@ -102,11 +120,13 @@ class Tree extends Component {
       this.oneBranchStyle.cummltvAngle = -160;
     }
     
-    const spacingUnit = parseInt(this.oneBranchStyle.minWidth.match(/\d+/)[0]) / (this.qtyBranches + 1);
+    const spacingUnit = 100 / (this.qtyBranches + 1);
 
     const currPlace = parseInt(this.oneBranchStyle.left.match(/\d+/)[0]);
 
-    this.oneBranchStyle.left = `${currPlace + spacingUnit}vh`;
+    this.oneBranchStyle.left = `${currPlace + spacingUnit}%`;
+
+    // debugger;
     
     if (currAngle > 0) {
       this.oneBranchStyle.transform = `rotate(${currAngle - 140}deg) ${currScale}`;
@@ -129,6 +149,7 @@ class Tree extends Component {
  
   
     styleLocalClone.transform = `rotate(90deg) ${currScale}`;
+    styleLocalClone.left = `${parseInt(styleLocalClone.left.match(/\d+/)[0])-5}%`
     delete styleLocalClone.minWidth;
     styleLocalClone.maxWidth = "65px";
 
@@ -170,6 +191,40 @@ class Tree extends Component {
   render() {
     const { tree } = this.state;
     const { child_posts, inspires, ...restProps } = tree;
+    let divSize;
+    let bushSize;
+    let trunkSize;
+    let right;
+
+    if (typeof child_posts != "undefined") {
+      bushSize = `${1.2 * child_posts.length * 25}vh`;
+      divSize = `${1.5 * child_posts.length * 25}vh`;
+      trunkSize = `${0.7 * child_posts.length * 25}vh`;
+      right = "40%";
+      if (window.innerWidth < 900) {
+        bushSize = `${1.2 * child_posts.length * 25}vh`;
+        trunkSize = `${0.5 * child_posts.length * 25}vh`;
+        right = "10%";  
+      } else if (window.innerWidth < 350) {
+        bushSize = `${1.2 * child_posts.length * 25}vh`;
+        right = "10%";  
+      }
+    } else {
+      bushSize = "25vh";
+      divSize = `${1.5 * 25}vh`;
+      trunkSize = `${0.7 * 25}vh`;
+      right = "40%";
+      if (window.innerWidth < 900) {
+        right = "10%";  
+        trunkSize = `${0.5 * 25}vh`;  
+      } else if (window.innerWidth < 350) {
+        bushSize = `${2 * 25}vh`;
+        right = "10%";
+      }
+    }
+
+    this.oneBranchStyle.minWidth = trunkSize;
+    this.oneBranchStyle.maxWidth = trunkSize;
 
     if (this.state.loading) {
       return(
@@ -181,54 +236,76 @@ class Tree extends Component {
       <section className="Tree" style={{
         display: "inline-block",
         position: "relative", 
-        minHeight: "150vh",
+        minHeight: "100vh",
+        height: `${divSize}`,
         minWidth: "100vw",
-        backgroundColor: "white",
+        width: `${divSize}`,
+        backgroundColor: "#29e0ff",
+        backgroundImage: `url(${Background})`,
+        backgroundSize: "100%",
+        backgroundPosition: "bottom",
+        backgroundRepeat: "no-repeat",
         mixBlendMode: "normal"
       }}>
-        
-        <section className="Trunk" style={{
+        <section className="TreeBush" style={{
           display: "inline-block",
           position: "absolute",
-          left: `${"50%"}`,
-          bottom: `${"0%"}`,
-          transform: `rotate(${"-90"}deg)`,
-          transformOrigin: "center left",
-          minWidth: "100vh",
-          overflow: "visible"  
+          bottom: "0%", 
+          right: `${right}`,
+
+          height: `${bushSize}`,
+          minWidth: `${bushSize}`,
+          backgroundImage: `url(${TreeBush})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "bottom center",
+          mixBlendMode: "normal"
         }}>
-          <PopoverPost {...restProps}>
-            <img src={BranchHrzntl} >
-            
-            </img>
-          </PopoverPost>
+        
+          <section className="Trunk" style={{
+            display: "inline-block",
+            position: "absolute",
+            left: `${"50%"}`,
+            bottom: `${"0%"}`,
+            transform: `rotate(${"-90"}deg)`,
+            transformOrigin: "center left",
+            minWidth: `${trunkSize}`,
+            maxWidth: `${trunkSize}`,
+            overflow: "visible"  
+          }}>
+            <PopoverPost {...restProps}>
+              <img src={BranchHrzntl} style={{maxWidth: "100%"}}>
+              
+              </img>
+            </PopoverPost>
 
-          {inspires.length > 0 ? 
-            inspires.map((insp,ind)=>{
-              return(
-                <InspirePopover calcStyle={this.setLeafPosition(ind)} {...insp}>
-                  <img src={Leaf}>
-                  </img>
-                </InspirePopover>
-              )
-            }) : ""
-          }
-
-          {child_posts.length > 0 ? 
-            child_posts.map((post,ind)=>{ 
-              return(
-                <>
-                  <TreeBranch post={post}
-                  calcStyle={this.setBranchPositions(ind)} >
-                  </TreeBranch>
-                  <PopoverPost {...post}>
-                    <img src={Apple} style={this.setFruitPosition(ind)}>
+            {inspires.length > 0 ? 
+              inspires.map((insp,ind)=>{
+                return(
+                  <InspirePopover calcStyle={this.setLeafPosition(ind)} {...insp}>
+                    <img src={Leaf}>
                     </img>
-                  </PopoverPost>
-                </>
-              )
-            }) : ""
-          }
+                  </InspirePopover>
+                )
+              }) : ""
+            }
+
+            {child_posts.length > 0 ? 
+              child_posts.map((post,ind)=>{ 
+                return(
+                  <>
+                    <TreeBranch post={post}
+                    calcStyle={this.setBranchPositions(ind)} >
+                    </TreeBranch>
+                    <PopoverPost {...post}>
+                      <img src={Apple} style={this.setFruitPosition(ind)}>
+                      </img>
+                    </PopoverPost>
+                  </>
+                )
+              }) : ""
+            }
+          </section>
         </section>
       </section>
     )

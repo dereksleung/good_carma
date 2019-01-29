@@ -13,7 +13,7 @@ class PostInspireButtonForm extends Component {
   
   render() {
     return (
-      <form className="PostInspireButtonForm" onSubmit={this.props.handleSubmit}>
+      <form className="PostInspireButtonForm mr-2" onSubmit={this.props.handleSubmit}>
         <div>
           <input type="hidden" name="inspiring_entry_type" id="inspiring_entry_type" value="Post" />
         </div>

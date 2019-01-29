@@ -12,7 +12,7 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def show
-    user = User.find params[:id]
+    user = User.friendly.find params[:id]
     render json: user
     BadgeCheckJob.perform_now(user.email)
   end
@@ -36,19 +36,25 @@ class Api::V1::UsersController < Api::ApplicationController
     confirm_token = params[:user_id]
     user = User.find_by(confirm_token: confirm_token)
     user.confirmed = true
-    full_name = user.full_name
-    
-    subdomain = Apartment::Tenant.current
+    user.save
+    byebug
+    slug = user.slug
+
+    if Apartment::Tenant.current == "public"
+      subdomain = ""
+    else
+      subdomain = "#{Apartment::Tenant.current}."
+    end
 
     if Rails.env.development?
-      redirect_to("localhost:3001/users/#{full_name}/confirmation")
+      redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
     elsif Rails.env.production?
-      redirect_to("subdomain.good_carma.herokuapp.com/users/#{full_name}/confirmation")
+      redirect_to("#{subdomain}good_carma.herokuapp.com/users/#{slug}")
     end
   end
 
   def update
-    user = User.find params[:id]
+    user = User.friendly.find params[:id]
     
     # Image uploads happen separately from other profile updates, hence the renders ending early.
     if params[:avatar_image].present?
@@ -65,6 +71,12 @@ class Api::V1::UsersController < Api::ApplicationController
     else
       render(json: {status: 422, errors: user.errors.full_messages, message: user.errors.full_messages})
     end
+  end
+
+  def search 
+   
+    results = User.search(params[:query])
+    render json: results
   end
 
   private

@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+gem 'mini_magick', '~> 4.8'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -37,6 +37,10 @@ gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 gem 'cancancan'
 gem 'apartment'
+gem 'devise'
+gem 'activeadmin'
+gem 'friendly_id'
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

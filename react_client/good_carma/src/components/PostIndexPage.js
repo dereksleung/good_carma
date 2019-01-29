@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Post, LeaderBoard, Follow } from "../requests";
+import { Post, LeaderBoard, Follow, Comment } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
@@ -21,7 +21,8 @@ class PostIndexPage extends Component {
       redirect: false,
       parentIDs: [],
       newcomers: {},
-      togglePostForm: false
+      togglePostForm: false,
+      errors: []
     }
   
     // this.deletePost = this.deletePost.bind(this);
@@ -31,6 +32,7 @@ class PostIndexPage extends Component {
     this.togglePostForm = this.togglePostForm.bind(this);
     this.updateFollowButton = this.updateFollowButton.bind(this);
     this.createFollow = this.createFollow.bind(this);
+    this.submitComment = this.submitComment.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +50,7 @@ class PostIndexPage extends Component {
     });  
   }
 
+  
   clearParentIDs() {
     this.setState({
       parentIDs: []
@@ -59,7 +62,7 @@ class PostIndexPage extends Component {
     const { parentIDs } = this.state;
     if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) == false) {
       const allParentIDs = this.state.parentIDs;
-      allParentIDs.push(id)
+      allParentIDs.push(id);
       this.setState({
         parentIDs: allParentIDs
       })
@@ -75,6 +78,49 @@ class PostIndexPage extends Component {
         })
       })  
   }
+
+  submitComment(event, postSlug) {
+    event.preventDefault();
+
+    const { currentTarget } = event;
+    const formData = new FormData(currentTarget);
+    Comment
+      .create({
+        body: formData.get("body")
+      }, postSlug)
+      .then(res=>{
+        this.showNewPost();
+        this.clearParentIDs();        
+      })
+      
+      // this.setState((prevState, props)=>{
+      //   const posts = prevState.posts.map((post, ind)=>{
+      //     if (post.slug === res.p_slug) {
+      //       post.comments = [...post.comments, res]
+      //     }
+      //   })
+      //   return { posts: posts };
+      // }) 
+        
+      ;
+      // CommentUpdate(event, slug)
+
+      // .then(res=>{
+      //   this.setState((prevState, props)=>{
+      //     const posts = prevState.posts.map((post, ind)=>{
+      //       post.comments.map(comm=>{
+      //         if (comm.slug === slug) {
+      //           comm = res;
+      //         }
+      //       })
+      //     })
+      //   return { posts };
+      //   }) 
+        
+      // });
+    currentTarget.reset();
+  };
+
 
   togglePostForm() {
     this.setState({
@@ -110,31 +156,28 @@ class PostIndexPage extends Component {
     }
 
     return(
-    <Container className="PostIndexPage d-flex mt-5">
-      <section className="column-1 flex-grow-3 mr-2">
-        <UserBasicStats {...currentUser}/>
-        
-      </section>
-      
-      <section className="column-2 PostFeed flex-grow-6 d-flex flex-column align-content-stretch">
-          <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-          </PostForm>
-        <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
-        </Modal> 
-        {posts.map(post=>(
-            <section key={post.id} data-id={post.id}>
-              <SinglePost post={post} postId={post.id} currentUser={currentUser}>
-                <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.id, e)}>Inspiraction - You inspired me to do something!</Button>
+      <Container className="PostIndexPage mt-5">
+        <Row>
+          <Col className="col-8 col-lg-4">
+            <UserBasicStats {...currentUser}/>
+            <NewcomersPanel new_posters={new_posters} arr_two_wk={arr_two_wk} /> 
+          </Col>
+          <Col className="PostFeed col-sm-8 col-lg-6" style={{width: "100%"}}>
+            <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+            </PostForm>
+            <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
+            </Modal> 
+            {posts.map(post=>(
+                <section key={post.slug} data-slug={post.slug}>
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
+                    <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
 
-              </SinglePost>
-            </section>
-        ))}
-      </section>
-
-      <section className="column-3 flex-grow-3 ml-2">
-        <NewcomersPanel new_posters={new_posters} arr_two_wk={arr_two_wk} />
-      </section>
-    </Container> 
+                  </SinglePost>
+                </section>
+            ))}
+          </Col>
+        </Row>
+      </Container> 
     )
   }
 

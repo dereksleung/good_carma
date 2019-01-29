@@ -2,7 +2,7 @@ class PostSerializer < ActiveModel::Serializer
 
   include Rails.application.routes.url_helpers
 
-  attributes :id, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id 
+  attributes :slug, :body, :created_at, :updated_at, :picture_url, :color, :comments, :inspire_count, :gold_inspires, :silver_inspires, :p_user_full_name, :p_user_id 
   
   attribute :image
   #, :gen_query
@@ -25,13 +25,24 @@ class PostSerializer < ActiveModel::Serializer
     end
   end
 
+  def c_user_avatar_image(comment)
+    if Rails.env.development?
+      return "http://localhost:3000#{rails_blob_url(comment.user.avatar_image, only_path: true)}" if comment.user.avatar_image.attached?
+    else 
+      rails_blob_url(comment.user.avatar_image, only_path: true) if comment.user.avatar_image.attached?
+    end
+  end
+
   def comments
     comments = []
     object.comments.each do |c|
       comments << { body: c.body,
                     c_user: c.user.full_name,
+                    c_user_slug: c.user.slug,
+                    c_slug: c.slug,
                     created_at: c.created_at.to_formatted_s(:long),
-                    updated_at: c.updated_at.to_formatted_s(:long)
+                    updated_at: c.updated_at.to_formatted_s(:long),
+                    c_user_avatar_image: c_user_avatar_image(c) 
                   }
     end
     comments
@@ -42,7 +53,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def p_user_id
-    object.user.id
+    object.user.slug
   end
 
   def created_at
@@ -64,12 +75,11 @@ class PostSerializer < ActiveModel::Serializer
 
   # This sets up a custom attribute to serialize
   def child_post_count
-    count = 0
-    # object refers to the User model as we are in the User serializer.
-    object.child_posts.each do |p|
-      count += p.child_posts.size
-    end
-    count
+    object.child_posts.size
+    # object.child_posts.each do |p|
+    #   count += p.child_posts.size
+    # end
+    
   end
 
 end
