@@ -29,14 +29,13 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def create
-    byebug
     post = Post.new post_params
 
     if params[:parent_ids].present?
       parents_id_arr = (post_params[:parent_ids]).split(",")
     end
     post.user = current_user
-    
+    post.company_id = current_user.company_id
     
     if post.save
       if params[:image].present?

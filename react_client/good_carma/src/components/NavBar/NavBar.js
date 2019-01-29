@@ -39,7 +39,7 @@ class NavBar extends Component {
             
               <NavLink className="text-dark" exact to="/posts" tag={RRNavLink}>See Activity</NavLink>
             
-              <NavLink className="text-dark" exact to="/leaderboards" tag={RRNavLink}>The LeaderBoards</NavLink>
+              <NavLink className="text-dark" exact to="/leaderboards" tag={RRNavLink}>Leaderboards</NavLink>
             
             <SearchBar/>
           </Collapse>
