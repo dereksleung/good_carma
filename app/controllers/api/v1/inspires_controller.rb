@@ -6,19 +6,27 @@ class Api::V1::InspiresController < Api::ApplicationController
     inspire.user = current_user
 
     if params[:inspiring_entry_type] == "Post"
-      insp_entry_id = params[:post_id]
-      inspire.inspiring_entry = Post.friendly.find insp_entry_id
+      post = Post.friendly.find(params[:post_id])
+      if post.inspires.detect {|i| i.user_id == current_user.id}.blank?
+        inspire.inspiring_entry = post
+      else
+        render json: {errors: "You can't Inspire the same post twice."}
+      end
     elsif params[:inspiring_entry_type] == "Comment"
-      insp_entry_id = params[:comment_id]
-      inspire.inspiring_entry = Comment.find insp_entry_id
+      comment = Comment.friendly.find(params[:post_id, :id])
+      if comment.inspires.detect {|i| i.user_id == current_user.id}.blank?
+        inspire.inspiring_entry = comment
+      else 
+      render json: {errors: "You can't Inspire the same comment twice."}
+      end
     end 
 
     insp_entry = inspire.inspiring_entry
 
     if params[:color] == "gold"
-      insp_entry.update(color: "gold")
+      insp_entry.color = gold
     elsif params[:color] == "silver"
-      insp_entry.update(color: "silver")
+      insp_entry.color = "silver"
     end
 
     if inspire.save

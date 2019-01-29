@@ -43,3 +43,9 @@ img.badge {
   background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0, 0, 0, 0.5))
 }
 
+@media screen and (max-width: 575px) {
+  .PostIndexPage {
+    zoom: 0.7;
+  }
+}
+

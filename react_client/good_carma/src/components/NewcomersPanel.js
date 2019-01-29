@@ -15,12 +15,8 @@ const NewcomersPanel = (props) => {
     
       
       return(
-        <section className="NewcomersPanel p-3">
-          <strong style={{  
-            overflow: "hidden",
-            textOverflow: "ellipsis", 
-            whiteSpace: "nowrap",
-            marginBottom: "1em"}} className="mb-4">Newcomers to Check Out</strong>
+        <section className="NewcomersPanel p-3" style={{opacity: 0.9, marginBottom: "0.9rem"}}>
+          <strong style={{marginBottom: "1em"}} className="mb-4">Newcomers to Check Out</strong>
           <p style={{fontSize: "0.9em"}}>New Blood</p>
           <section id="new-blood-group">
             {props.new_posters ? props.new_posters.map(user=>{

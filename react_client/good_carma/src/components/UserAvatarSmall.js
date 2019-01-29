@@ -7,7 +7,7 @@ const UserAvatarSmall = (props) => {
       backgroundColor: "#03A9F4",
       display: "inline-block",
       height: `${props.size}px`,
-      width: `${props.size}px`,
+      minWidth: `${props.size}px`,
       borderRadius: "100%",
       backgroundSize: "contain"
     }}>

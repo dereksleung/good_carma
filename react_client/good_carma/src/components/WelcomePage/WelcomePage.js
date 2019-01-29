@@ -43,7 +43,7 @@ const WelcomePage = props => {
         </Row> 
        
       </Container>
-      <Container className="featurettes" style={{padding: "4rem", minWidth: "100vw", margin: "0" }}>
+      <Container className="featurettes" style={{padding: "4rem 2rem", minWidth: "100vw", margin: "0" }}>
       <Row>
         <Col className="featurette col-12 col-lg-4">
           <PopoverImageWithCredit credUrl="https://www.freepik.com/free-photos-vectors/technology" credName="Technology vector created by rawpixel.com - www.freepik.com"

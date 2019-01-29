@@ -156,30 +156,28 @@ class PostIndexPage extends Component {
     }
 
     return(
-    <Container className="PostIndexPage mt-5">
-      <section className="column-1 col-4 col-lg-3 mr-2">
-        <UserBasicStats {...currentUser}/> 
-      </section>
-      
-      <section className="column-2 PostFeed col-sm-8 col-lg-6" style={{width: "100%"}}>
-        <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
-        </PostForm>
-        <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
-        </Modal> 
-        {posts.map(post=>(
-            <section key={post.slug} data-slug={post.slug}>
-              <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
-                <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
+      <Container className="PostIndexPage mt-5">
+        <Row>
+          <Col className="col-8 col-lg-4">
+            <UserBasicStats {...currentUser}/>
+            <NewcomersPanel new_posters={new_posters} arr_two_wk={arr_two_wk} /> 
+          </Col>
+          <Col className="PostFeed col-sm-8 col-lg-6" style={{width: "100%"}}>
+            <PostForm parentIDs={this.state.parentIDs} clearParentIDs={this.clearParentIDs} showNewPost={this.showNewPost} >
+            </PostForm>
+            <Modal isOpen={this.state.togglePostForm} toggle={this.togglePostForm}>
+            </Modal> 
+            {posts.map(post=>(
+                <section key={post.slug} data-slug={post.slug}>
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
+                    <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
 
-              </SinglePost>
-            </section>
-        ))}
-      </section>
-
-      <section className="column-3 col-4 ml-2">
-        <NewcomersPanel new_posters={new_posters} arr_two_wk={arr_two_wk} />
-      </section>
-    </Container> 
+                  </SinglePost>
+                </section>
+            ))}
+          </Col>
+        </Row>
+      </Container> 
     )
   }
 

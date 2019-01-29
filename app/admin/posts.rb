@@ -29,6 +29,7 @@ ActiveAdmin.register Comment do
 
 end
 
-# ActiveAdmin.register Inspire do
-#   belongs_to :post
-# end
+ActiveAdmin.register Inspire do
+  belongs_to :post
+  permit_params :user_id, :color, :inspiring_entry_id, :inspiring_entry_type
+end

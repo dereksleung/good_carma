@@ -75,12 +75,11 @@ class PostSerializer < ActiveModel::Serializer
 
   # This sets up a custom attribute to serialize
   def child_post_count
-    count = 0
-    # object refers to the User model as we are in the User serializer.
-    object.child_posts.each do |p|
-      count += p.child_posts.size
-    end
-    count
+    object.child_posts.size
+    # object.child_posts.each do |p|
+    #   count += p.child_posts.size
+    # end
+    
   end
 
 end
