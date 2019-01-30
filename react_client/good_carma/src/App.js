@@ -42,7 +42,8 @@ class App extends Component {
       backgroundRepeat:"no-repeat",
       backgroundAttachment: "fixed",
       backgroundPosition:"center",
-      position: "relative"
+      position: "relative",
+      minHeight: "100vh"
     }
   }
 
@@ -86,11 +87,11 @@ class App extends Component {
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}/>
 
 
-          <section className="background-splash" >
+          
             <Switch>
               <Route path="/" exact render={(routeProps)=><WelcomePage {...routeProps} bground={this.majorBackgroundStyle}/>} />
               <section style={this.majorBackgroundStyle}>
-              ` <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage bground={this.majorBackgroundStyle}/>} />
+                <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage bground={this.majorBackgroundStyle}/>} />
                 <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage bground={this.majorBackgroundStyle}/>} />
                 <Route path="/search" exact render={(routeProps=><SearchResults {...routeProps} bground={this.majorBackgroundStyle}/>)} />
                 <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} bground={this.majorBackgroundStyle}/>} />
@@ -109,7 +110,7 @@ class App extends Component {
                 <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />`
               </section>
             </Switch>
-          </section>
+          
         </div>
       </BrowserRouter>
     );
