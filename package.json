@@ -1,7 +1,15 @@
 {
   "name": "good_carma",
+  "engines": {
+    "node": "10.10.0" 
+  },
   "private": true,
   "dependencies": {
     "react-router-dom": "^4.3.1"
+  },
+  "scripts": {
+    "build": "cd react_client/good_carma && npm install && npm run build && cd ../..",
+    "deploy": "cp -a react_client/good_carma/build/. public/",
+    "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
   }
 }
