@@ -4,6 +4,9 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# For production - React app static bundle will go here 
+/public
+
 # Ignore bundler config.
 /.bundle
 
