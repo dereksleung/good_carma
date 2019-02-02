@@ -1,4 +1,4 @@
-const BASE_URL = `http://localhost:3000/api/v1`;
+const BASE_URL = `goodcarma.herokuapp.com/api/v1`;
 
 export const Post = {
   all() {
