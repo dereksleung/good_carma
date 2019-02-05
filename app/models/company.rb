@@ -2,7 +2,7 @@ class Company < ApplicationRecord
 
   before_create :confirmation_token
 
-  after_create :create_tenant
+  # after_create :create_tenant
 
   has_secure_password
 
@@ -13,7 +13,7 @@ class Company < ApplicationRecord
   private
 
   def create_tenant
-    Apartment::Tenant.create(name)
+    # Apartment::Tenant.create(name)
   end
 
   def confirmation_token
