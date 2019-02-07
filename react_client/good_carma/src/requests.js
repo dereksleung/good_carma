@@ -1,4 +1,5 @@
-const BASE_URL = `api/v1`;
+const BASE_URL = `/api/v1`;
+const firstLoadUrl = `api/v1`;
 
 export const Post = {
   all() {
@@ -72,7 +73,7 @@ export const LeaderBoard = {
 
 export const User = {
   current() {
-    return fetch(`${BASE_URL}/users/current`, {
+    return fetch(`${firstLoadUrl}/users/current`, {
       credentials: "include"
     }).then(res => res.json());
   },
