@@ -32,7 +32,7 @@ class UserSerializer < ActiveModel::Serializer
       if Rails.env.development?
         badge["image"] = "http://localhost:3000#{rails_blob_url(badge.image, only_path: true)}" if badge.image.attached?
       else 
-        badge["image"] = rails_blob_url(badge.image, only_path: true) if badge.image.attached?
+        badge["image"] = badge.service_url if badge.image.attached?
       end
     }
   end
@@ -59,7 +59,7 @@ class UserSerializer < ActiveModel::Serializer
     if Rails.env.development?
       return "http://localhost:3000#{rails_blob_url(object.avatar_image, only_path: true)}" if object.avatar_image.attached?
     else 
-      rails_blob_url(object.avatar_image, only_path: true) if object.avatar_image.attached?
+      object.avatar_image.service_url if object.avatar_image.attached?
     end
   end
 
@@ -67,7 +67,7 @@ class UserSerializer < ActiveModel::Serializer
     if Rails.env.development?
       return "http://localhost:3000#{rails_blob_url(object.splash_image, only_path: true)}" if object.splash_image.attached?
     else 
-      rails_blob_url(object.splash_image, only_path: true) if object.splash_image.attached?
+      object.splash_image.service_url if object.splash_image.attached?
     end
   end
 

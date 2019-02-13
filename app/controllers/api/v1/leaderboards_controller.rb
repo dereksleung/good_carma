@@ -246,7 +246,7 @@ class Api::V1::LeaderboardsController < ApplicationController
       end
     else 
       if badge.image.attached?
-        rails_blob_url(badge.image, only_path: true) 
+        badge.image.service_url
       else 
         ""
       end
@@ -262,7 +262,7 @@ class Api::V1::LeaderboardsController < ApplicationController
           user["avatar_image"] = "http://localhost:3000#{rails_blob_url(user_record.avatar_image, only_path: true)}" 
         end
       else 
-        user["avatar_image"] = rails_blob_url(user_record.avatar_image, only_path: true) if user_record.avatar_image.attached?
+        user["avatar_image"] = user_record.avatar_image.service_url if user_record.avatar_image.attached?
       end
     }
   end

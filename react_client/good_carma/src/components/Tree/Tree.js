@@ -6,7 +6,7 @@ import TreeBranch from "./TreeBranch";
 import Tippy from "@tippy.js/react";
 import "tippy.js/dist/tippy.css";
 import PopoverPost from "./PopoverPost";
-import Leaf from "./leaf-147490.svg";
+import Leaf from "./RealisticLeaves.svg";
 import InspirePopover from "./InspirePopover";
 import Apple from "./apple-2029586.svg";
 import TreeBush from "./TreeBush.svg";

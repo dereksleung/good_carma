@@ -17,7 +17,7 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require 'apartment/elevators/first_subdomain'
+# require 'apartment/elevators/first_subdomain'
 
 module GoodCarma
   class Application < Rails::Application
@@ -48,6 +48,6 @@ module GoodCarma
       end
     end
     
-    config.middleware.insert_after(Rack::Cors, Apartment::Elevators::FirstSubdomain)
+    # config.middleware.insert_after(Rack::Cors, Apartment::Elevators::FirstSubdomain)
   end
 end

@@ -90,16 +90,16 @@ class Api::V1::PostsController < Api::ApplicationController
 
   private
 
-  def find_company
+  def find_tenant
     if user_signed_in?
       if current_user.companies.present?
-        Apartment::Tenant.switch("#{current_user.company.name}")
+        # Apartment::Tenant.switch("#{current_user.company.name}")
       else 
         # Calling .switch with no argument switches to the `public` schema.
-        Apartment::Tenant.switch()
+        # Apartment::Tenant.switch()
       end
     else
-      Apartment::Tenant.switch() 
+      # Apartment::Tenant.switch() 
     end
   end
 

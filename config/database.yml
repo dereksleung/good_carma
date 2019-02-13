@@ -1,8 +1,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # username: postgres
-  # password: xxxxx #<-- which you have defiend while installing postgresql
+  username: derek
+  password: fakePasswordToAllowRakeAssetsPrecompile
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
@@ -16,5 +16,4 @@ test:
 production:
   <<: *default
   database: good_carma_production
-  username: username
-  password: <%= ENV['PROJECT_DATABASE_PASSWORD'] %>
+
