@@ -1,5 +1,8 @@
-const BASE_URL = `/api/v1`;
-const firstLoadUrl = `api/v1`;
+let BASE_URL = `/api/v1`;
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+  BASE_URL = `http://localhost:3000/api/v1`;
+}
 
 export const Post = {
   all() {
@@ -73,7 +76,7 @@ export const LeaderBoard = {
 
 export const User = {
   current() {
-    return fetch(`${firstLoadUrl}/users/current`, {
+    return fetch(`${BASE_URL}/users/current`, {
       credentials: "include"
     }).then(res => res.json());
   },
