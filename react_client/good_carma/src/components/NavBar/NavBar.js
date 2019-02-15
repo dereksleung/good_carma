@@ -13,6 +13,7 @@ class NavBar extends Component {
     }
 
     this.toggleNav = this.toggleNav.bind(this);
+    this.handleSignOutClick = this.handleSignOutClick.bind(this);
   }
 
   handleSignOutClick(event) {
