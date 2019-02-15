@@ -3,6 +3,6 @@ ActionMailer::Base.smtp_settings = {
   port: "587",
   enable_starttls_auto: true,
   authentication: :plain,
-  user_name: ENV["email_user_name"],
-  password: ENV["email_password"]
+  user_name: Rails.application.credentials[:email_username],
+  password: Rails.application.credentials[:email_password]
 }

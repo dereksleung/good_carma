@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       end
 
       resources :companies, only: [:create] do
-        get("/confirmation", to: "users#confirmation", as: :confirmation)
+        get("/confirmation", to: "companies#confirmation", as: :confirmation)
       end
 
       resource :sessions, only: [:create, :destroy]

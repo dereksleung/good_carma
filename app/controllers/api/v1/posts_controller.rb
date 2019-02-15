@@ -5,6 +5,7 @@ class Api::V1::PostsController < Api::ApplicationController
   before_action :find_company, only: [:index]
   before_action :find_post, only: [:update, :destroy]
   before_action :authorize_user!, only: [:update, :destroy]
+  before_action :check_user_confirm, except: [:show, :index]
 
   def index
     if user_signed_in?
@@ -89,6 +90,13 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   private
+
+  def check_user_confirm
+    if user_signed_in
+      unless current_user.confirmed == true
+        render(json: { message: "You are not yet confirmed! Contact your company admin."}, status: 401 )
+    end
+  end
 
   def find_tenant
     if user_signed_in?
