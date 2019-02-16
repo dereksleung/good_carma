@@ -24,7 +24,8 @@ class Api::V1::CompaniesController < Api::ApplicationController
     company.confirmed = true
     company.save
     
-    slug = company.slug
+    c_admin_user = User.find_by(email: company.email)
+    slug = c_admin_user.slug
 
     # if Apartment::Tenant.current == "public"
     #   subdomain = ""
