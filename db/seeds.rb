@@ -71,14 +71,20 @@ p.child_posts << pchild2
 pchild1.child_posts << pgrandchild1
 
 # Add Inspires
+c = Company.find_by(name: "Demo")
+users = c.users
+Inspire.destroy_all
 Post.all.each {|post| 
-  rand(2..8).times do
-    i = Inspire.new(user: User.all.sample)
-    u_color = i.user.level
-    if u_color.present?
-      i.color = i.user.level
+  rand(7..25).times do
+    i_user = users.sample
+    if post.user != i_user
+      i = Inspire.new(user: i_user)
+      u_color = i_user.level
+      if u_color.present?
+        i.color = i_user.level
+      end
+      post.inspires << i
     end
-    post.inspires << i
   end
 }
 
