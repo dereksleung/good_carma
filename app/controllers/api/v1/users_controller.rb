@@ -55,10 +55,10 @@ class Api::V1::UsersController < Api::ApplicationController
       # end
 
       if Rails.env.development?
-        redirect_to("lvh.me:3001/users/#{slug}")
+        redirect_to("https://lvh.me:3001/users/#{slug}")
         # redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
       else
-        redirect_to("goodcarma.herokuapp.com/users/#{slug}")
+        redirect_to("https://goodcarma.herokuapp.com/users/#{slug}")
         # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
       end
     end

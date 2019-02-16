@@ -34,10 +34,10 @@ class Api::V1::CompaniesController < Api::ApplicationController
     # end
 
     if Rails.env.development?
-      redirect_to("localhost:3001/users/#{slug}")
+      redirect_to("https://localhost:3001/users/#{slug}")
       # redirect_to("#{subdomain}localhost:3001/users/#{slug}")
     elsif Rails.env.production?
-      redirect_to("goodcarma.herokuapp.com/users/#{slug}")
+      redirect_to("https://goodcarma.herokuapp.com/users/#{slug}")
       # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
     end
   end
