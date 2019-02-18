@@ -25,7 +25,7 @@ class SearchBar extends Component {
   render() {
     
     return(
-      <Form action="/search" method="GET" id="nav-searchbar" className="SearchBar">
+      <Form action="/api/v1/search" method="GET" id="nav-searchbar" className="SearchBar">
         <InputGroup>
           <Input type="text" name="query" value={this.state.query} onChange={this.handleChange} style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
           <InputGroupAddon addonType="append">
