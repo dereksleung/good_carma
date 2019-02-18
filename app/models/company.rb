@@ -6,9 +6,9 @@ class Company < ApplicationRecord
 
   has_secure_password
 
-  # has_many :positions, dependent: :destroy
-  has_many :users
-  has_many :posts
+  has_many :positions, dependent: :destroy
+  has_many :users, dependent: :destroy
+  has_many :posts, dependent: :destroy
 
   private
 

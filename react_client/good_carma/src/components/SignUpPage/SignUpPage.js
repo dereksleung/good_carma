@@ -4,7 +4,6 @@ import { NavLink as RRNavLink } from "react-router-dom";
 
 import { Company } from "../../requests";
 
-
 class SignUpPage extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +14,7 @@ class SignUpPage extends Component {
       email: "",
       password: "",
       password_confirmation: ""
-    };
+    }
 
 
     this.fromFormData = this.fromFormData.bind(this);
@@ -47,27 +46,7 @@ class SignUpPage extends Component {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
-    // const company_params = this.fromFormData(formData);
-    // debugger;
 
-    // fetch(currentTarget.action, {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     company: {
-    //       ...company_params
-    //     }
-    //   })
-    // })
-    //   .then(res=>res.json())
-    //   .then(data=>
-    //     this.setState({
-    //       successful: data
-    //     })
-    //   )
       Company.create(this.fromFormData(formData))
       .then(data=>
         this.setState({

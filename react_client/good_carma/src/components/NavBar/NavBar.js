@@ -13,6 +13,7 @@ class NavBar extends Component {
     }
 
     this.toggleNav = this.toggleNav.bind(this);
+    this.handleSignOutClick = this.handleSignOutClick.bind(this);
   }
 
   handleSignOutClick(event) {
@@ -41,14 +42,14 @@ class NavBar extends Component {
             
               <NavLink className="text-dark" exact to="/leaderboards" tag={RRNavLink}>Leaderboards</NavLink>
             
-            <SearchBar/>
-          </Collapse>
+              <SearchBar/>
+            </Collapse>
         </div>
         <div id="nav-right" className="d-flex flex-grow-1 justify-content-end">
           {currentUser ? (
           <>
-          <NavLink className="text-dark" exact to={`users/${currentUser.slug}`} tag={RRNavLink}>{currentUser.full_name}</NavLink>
-          <a href="/#" id="sign-out-btn" className="text-dark align-self-center mr-2" onClick={this.handleSignOutClick}>Sign Out</a>
+            <NavLink className="text-dark" exact to={`users/${currentUser.slug}`} tag={RRNavLink}>{currentUser.full_name}</NavLink>
+            <a href="/#" id="sign-out-btn" className="text-dark align-self-center mr-2" onClick={this.handleSignOutClick}>Sign Out</a>
           </> 
           ) : (
           <NavLink className="text-dark" exact to="/session/new" tag={RRNavLink}>

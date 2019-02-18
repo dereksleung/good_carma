@@ -4,7 +4,7 @@ class CompanyConfirmMailer < ApplicationMailer
     @company = company
 
     mail(
-      to: @email,
+      to: @company.email,
       subject: "Your company, #{@company.name} joined! Is this truly from you?"
     )
 

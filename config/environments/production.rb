@@ -71,7 +71,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = {
-    host: "good_carma.herokuapp.com"
+    host: "https://goodcarma.herokuapp.com"
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

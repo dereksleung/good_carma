@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::ApplicationController
 
-  before_action :set_mailer_host, only: [:create]
+
   # before_action :authenticate_user!
 
   def current
@@ -21,36 +21,46 @@ class Api::V1::UsersController < Api::ApplicationController
  
     u = User.new user_params
     company = Company.find_by_email(params[:user][:company_email])
+    if company.confirmed == true
+      u.companies << company
 
-    u.companies << company
-
-    if u.save
-      UserConfirmMailer.notify_admin(u,company).deliver
-      render json: { status: :success, message: "Successfully signed up! Your admin will need to verify you before you can start." }
+      if u.save
+        UserConfirmMailer.notify_admin(u,company).deliver
+        render json: { status: :success, message: "Successfully signed up! Your admin will need to verify you before you can start." }
+      else
+        render(json: {status: 422, errors: u.errors.full_messages, message: u.errors.full_messages})
+      end
     else
-      render(json: {status: 422, errors: u.errors.full_messages, message: u.errors.full_messages})
+      render(json: {message: "Your company admin needs to verify your company first. Contact them."})
     end
   end
 
   def confirmation
+    
     confirm_token = params[:user_id]
     user = User.find_by(confirm_token: confirm_token)
-    user.confirmed = true
-    user.save
-    
-    slug = user.slug
 
-    # if Apartment::Tenant.current == "public"
-    #   subdomain = ""
-    # else
-    #   subdomain = "#{Apartment::Tenant.current}."
-    # end
-
-    if Rails.env.development?
-      redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
+    if user.company.confirmed == false
+      render(json: {message: "Your company admin needs to verify your company first. Contact them."})
     else
-      # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
-      redirect_to("goodcarma.herokuapp.com/users/#{slug}")
+      user.confirmed = true
+      user.save
+      
+      slug = user.slug
+
+      # if Apartment::Tenant.current == "public"
+      #   subdomain = ""
+      # else
+      #   subdomain = "#{Apartment::Tenant.current}."
+      # end
+
+      if Rails.env.development?
+        redirect_to("https://lvh.me:3001/users/#{slug}")
+        # redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
+      else
+        redirect_to("https://goodcarma.herokuapp.com/users/#{slug}")
+        # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
+      end
     end
   end
 
@@ -94,7 +104,4 @@ class Api::V1::UsersController < Api::ApplicationController
     params.permit(:splash_image)
   end
 
-  def set_mailer_host
-
-  end
 end
