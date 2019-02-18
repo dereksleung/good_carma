@@ -85,9 +85,6 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <NavBar currentUser={currentUser} onSignOut={this.destroySession}/>
-
-
-          
             <Switch>
               <Route path="/" exact render={(routeProps)=><WelcomePage {...routeProps} bground={this.majorBackgroundStyle}/>} />
               <section style={this.majorBackgroundStyle}>
