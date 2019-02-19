@@ -22,7 +22,7 @@ import UserShowPage from './components/UserShowPage';
 import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
 import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
 import UserList from "./components/UserList";
-import SearchResults from './components/SearchResults';
+import UserResults from './components/UserResults';
 
 class App extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class App extends Component {
               <section style={this.majorBackgroundStyle}>
                 <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage bground={this.majorBackgroundStyle}/>} />
                 <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage bground={this.majorBackgroundStyle}/>} />
-                <Route path="/search" exact render={(routeProps=><SearchResults {...routeProps} bground={this.majorBackgroundStyle}/>)} />
+                <Route path="/search" exact render={(routeProps=><UserResults {...routeProps} bground={this.majorBackgroundStyle}/>)} />
                 <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} bground={this.majorBackgroundStyle}/>} />

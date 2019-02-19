@@ -13,7 +13,7 @@ class UserResults extends Component {
   }
 
   componentDidMount() {
-    const query = this.props.query;
+    const query = this.props.location.state.query;
     Search.users(query)
       .then(res=>{
         this.setState({

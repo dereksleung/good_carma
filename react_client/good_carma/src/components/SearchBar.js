@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import { Form, InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { Search } from "../requests";
+import { Redirect } from "react-router-dom";
 
 class SearchBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      query: ""
+      query: "",
+      toSearchResults: false
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -22,10 +25,25 @@ class SearchBar extends Component {
     });
   }
 
+  handleSubmit(event) {
+    this.setState({
+      toSearchResults: true
+    })
+  }
+
   render() {
+
+    if (this.state.toSearchResults === true) {
+      return(
+        <Redirect to={{
+          pathname: "/search",
+          state: { query: `${this.state.query}`}
+        }} />
+      )
+    }
     
     return(
-      <Form action="/api/v1/search" method="GET" id="nav-searchbar" className="SearchBar">
+      <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
         <InputGroup>
           <Input type="text" name="query" value={this.state.query} onChange={this.handleChange} style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
           <InputGroupAddon addonType="append">
