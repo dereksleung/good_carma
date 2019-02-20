@@ -6,7 +6,7 @@
 </p>
 
 <!-- <%= link_to("Yes we wanted this!", "http://localhost:3001/companies/#{@company.confirm_token}/confirmation") %> -->
-<%= link_to("Yes we wanted this!", "https://goodcarma.herokuapp.com/companies/#{@company.confirm_token}/confirmation") %> 
+<%= link_to("Yes we wanted this!", api_v1_company_confirmation_url(@company.confirm_token)) %> 
 
 
 <p>Cheers, <br> The Good Carma Team</p>

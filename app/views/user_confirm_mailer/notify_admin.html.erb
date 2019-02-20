@@ -6,7 +6,7 @@
 </p>
 
 <!-- <%= link_to("Yes I know them", "http://localhost:3001/users/#{@user.confirm_token}/confirmation") %> -->
-<%= link_to("Yes I know them", api_v1_company_confirmation(@user.confirm_token)) %>
+<%= link_to("Yes I know them", api_v1_user_confirmation_url(@user.confirm_token)) %>
 
 
 <p>Cheers, <br> The Good Carma Team</p>
