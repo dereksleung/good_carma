@@ -33,11 +33,16 @@ class Api::V1::CompaniesController < Api::ApplicationController
     #   subdomain = "#{Apartment::Tenant.current}."
     # end
 
+    if company.errors.present?
+      render json: { message: company.errors.full_messages }
+    end
+
     if Rails.env.development?
-      redirect_to(api_v1_user_url(slug))
+      render json: { message: "Your company is confirmed! Try signing in with the link above!" }
       # redirect_to("#{subdomain}localhost:3001/users/#{slug}")
     elsif Rails.env.production?
-      redirect_to(api_v1_user_url(slug))
+      render json: { message: "Your company is confirmed! Try signing in with the link above!" }
+      # redirect_to(api_v1_user_url(slug))
       # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
     end
   end

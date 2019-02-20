@@ -60,7 +60,6 @@ Rails.application.routes.draw do
     resources :sympathies
   end
 
-  resources :users
   resource :sessions, only: [:new, :create, :destroy]
 
 end

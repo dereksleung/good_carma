@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Confirm } from "../../requests";
+import { Confirm } from "../requests";
 import { UncontrolledAlert } from "reactstrap";
 
-class UserConfirmPage extends Component {
+class ConfirmCompany extends Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class UserConfirmPage extends Component {
 
   componentDidMount() {
     const confirmToken = this.props.match.params.id;
-    Confirm.user(confirmToken)
+    Confirm.company(confirmToken)
       .then(data=>{
         this.setState({
           confirming: false,
@@ -37,4 +37,4 @@ class UserConfirmPage extends Component {
   }
 }
 
-export default UserConfirmPage;
+export default ConfirmCompany;

@@ -224,13 +224,26 @@ export const Comment = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(params)
-    })
+    }).then(res => res.json());
   },
   update(params) {
 
   },
   destroy() {
 
+  }
+}
+
+export const Confirm = {
+  company(confirm_token) {
+    return fetch(`${BASE_URL}/companies/${confirm_token}/confirmation`, {
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  user(confirm_token) {
+    return fetch(`${BASE_URL}/users/${confirm_token}/confirmation`, {
+      credentials: "include"
+    }).then(res => res.json());
   }
 }
 
