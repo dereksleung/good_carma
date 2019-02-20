@@ -41,7 +41,7 @@ class Api::V1::CompaniesController < Api::ApplicationController
       render json: { message: "Your company is confirmed! Try signing in with the link above!" }
       # redirect_to("#{subdomain}localhost:3001/users/#{slug}")
     elsif Rails.env.production?
-      render json: { message: "Your company is confirmed! Try signing in with the link above!" }
+      redirect_to "https://goodcarma.herokuapp.com"
       # redirect_to(api_v1_user_url(slug))
       # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
     end
