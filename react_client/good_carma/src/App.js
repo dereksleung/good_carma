@@ -21,6 +21,7 @@ import CurrentUser from './components/CurrentUser';
 import UserShowPage from './components/UserShowPage';
 import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
 import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
+import ConfirmCompany from './components/ConfirmCompany';
 import UserList from "./components/UserList";
 import UserResults from './components/UserResults';
 
@@ -91,6 +92,7 @@ class App extends Component {
                 <Route path="/sign_up/company" exact render={(routeProps)=><SignUpPage bground={this.majorBackgroundStyle}/>} />
                 <Route path="/sign_up/user" exact render={(routeProps)=><UserSignUpPage bground={this.majorBackgroundStyle}/>} />
                 <Route path="/search" exact render={(routeProps=><UserResults {...routeProps} bground={this.majorBackgroundStyle}/>)} />
+                <Route path="/companies/:id/confirmation" exact render={(routeProps)=><ConfirmCompany {...routeProps}/> } />
                 <Route path="/users/:id/confirmation" exact render={(routeProps)=><UserConfirmPage {...routeProps} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} bground={this.majorBackgroundStyle}/>} />

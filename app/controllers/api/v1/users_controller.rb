@@ -45,6 +45,10 @@ class Api::V1::UsersController < Api::ApplicationController
     else
       user.confirmed = true
       user.save
+
+      if user.errors.present?
+        render json: { message: user.errors.full_messages}
+      end
       
       slug = user.slug
 
@@ -55,10 +59,12 @@ class Api::V1::UsersController < Api::ApplicationController
       # end
 
       if Rails.env.development?
-        redirect_to("https://lvh.me:3001/users/#{slug}")
+        render json: { message: "User confirmed! Try signing in with the link at the top right!" }
+        # redirect_to("https://lvh.me:3001/users/#{slug}")
         # redirect_to("#{subdomain}lvh.me:3001/users/#{slug}")
       else
-        redirect_to("https://goodcarma.herokuapp.com/users/#{slug}")
+        render json: { message: "User confirmed! Try signing in with the link at the top right!" }
+        # redirect_to("https://goodcarma.herokuapp.com/users/#{slug}")
         # redirect_to("#{subdomain}goodcarma.herokuapp.com/users/#{slug}")
       end
     end

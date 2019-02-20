@@ -26,6 +26,7 @@ class SearchBar extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     this.setState({
       toSearchResults: true
     })
@@ -34,14 +35,33 @@ class SearchBar extends Component {
   render() {
 
     if (this.state.toSearchResults === true) {
+      this.setState({
+        toSearchResults: false
+      });
       return(
+        <>
         <Redirect to={{
           pathname: "/search",
           state: { query: `${this.state.query}`}
         }} />
+        <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
+          <InputGroup>
+            <Input type="text" name="query" value={this.state.query} onChange={this.handleChange} style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
+            <InputGroupAddon addonType="append">
+              <Input type="submit" className="btn btn-outline-primary" value="Search" style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
+            </InputGroupAddon>
+          </InputGroup>
+        </Form>
+        </>
       )
     }
-    
+
+    if (this.state.toSearchResults === true) {
+      this.setState({
+        toSearchResults: false
+      })
+    }
+
     return(
       <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
         <InputGroup>
