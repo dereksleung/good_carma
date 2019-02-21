@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Form, InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { Search } from "../requests";
 import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom"; 
 
 class SearchBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      query: "",
-      toSearchResults: false
+      query: ""
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,40 +27,13 @@ class SearchBar extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({
-      toSearchResults: true
+    this.props.history.push({
+      pathname: "/search",
+      state: { query: `${this.state.query}`}
     })
   }
 
   render() {
-
-    if (this.state.toSearchResults === true) {
-      this.setState({
-        toSearchResults: false
-      });
-      return(
-        <>
-        <Redirect to={{
-          pathname: "/search",
-          state: { query: `${this.state.query}`}
-        }} />
-        <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
-          <InputGroup>
-            <Input type="text" name="query" value={this.state.query} onChange={this.handleChange} style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
-            <InputGroupAddon addonType="append">
-              <Input type="submit" className="btn btn-outline-primary" value="Search" style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
-            </InputGroupAddon>
-          </InputGroup>
-        </Form>
-        </>
-      )
-    }
-
-    if (this.state.toSearchResults === true) {
-      this.setState({
-        toSearchResults: false
-      })
-    }
 
     return(
       <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
@@ -75,4 +48,4 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);
