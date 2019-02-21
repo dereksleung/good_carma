@@ -23,14 +23,16 @@ class UserResults extends Component {
 
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const query = this.props.location.state.query;
-    Search.users(query)
-      .then(res=>{
-        this.setState({
-            users: res
+    if (query !== prevProps.location.state.query) {
+      Search.users(query)
+        .then(res=>{
+          this.setState({
+              users: res
+          });
         });
-      });
+    }
   }
 
   render() {
