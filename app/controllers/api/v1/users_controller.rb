@@ -21,9 +21,12 @@ class Api::V1::UsersController < Api::ApplicationController
  
     u = User.new user_params
     company = Company.find_by_email(params[:user][:company_email])
-    if company.confirmed == true
-      u.companies << company
 
+    if company.blank?
+      render json: { message: "To register, we need a registered company admin to verify you. This company admin could just be you and your personal email, but everyone else you want to see the same content will need to provide the same admin email." }
+
+    elsif company.confirmed == true 
+      u.company = company
       if u.save
         UserConfirmMailer.notify_admin(u,company).deliver
         render json: { status: :success, message: "Successfully signed up! Your admin will need to verify you before you can start." }

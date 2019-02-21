@@ -18,7 +18,6 @@ class UserSignUpPage extends Component {
       password_confirmation: ""
     };
 
-    this.fileInput = React.createRef();
     this.fromFormData = this.fromFormData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -88,18 +87,13 @@ class UserSignUpPage extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label>Company Admin Email</Label>
+            <Label>Company Admin Email (Required - We Filter Content by Company!)</Label>
             <Input name="company_email" onChange={this.handleChange} value={this.state.company_email} />
           </FormGroup>
 
           <FormGroup>
             <Label>Email</Label>
             <Input name="email" onChange={this.handleChange} value={this.state.email} />
-          </FormGroup>
-
-          <FormGroup>
-            <Label className="custom-file-label">Avatar - Mouse over this to see your selected filename after choosing.</Label>
-            <Input name="avatar_image" type="file" className="custom-file-input" ref={this.fileInput} />
           </FormGroup>
 
           <FormGroup>
