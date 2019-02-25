@@ -1,7 +1,9 @@
 class Api::V1::UsersController < Api::ApplicationController
 
 
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:update]
+  before_action :find_user, only: [:update]
+  before_action :authorize_manage_user!, only: [:update]
 
   def current
     c_u = nil
@@ -74,22 +76,21 @@ class Api::V1::UsersController < Api::ApplicationController
   end
 
   def update
-    user = User.friendly.find params[:id]
     
     # Image uploads happen separately from other profile updates, hence the renders ending early.
     if params[:avatar_image].present?
-      user.update avatar_params
-      user.avatar_image.attach(params[:avatar_image])
+      @user.update avatar_params
+      @user.avatar_image.attach(params[:avatar_image])
       render json: user
     elsif params[:splash_image].present?
-      user.update splash_params
-      user.splash_image.attach(params[:splash_image])
+      @user.update splash_params
+      @user.splash_image.attach(params[:splash_image])
       render json: user
     elsif params[:user].present?
-      user.update user_params
+      @user.update user_params
       render json: { status: :success, message: "Successfully updated!" }
     else
-      render(json: {status: 422, errors: user.errors.full_messages, message: user.errors.full_messages})
+      render(json: {status: 422, errors: @user.errors.full_messages, message: @user.errors.full_messages})
     end
   end
 
@@ -103,6 +104,16 @@ class Api::V1::UsersController < Api::ApplicationController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :avatar_image, :splash_image)
+  end
+
+  def find_user
+    @user = User.friendly.find params[:id]
+  end
+
+  def authorize_manage_user!
+    unless can? :manage, @user
+      render(json: { errors: ["Unauthorized"], message: "You're not authorized for this, can you sign in as someone who is?"}, status: 401 )
+    end
   end
 
   def avatar_params

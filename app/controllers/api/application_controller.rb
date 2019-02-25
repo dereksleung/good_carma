@@ -17,7 +17,7 @@ class Api::ApplicationController < ApplicationController
 
   def authenticate_user!
     unless user_signed_in?
-      render(json: { errors: ["Unauthorized"]}, status: 401 )
+      render(json: { errors: ["Unauthorized"], message: "Could you sign in?"}, status: 401 )
     end
   end
 end

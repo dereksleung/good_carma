@@ -1,5 +1,9 @@
 class Api::V1::CompaniesController < Api::ApplicationController
 
+  # before_action :authenticate_user!, only: [:update, :destroy]
+  # before_action :find_company, only: [:update, :destroy]
+  # before_action :authorize_user!, only: [:update, :destroy]
+
   def create
     company = Company.new company_params
     c_admin_user = User.new(first_name: params[:company][:name], email: params[:company] [:email], password: params[:company][:password], password_confirmation: params[:company][:password_confirmation])
@@ -51,5 +55,15 @@ class Api::V1::CompaniesController < Api::ApplicationController
 
   def company_params
     params.require(:company).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def find_company 
+    @company = Company.friendly.find params[:id]
+  end
+
+  def authorize_user!
+    unless can? :manage, @company
+      render json: {status: 403, message: "You're not authorized for this, can you sign in as someone who is?", errors: @company.errors.full_messages}
+    end
   end
 end

@@ -91,11 +91,7 @@ class EditPostForm extends Component {
           <FormGroup>
             <Input name="body" type="textarea" onChange={this.handleChange} value={this.state.body} />
           </FormGroup>
-          <FormGroup>
-            <Label>An Image URL</Label>
-            <Input name="picture_url" type="text" onChange={this.handleChange} value={this.state.picture_url} />
-          </FormGroup>
-          <Input type="submit" value="Update Above Fields" className="btn btn-secondary text-white"/>
+          <Input type="submit" value="Update Text" className="btn btn-secondary text-white"/>
         </Form>
 
         <Form className="image-file mt-2" onSubmit={this.handleFileSubmit}>
