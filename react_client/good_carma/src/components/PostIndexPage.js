@@ -54,13 +54,27 @@ class PostIndexPage extends Component {
   updateAfterEdit(updatedPost) {
     this.setState((prevState)=>{
       const { posts, ...restState } = prevState;
-      const updatedPosts = posts.map((prevPost, ind) => {
-        if (updatedPost.slug === prevPost.slug) {
-          return updatedPost;
-        } else {
-          return prevPost;
-        }
-      })
+      let updatedPosts;
+
+      if (updatedPost.hasOwnProperty("message")) {
+        updatedPosts = posts.map((prevPost) => {
+          if (updatedPost.slug === prevPost.slug) {
+            let prevPostWithErrs = Object.assign({},prevPost);
+            prevPostWithErrs.message = updatedPost.message;
+            return prevPostWithErrs;
+          } else {
+            return prevPost;
+          }
+        })
+      } else {
+        updatedPosts = posts.map((prevPost) => {
+          if (updatedPost.slug === prevPost.slug) {
+            return updatedPost;
+          } else {
+            return prevPost;
+          }
+        })
+      }
 
       return {
         ...restState,
