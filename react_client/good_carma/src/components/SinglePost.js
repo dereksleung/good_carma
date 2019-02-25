@@ -20,7 +20,7 @@ class SinglePost extends Component {
 
     this.toggleCollapseEditPostForm = this.toggleCollapseEditPostForm.bind(this);
     this.hndlInspireBtnSbmt = this.hndlInspireBtnSbmt.bind(this);
-    this.updateAfterEdit = this.updateAfterEdit.bind(this);
+
   }
 
   componentDidMount() {
@@ -33,17 +33,6 @@ class SinglePost extends Component {
   toggleCollapseEditPostForm() {
     this.setState({
       collapseEditPostForm: !this.state.collapseEditPostForm
-    })
-  }
-
-  updateAfterEdit(postData) {
-    this.setState((prevState, props) => {
-      return {
-        post: {
-        ...prevState.post,
-        ...postData
-        }
-      }
     })
   }
 
@@ -116,7 +105,7 @@ class SinglePost extends Component {
                 
                 {currentUser.slug === post.p_user_id ? 
                   <Collapse isOpen={this.state.collapseEditPostForm}>
-                    <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.updateAfterEdit} />
+                    <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.props.updateAfterEdit} />
                   </Collapse>
                 : ""
                 }

@@ -33,6 +33,7 @@ class PostIndexPage extends Component {
     this.updateFollowButton = this.updateFollowButton.bind(this);
     this.createFollow = this.createFollow.bind(this);
     this.submitComment = this.submitComment.bind(this);
+    this.updateAfterEdit = this.updateAfterEdit.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,24 @@ class PostIndexPage extends Component {
         newcomers: newcomers
       });
     });  
+  }
+
+  updateAfterEdit(updatedPost) {
+    this.setState((prevState)=>{
+      const { posts, ...restState } = prevState;
+      const updatedPosts = posts.map((prevPost, ind) => {
+        if (updatedPost.slug === prevPost.slug) {
+          return updatedPost;
+        } else {
+          return prevPost;
+        }
+      })
+
+      return {
+        ...restState,
+        posts: updatedPosts
+      }
+    })
   }
 
   
@@ -169,7 +188,7 @@ class PostIndexPage extends Component {
             </Modal> 
             {posts.map(post=>(
                 <section key={post.slug} data-slug={post.slug}>
-                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} updateAfterEdit={this.updateAfterEdit} >
                     <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
 
                   </SinglePost>
