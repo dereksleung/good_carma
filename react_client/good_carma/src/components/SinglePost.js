@@ -15,6 +15,7 @@ class SinglePost extends Component {
     this.state = {
       isAuthrzd: false,
       collapseEditPostForm: false,
+      message: ""
     }
 
     this.toggleCollapseEditPostForm = this.toggleCollapseEditPostForm.bind(this);
@@ -74,8 +75,8 @@ class SinglePost extends Component {
     return(
       
         <article className={`SinglePost ${post.color} border border-blue p-3`}>
-          {post.errors ?
-            <UncontrolledAlert color="info">{post.errors.message}</UncontrolledAlert>  
+          {post.hasOwnProperty("message") ?
+            <UncontrolledAlert color="info">{post.message}</UncontrolledAlert>  
           : ""
           }
           <section className="post-body mb-3">

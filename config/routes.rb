@@ -24,8 +24,8 @@ Rails.application.routes.draw do
 
       resources :users do
         get :current, on: :collection
-        get("/confirmation/:all_else", to: "users#confirmation", as: :confirmation)
-        get("/confirmation", to: "users#confirmation", as: :confirmation_2)
+        get("/confirmation", to: "users#confirmation", as: :confirmation)
+
         get("search", on: :collection)
         
         resources :follows, shallow: true, only: [:create, :destroy]

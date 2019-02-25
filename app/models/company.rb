@@ -1,5 +1,13 @@
 class Company < ApplicationRecord
 
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  
+  validates :name, presence: true
+  
+  validates :email, presence: true,
+                    uniqueness: true,
+                    format: VALID_EMAIL_REGEX
+
   before_create :confirmation_token
 
   # after_create :create_tenant
@@ -21,5 +29,8 @@ class Company < ApplicationRecord
       self.confirm_token = SecureRandom.urlsafe_base64.to_s
     end
   end
+
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :history, :finders]
 
 end

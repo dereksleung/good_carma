@@ -11,6 +11,7 @@ class Api::V1::PostsController < Api::ApplicationController
     if user_signed_in?
       posts = Post.where({company_id: @curr_company}).with_attached_image.order(created_at: :desc)
     else 
+
       posts = Post.where({company_id: Company.find_by_name("Demo").id}).with_attached_image.order(created_at: :desc)
     end
 
@@ -131,12 +132,12 @@ class Api::V1::PostsController < Api::ApplicationController
   end
 
   def find_post
-    @post = Post.find params[:id]
+    @post = Post.friendly.find params[:id]
   end
 
   def authorize_user!
     unless can? :manage, @post
-      render(json: { errors: ["Unauthorized"]}, status: 401 )
+      render(json: { errors: ["Unauthorized"], message: "You're not authorized for this, can you sign in as someone who is?"}, status: 401 )
     end
   end
 

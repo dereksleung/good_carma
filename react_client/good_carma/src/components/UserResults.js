@@ -23,12 +23,24 @@ class UserResults extends Component {
 
   }
 
+  componentDidUpdate(prevProps) {
+    const query = this.props.location.state.query;
+    if (query !== prevProps.location.state.query) {
+      Search.users(query)
+        .then(res=>{
+          this.setState({
+              users: res
+          });
+        });
+    }
+  }
+
   render() {
     const { users } = this.state;
 
     return(
-      <section className="UserResults">
-        <Container className="mt-5">
+      <section className="UserResults pt-5">
+        <Container className="">
           <Row>
             {users.map(user=>{
               return(

@@ -1,6 +1,10 @@
 class Post < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  validates :body, presence: true
+  validates :user, presence: true
+  validates :company, presence: true
+
   belongs_to :user
   belongs_to :company
   attr_reader :gen_query

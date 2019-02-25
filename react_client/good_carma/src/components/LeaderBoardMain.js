@@ -41,7 +41,7 @@ class LeaderBoardMain extends Component {
     const { two_wk_users } = this.state;
 
     return(
-      <Container className="LeaderBoardMain mt-4 d-flex flex-row">
+      <Container className="LeaderBoardMain pt-4 d-flex flex-row">
           <section className="flex-grow-2 m-3">
             <h3>New Blood</h3>
             <h5>Drop in with a friendly welcome!</h5>

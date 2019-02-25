@@ -41,11 +41,15 @@ class Ability
     end
 
     can(:read, Post) do |p|
-      user.company.id = p.company_id
+      user.company.id == p.company_id
     end
 
     can(:read, User) do |u|
-      user.company_id = u.company_id
+      user.company_id == u.company_id
+    end
+
+    can(:manage, Company) do |c|
+      user.email == c.email
     end
       #
     # See the wiki for details:

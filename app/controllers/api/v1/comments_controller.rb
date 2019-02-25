@@ -1,13 +1,13 @@
 class Api::V1::CommentsController < Api::ApplicationController
 
-  # before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :authenticate_user!, only: [:create, :destroy]
   before_action :find_comment, only: [:show, :update, :destroy]
-  # before_action :authorize_user!, only: [:destroy]
+  before_action :authorize_user!, only: [:destroy]
 
   def create
     post = Post.friendly.find params[:post_id]
     comment = Comment.new comment_params
-    byebug
+    
     comment.post = post
     comment.user = current_user
     
@@ -50,7 +50,7 @@ class Api::V1::CommentsController < Api::ApplicationController
 
   def authorize_user!
     unless can? :manage, @comment
-      render json: {status: 403, errors: @comment.errors.full_messages}
+      render json: {status: 403, errors: @comment.errors.full_messages, message: "You're not authorized for this, can you sign in as someone who is?"}
     end
   end
 

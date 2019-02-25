@@ -156,7 +156,7 @@ class PostIndexPage extends Component {
     }
 
     return(
-      <Container className="PostIndexPage mt-5">
+      <Container className="PostIndexPage pt-5">
         <Row>
           <Col className="col-8 col-lg-4">
             <UserBasicStats {...currentUser}/>

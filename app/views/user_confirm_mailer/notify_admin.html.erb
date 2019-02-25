@@ -6,7 +6,9 @@
 </p>
 
 <!-- <%= link_to("Yes I know them", "http://localhost:3001/users/#{@user.confirm_token}/confirmation") %> -->
-<%= link_to("Yes I know them", "https://goodcarma.herokuapp.com/users/#{@user.confirm_token}/confirmation") %>
+<h3>The link below will verify you behind the scenes, and take you back to our homepage. Try signing in after, and you'll be able to do stuff!</h3>
+
+<%= link_to("Yes I know them", api_v1_user_confirmation_url(@user.confirm_token)) %>
 
 
 <p>Cheers, <br> The Good Carma Team</p>
