@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "reactstrap";
 import { Post } from "../../requests";
 import Branch from "./branch.svg";
 import BranchHrzntl from "./branchHrzntl.svg";
@@ -93,8 +94,6 @@ class Tree extends Component {
     const currScaleY = parseFloat(currScale.match(/\d+\.?\d*/g)[1]); 
 
     this.oneBranchStyle.transform = `${currRotate} scale(${currScaleX * 0.6},${currScaleY * 0.6})`;
-
-    // debugger;
   }
 
   setBranchPositions(ind) {
@@ -194,32 +193,25 @@ class Tree extends Component {
     let divSize;
     let bushSize;
     let trunkSize;
-    let right;
 
     if (typeof child_posts != "undefined") {
       bushSize = `${1.2 * child_posts.length * 25}vh`;
       divSize = `${1.5 * child_posts.length * 25}vh`;
       trunkSize = `${0.7 * child_posts.length * 25}vh`;
-      right = "40%";
       if (window.innerWidth < 900) {
         bushSize = `${1.2 * child_posts.length * 25}vh`;
         trunkSize = `${0.5 * child_posts.length * 25}vh`;
-        right = "10%";  
       } else if (window.innerWidth < 350) {
         bushSize = `${1.2 * child_posts.length * 25}vh`;
-        right = "10%";  
       }
     } else {
       bushSize = "25vh";
       divSize = `${1.5 * 25}vh`;
       trunkSize = `${0.7 * 25}vh`;
-      right = "40%";
       if (window.innerWidth < 900) {
-        right = "10%";  
         trunkSize = `${0.5 * 25}vh`;  
       } else if (window.innerWidth < 350) {
         bushSize = `${2 * 25}vh`;
-        right = "10%";
       }
     }
 
@@ -233,7 +225,7 @@ class Tree extends Component {
     }
       
     return(
-      <section className="Tree" style={{
+      <Container className="Tree container-fluid" style={{
         display: "inline-block",
         position: "relative", 
         minHeight: "100vh",
@@ -251,8 +243,8 @@ class Tree extends Component {
           display: "inline-block",
           position: "absolute",
           bottom: "0%", 
-          right: `${right}`,
-
+          left: "50%",
+          transform: "translate(-50%, 0%)",
           height: `${bushSize}`,
           minWidth: `${bushSize}`,
           backgroundImage: `url(${TreeBush})`,
@@ -307,7 +299,7 @@ class Tree extends Component {
             }
           </section>
         </section>
-      </section>
+      </Container>
     )
   }
 }
