@@ -29,7 +29,7 @@ const CommentForm = props => {
           </FormGroup>
 
         <div>
-          <input type="submit" value="Post" className="btn btn-primary btn-sm" />
+          <input type="submit" value="Comment" className="btn btn-primary btn-sm" />
         </div>
       </form>
     
