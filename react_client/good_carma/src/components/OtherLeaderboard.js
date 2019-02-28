@@ -106,7 +106,7 @@ class OtherLeaderboard extends Component {
             <Link to={{pathname: "/leaderboards/show", state: { badge_name: "overachievers"}}} title="Most Badges Earned this Week">Overachievers
             </Link><br/>
             <Link to={{pathname: "/leaderboards/show", state: { badge_name: "muses"}}} title="Most Inspires this Week">Muses</Link><br/>
-            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "fonts_of_inspiration"}}} title="Fifteen Inspires from One Post">Fonts of Inspiration
+            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "fonts_of_inspiration"}}} title="Highest Weekly Total Inspires from Users who got Fifteen Inspires from One Post">Fonts of Inspiration
             </Link><br/>
             {/* <Link to="">Thought Provokers - Longest Posts earning 10 Inspires 
             </Link><br/>
