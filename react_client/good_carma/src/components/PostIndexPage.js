@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Post, LeaderBoard, Follow, Comment } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
+import InstructionPopover from "./InstructionPopover";
 
 import SinglePost from "./SinglePost";
 import NewcomersPanel from "./NewcomersPanel";
@@ -33,6 +34,7 @@ class PostIndexPage extends Component {
     this.updateFollowButton = this.updateFollowButton.bind(this);
     this.createFollow = this.createFollow.bind(this);
     this.submitComment = this.submitComment.bind(this);
+    this.updateAfterEdit = this.updateAfterEdit.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +50,38 @@ class PostIndexPage extends Component {
         newcomers: newcomers
       });
     });  
+  }
+
+  updateAfterEdit(updatedPost) {
+    this.setState((prevState)=>{
+      const { posts, ...restState } = prevState;
+      let updatedPosts;
+
+      if (updatedPost.hasOwnProperty("message")) {
+        updatedPosts = posts.map((prevPost) => {
+          if (updatedPost.slug === prevPost.slug) {
+            let prevPostWithErrs = Object.assign({},prevPost);
+            prevPostWithErrs.message = updatedPost.message;
+            return prevPostWithErrs;
+          } else {
+            return prevPost;
+          }
+        })
+      } else {
+        updatedPosts = posts.map((prevPost) => {
+          if (updatedPost.slug === prevPost.slug) {
+            return updatedPost;
+          } else {
+            return prevPost;
+          }
+        })
+      }
+
+      return {
+        ...restState,
+        posts: updatedPosts
+      }
+    })
   }
 
   
@@ -169,9 +203,10 @@ class PostIndexPage extends Component {
             </Modal> 
             {posts.map(post=>(
                 <section key={post.slug} data-slug={post.slug}>
-                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} >
-                    <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
-
+                  <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} updateAfterEdit={this.updateAfterEdit} >
+                    <InstructionPopover instructions="You can click these Inspiraction buttons on up to three posts before you submit your own post with the Post button at the top. Your new post will be part of their trees, and this shows people their actions helped move you to do something yourself, one of the best kinds of feedback to get!">
+                      <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
+                    </InstructionPopover>
                   </SinglePost>
                 </section>
             ))}

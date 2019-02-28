@@ -64,7 +64,7 @@ class Api::V1::PostsController < Api::ApplicationController
       assign_inspiractions(@post)
       render json: @post
     else
-      render(json: {status: 422, errors: @post.errors.full_messages, message: @post.errors.full_messages})
+      render(json: {slug: @post.slug, errors: @post.errors.full_messages, message: @post.errors.full_messages})
     end
     
   end

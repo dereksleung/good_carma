@@ -24,7 +24,6 @@ class Api::V1::CommentsController < Api::ApplicationController
   end 
 
   def update
-    @comment.slug = nil
     if @comment.update comment_params
       render json: @comment
     else
