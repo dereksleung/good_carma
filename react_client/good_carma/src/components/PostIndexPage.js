@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Post, LeaderBoard, Follow, Comment } from "../requests";
 import { Link, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
+import InstructionPopover from "./InstructionPopover";
 
 import SinglePost from "./SinglePost";
 import NewcomersPanel from "./NewcomersPanel";
@@ -203,8 +204,9 @@ class PostIndexPage extends Component {
             {posts.map(post=>(
                 <section key={post.slug} data-slug={post.slug}>
                   <SinglePost post={post} postId={post.slug} currentUser={currentUser} avatar_image={post.user.avatar_image} submitComment={this.submitComment} updateAfterEdit={this.updateAfterEdit} >
-                    <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
-
+                    <InstructionPopover instructions="You can click these Inspiraction buttons on up to three posts before you submit your own post with the Post button at the top. Your new post will be part of their trees, and this shows people their actions helped move you to do something yourself, one of the best kinds of feedback to get!">
+                      <Button active className="inspiraction-btn" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction</Button>
+                    </InstructionPopover>
                   </SinglePost>
                 </section>
             ))}
