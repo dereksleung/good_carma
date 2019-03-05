@@ -121,6 +121,7 @@ class Api::V1::PostsController < Api::ApplicationController
         parent_p = Post.friendly.find(id)
         if parent_p.user.id != session[:user_id]
           post.parent_posts << parent_p
+          parent_p.user.points += 100
         end
       end
     end

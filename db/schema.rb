@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_050101) do
+ActiveRecord::Schema.define(version: 2019_03_05_013724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.datetime "updated_at", null: false
     t.string "credit_url"
     t.string "credit_artist"
+    t.integer "points"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -212,6 +213,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.text "avatar_img"
     t.string "slug"
     t.bigint "company_id"
+    t.integer "points"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

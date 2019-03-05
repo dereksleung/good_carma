@@ -9,6 +9,7 @@ class Api::V1::InspiresController < Api::ApplicationController
       post = Post.friendly.find(params[:post_id])
       if post.inspires.detect {|i| i.user_id == current_user.id}.blank?
         inspire.inspiring_entry = post
+        post.user.points += 2
       else
         render json: {errors: "You can't Inspire the same post twice."}
       end

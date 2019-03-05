@@ -33,10 +33,14 @@ class BadgeCheckJob < ApplicationJob
       user = User.find(new_foi["id"])
       foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
       user.badges << foi_badge unless user.badges.include?(foi_badge)
+      add_points_to_user(user, foi_badge)
     end
 
   end
   
+  def add_points_to_user(user, badge)
+    user.points += badge.points
+  end
   
 
 end
