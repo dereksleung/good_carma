@@ -18,6 +18,9 @@ class User < ApplicationRecord
   has_many :child_posts, through: :posts  
   has_many :comments
 
+  has_many :user_questings, dependent: :destroy
+  has_many :quests, through: :user_questings
+
   has_many :badge_earnings, class_name: "BadgeEarning", dependent: :destroy
   has_many :badges, through: :badge_earnings
 
