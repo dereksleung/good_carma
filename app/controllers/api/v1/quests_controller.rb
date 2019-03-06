@@ -34,6 +34,6 @@ class Api::V1::QuestsController < Api::ApplicationController
   private
 
   def quest_params
-    params.require(:quest).permit(:title, :description, :points_on_finish, :repeatable, :max_repeats, :image, quest_goals_attributes: [:id, :title, :description, :points, :image, :_destroy])
+    params.require(:quest).permit(:title, :description, :finished_bonus_points, :repeatable, :max_repeats, :image, quest_goals_attributes: [:id, :title, :description, :points, :image, :_destroy])
   end
 end

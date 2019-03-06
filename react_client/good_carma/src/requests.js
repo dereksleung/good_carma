@@ -247,3 +247,41 @@ export const Confirm = {
   }
 }
 
+export const Quest = {
+  all() {
+    return fetch(`${BASE_URL}/quests`, {
+      credentials: "include"
+    }).then(res => res.json());
+  },
+  one(id) {
+    return fetch(`${BASE_URL}/quests/${id}`, {
+      credentials: "include"
+    }).then(res=>res.json());
+  },
+  update(params, id) {
+    return fetch (`${BASE_URL}/quests/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res=>res.json())
+  },
+  updateImageFile(params, id) {
+    return fetch(`${BASE_URL}/quests/${id}`, {
+      method: "PATCH",
+      credentials: "include",
+      body: params
+    }).then(res=>res.json());
+  },
+  postImageFile(params) {
+    return fetch(`${BASE_URL}/quests`, {
+      method: "POST",
+      credentials: "include",
+      body: params
+    })
+    .then(res=>res.json());
+  }
+}
+
