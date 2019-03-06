@@ -41,6 +41,10 @@ Rails.application.routes.draw do
 
       resource :sessions, only: [:create, :destroy]
 
+      resources :quests, except: [:new, :destroy, :edit] do
+        resources :quest_goals, except: [:new, :destroy, :edit]
+      end
+
       get("/leaderboards", to: "leaderboards#main", as: :main_leaderboard)
       get("/leaderboards/silver", to: "leaderboards#silver", as: :silver_leaderboard)
       get("/leaderboards/gold", to: "leaderboards#gold", as: :gold_leaderboard)

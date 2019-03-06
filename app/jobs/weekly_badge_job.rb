@@ -38,6 +38,7 @@ class WeeklyBadgeJob < ApplicationJob
       if tb_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 4)} 
       else
         badge_earning.save
+        add_points_to_user(tb_user, tblazer_badge)
       end
 
   
@@ -70,6 +71,7 @@ class WeeklyBadgeJob < ApplicationJob
       if oa_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 5)} 
       else
         badge_earning.save
+        add_points_to_user(oa_user, oa_badge)
       end
       
       
@@ -112,6 +114,7 @@ class WeeklyBadgeJob < ApplicationJob
       if muse_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 2)} 
       else
         badge_earning.save
+        add_points_to_user(muse_user, muse_badge)
       end
       
       
@@ -137,22 +140,27 @@ class WeeklyBadgeJob < ApplicationJob
     
     
       wg_arr_of_hash.each do |wg_user|
-      wg_badge = Badge.find_by_name("Muse - Most Inspires this Week")
+      wg_badge = Badge.find_by_name("Wild Growths - Users whose Posts This Week Tripled")
       badge_earning = BadgeEarning.new(
         Week: (Time.zone.today - 1.week)..Time.zone.today,
         Week_s: "#{(Time.zone.today - 1.week).to_formatted_s(:rfc822)} - #{Time.zone.today.to_formatted_s(:rfc822)}"
         )
-        badge_earning.user = muse_user
-        badge_earning.badge = muse_badge
+        badge_earning.user = wg_user
+        badge_earning.badge = wg_badge
         
       # Save the badge only if the user hasn't earned the same badge this week yet.
-      if muse_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 2)} 
+      if wg_user.badge_earnings.any?{|b_e| (b_e.Week === ((Time.zone.today - 1.week)..Time.zone.today)) && (b_e.badge_id = 2)} 
       else
         badge_earning.save
+        add_points_to_user(wg_user, wg_badge)
       end
       
       
     end
+  end
+
+  def add_points_to_user(user, badge)
+    user.points += badge.points
   end
 
 end

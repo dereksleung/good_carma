@@ -9,7 +9,8 @@ import LeaderBoardMain from "./components/LeaderBoardMain";
 import { User, Session, Follow } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 import Tree from "./components/Tree/Tree";
-
+import QuestIndex from "./components/QuestIndex";
+import NewQuestForm from "./components/NewQuestForm";
 
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg";
@@ -99,7 +100,8 @@ class App extends Component {
                 <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} bground={this.majorBackgroundStyle}/>} />
-                
+                <Route path="/quests/new" exact render={(routeProps)=><NewQuestForm {...routeProps} />} />
+                <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps}/>} />
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
 

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_050101) do
+ActiveRecord::Schema.define(version: 2019_03_06_004340) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.datetime "updated_at", null: false
     t.string "credit_url"
     t.string "credit_artist"
+    t.integer "points"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -185,6 +187,45 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "quest_goals", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "points"
+    t.boolean "repeatable"
+    t.integer "max_repeats"
+    t.bigint "quest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["quest_id"], name: "index_quest_goals_on_quest_id"
+    t.index ["slug"], name: "index_quest_goals_on_slug", unique: true
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "finished_bonus_points"
+    t.boolean "repeatable"
+    t.integer "max_repeats"
+    t.hstore "all_quest_goals"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_quests_on_slug", unique: true
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "cost"
+    t.boolean "repeatable"
+    t.integer "max_repeats"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_rewards_on_slug", unique: true
+  end
+
   create_table "sympathies", force: :cascade do |t|
     t.text "body"
     t.string "type"
@@ -196,6 +237,27 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.index ["comment_id"], name: "index_sympathies_on_comment_id"
     t.index ["post_id"], name: "index_sympathies_on_post_id"
     t.index ["user_id"], name: "index_sympathies_on_user_id"
+  end
+
+  create_table "user_questings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "quest_id"
+    t.hstore "completed_goals"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id"], name: "index_user_questings_on_quest_id"
+    t.index ["user_id"], name: "index_user_questings_on_user_id"
+  end
+
+  create_table "user_rewardings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "reward_id"
+    t.boolean "show_on_profile"
+    t.boolean "show_all_details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reward_id"], name: "index_user_rewardings_on_reward_id"
+    t.index ["user_id"], name: "index_user_rewardings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -212,6 +274,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
     t.text "avatar_img"
     t.string "slug"
     t.bigint "company_id"
+    t.integer "points"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
@@ -229,8 +292,13 @@ ActiveRecord::Schema.define(version: 2019_01_27_050101) do
   add_foreign_key "post_relations", "posts", column: "parent_post_id"
   add_foreign_key "posts", "companies"
   add_foreign_key "posts", "users"
+  add_foreign_key "quest_goals", "quests"
   add_foreign_key "sympathies", "comments"
   add_foreign_key "sympathies", "posts"
   add_foreign_key "sympathies", "users"
+  add_foreign_key "user_questings", "quests"
+  add_foreign_key "user_questings", "users"
+  add_foreign_key "user_rewardings", "rewards"
+  add_foreign_key "user_rewardings", "users"
   add_foreign_key "users", "companies"
 end
