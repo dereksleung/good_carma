@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_05_225225) do
+ActiveRecord::Schema.define(version: 2019_03_06_004340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -196,7 +196,9 @@ ActiveRecord::Schema.define(version: 2019_03_05_225225) do
     t.bigint "quest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
     t.index ["quest_id"], name: "index_quest_goals_on_quest_id"
+    t.index ["slug"], name: "index_quest_goals_on_slug", unique: true
   end
 
   create_table "quests", force: :cascade do |t|
@@ -208,6 +210,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_225225) do
     t.hstore "all_quest_goals"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_quests_on_slug", unique: true
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -218,6 +222,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_225225) do
     t.integer "max_repeats"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_rewards_on_slug", unique: true
   end
 
   create_table "sympathies", force: :cascade do |t|
