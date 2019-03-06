@@ -1,6 +1,11 @@
 class QuestGoal < ApplicationRecord
 
   belongs_to :quest
+  
+  has_one_attached :image
+
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history, :finders]
 
   private
 
