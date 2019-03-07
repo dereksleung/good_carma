@@ -44,7 +44,6 @@ class UserSinglePost extends Component {
   render() {
 
     if (currentUser) {
-
       const level = this.state.currentUser.level || null;
       console.log('sending level', currentUser.level);
     }
@@ -54,7 +53,7 @@ class UserSinglePost extends Component {
     if (post.color === "gold") {
       return(
         <article className="SinglePost gold border border-white rounded m-2 p-3">
-        <section className="post-body mb-3">
+          <section className="post-body mb-3">
             <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
             </Link>
             <span>
@@ -76,7 +75,7 @@ class UserSinglePost extends Component {
     if (post.color === "silver") {
       return(
         <article className="SinglePost silver border border-white rounded m-2 p-3">
-        <section className="post-body mb-3">
+          <section className="post-body mb-3">
             <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
             </Link>
             <span>
@@ -98,23 +97,23 @@ class UserSinglePost extends Component {
     return(
       <article className="SinglePost border border-white rounded m-2 p-3">
         <section className="post-body mb-3">
-            <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
-            </Link>
-            <span>
-              {`${post.created_at}  `}
-              {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
-              {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
-              {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
-              
-            </span>
-            <Link to={`posts/${post.id}`}> 
-              <p>{post.body}</p>
-              <img className="postpic mb-3" src={post.picture_url} />
-            </Link>  
-
-            <CommentList comments={post.comments}/>
+          <Link className="mr-2" to={`/users/${post.p_user_id}`}>{post.ia_user_fullname}
+          </Link>
+          <span>
+            {`${post.created_at}  `}
+            {post.inspire_count > 0 ? `${post.inspire_count} Inspires  ` : ""}
+            {post.gold_inspires > 0 ? `${post.inspire_count} Gold Inspires  ` : ""}
+            {post.silver_inspires > 0 ? `${post.silver_inspires} Silver Inspires  ` : ""}
             
-          </section>
+          </span>
+          <Link to={`posts/${post.id}`}> 
+            <p>{post.body}</p>
+            <img className="postpic mb-3" src={post.picture_url} />
+          </Link>  
+
+          <CommentList comments={post.comments}/>
+            
+        </section>
       </article>
     )
   }

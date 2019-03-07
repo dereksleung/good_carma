@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  # include ActionController
+
   include Rails.application.routes.url_helpers
 
   attributes :slug, :full_name, :first_name, :avatar, :avatar_image, :splash_image, :child_post_count, :followed_users_count, :followers_count,:level, :badges
@@ -11,21 +11,8 @@ class UserSerializer < ActiveModel::Serializer
   
   has_many :child_posts, through: :posts
 
-  # has_many :badge_earnings
-  has_many :badges, through: :badge_earnings
 
-  # def posts
-  #   posts = []
-  #   ps = object.posts
-  #   ps.each do |p|
-  #     p_obj = p.attributes
-  #     p_obj["comments"] = []
-  #     p.comments.each do |c|
-  #       p_obj["comments"] << c.attributes
-  #     end
-  #     posts << p_obj
-  #   end
-  # end
+  has_many :badges, through: :badge_earnings
 
   def badges
     object.badges.each {|badge|

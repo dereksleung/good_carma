@@ -12,7 +12,7 @@ class Post < ApplicationRecord
   has_one_attached :image
 
   has_many :comments, dependent: :destroy
-  has_many :inspires, as: :inspiring_entry
+  has_many :inspires, as: :inspiring_entry, dependent: :destroy
 
   # :parent_relations "names" the PostRelation join table for accessing through the :parent_posts association
   has_many :parent_relations, foreign_key: :child_post_id, class_name: "PostRelation", dependent: :destroy
@@ -28,10 +28,6 @@ class Post < ApplicationRecord
 
   extend FriendlyId
   friendly_id :body, use: [:slugged, :history, :finders]
-  
-  # has_many :inspires, dependent: :destroy
-
-  # has_many :inspired_users, through: :likes, source: :user
 
   # This method uses includes to eager load all child posts.
   def self.i_generations(post_id)
@@ -57,36 +53,26 @@ class Post < ApplicationRecord
   # Recursive: if prnt_id.present?, string interpolate code for 1) finding prnt_id, 2) accessing another level deeper into the hash.
   # This expects positive numbers or zero for both how many generations above and below to query.
 
+  def find_target_post_to_attach_children
+
+  end
+
+  # e.g. parent_post = @gen_query[:child_posts][1], parent_post has key-value pair child_posts => [] to signal it needs child_posts attached.
+  # 
   def add_child_posts(parent_post)
-    levels_deep = 2
-
-    # This works on existing {} `attributes` hashes already there. I need something that adds child_posts to a single hash already there.
-
     
-    @gen_query[:child_posts].map do |child|
-
-      curr_target_id = child["id"].to_i
-
-      # Tricky bit: I used a single = sign here earlier, which made this an assignment operator instead of a comparison operator. So child[:child_posts] actually got its value changed to nil.
-      unless child[:child_posts] === nil
-        
-        start_post = Post.find(curr_target_id)
-        start_post.child_posts.each do |grandchild|
-          gc_hash = grandchild.attributes
-          gc_hash[:prnt_id] = curr_target_id
-
-          if grandchild.child_posts.any?
-            gc_hash[:child_posts] = []
-          end
-
-          target_hash = @gen_query[:child_posts].find {|post| post["id"] == curr_target_id}
-          target_hash[:child_posts] << gc_hash
-
+    if parent_post.has_key?("child_posts")
+      children_A_Record_Objects = parent_post.child_posts
+      children_A_Record_Objects.each_with_index {|child, ind|
+        parent_post[:child_posts][ind] = child.attributes
+        if parent_post[:child_posts][ind].child_posts.any?
+          # Set parent_post to a new target post inside the nested hash of the tree.
+          parent_post = parent_post[:child_posts][ind]
+          parent_post[:child_posts] = []
+          add_child_posts(parent_posts)
         end
-      end
+      } 
     end
-
-    return @gen_query
   end
 
   def attach_inspires(start_post_id, start_post_hash)
