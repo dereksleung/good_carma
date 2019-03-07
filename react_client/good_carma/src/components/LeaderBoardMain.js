@@ -15,7 +15,7 @@ class LeaderBoardMain extends Component {
       errors: [],
       loading: true,
       mIATW: []
-    }
+    };
 
     this.getMostIActionsInWeek = this.getMostIActionsInWeek.bind(this);
   }
@@ -34,7 +34,6 @@ class LeaderBoardMain extends Component {
   getMostIActionsInWeek() {
     LeaderBoard.mostIActionsInWeek().then(data=>this.props.mIATW = data)
   }
-  // Define request handler functions here, then pass the function into the other stateless leaderboard Route/Link components.
 
   render() {
     const { new_posters } = this.state;
@@ -105,10 +104,6 @@ class LeaderBoardMain extends Component {
             <Link to={{pathname: "/leaderboards/show", state: { badge_name: "muses"}}} title="Most Inspires this Week">Muses</Link><br/>
             <Link to={{pathname: "/leaderboards/show", state: { badge_name: "fonts_of_inspiration"}}} title="Fifteen Inspires from One Post">Fonts of Inspiration
             </Link><br/>
-            {/* <Link to="">Thought Provokers - Longest Posts earning 10 Inspires 
-            </Link><br/>
-            <Link to={{pathname: "/leaderboards/show", state: { badge_name: "overachievers"}}} title="Most Badges Earned this Week">Wild Growths - Users whose Posts this Week Tripled 
-            </Link> */}
           </nav>
       </Container>
     )

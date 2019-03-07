@@ -10,7 +10,7 @@ class PostShowPage extends Component {
     this.state = {
       isAuthrzd: false,
       post: null
-    }
+    };
   }
 
   componentDidMount() {

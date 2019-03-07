@@ -9,7 +9,7 @@ class QuestIndex extends Component {
     this.state = {
       message: [],
       quests: []
-    }
+    };
   }
 
   componentDidMount() {

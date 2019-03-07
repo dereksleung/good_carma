@@ -10,7 +10,7 @@ class ConfirmCompany extends Component {
     this.state = {
       confirming: true,
       message: ""
-    }
+    };
   }
 
   componentDidMount() {
@@ -33,7 +33,7 @@ class ConfirmCompany extends Component {
           <h3>Confirming...</h3>
         }
       </section>
-    )
+    );
   }
 }
 

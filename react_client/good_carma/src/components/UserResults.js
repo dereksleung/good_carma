@@ -9,7 +9,7 @@ class UserResults extends Component {
 
     this.state = {
       users: []
-    }
+    };
   }
 
   componentDidMount() {

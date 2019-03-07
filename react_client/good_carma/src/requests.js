@@ -67,7 +67,7 @@ export const LeaderBoard = {
       credentials: "include"
     }).then(res => res.json());
   },
-  loadWeeklyOther(badge_name) {
+  loadWeeklySubBoard(badge_name) {
     return fetch(`${BASE_URL}/leaderboards/${badge_name}_this_week`, {
       credentials: "include"
     }).then(res => res.json());

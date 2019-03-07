@@ -17,7 +17,7 @@ class UserShowPage extends Component {
       currentUser: props.currentUser,
       toggleSplashUploadModal: false,
       toggleAvatarUploadModal: false
-    }
+    };
 
     this.toggleAvatarUploadModal = this.toggleAvatarUploadModal.bind(this);
     this.toggleSplashUploadModal = this.toggleSplashUploadModal.bind(this);
@@ -191,10 +191,8 @@ class UserShowPage extends Component {
             </Container>
           </section>
         </section>
+        
         <Container className="UserDetails mt-4">
-          
-            
-          
           <section className="d-flex">
             <section className="flex-grow-1 mr-2">
               <section className="p-3 mb-2 bg-white">
@@ -224,16 +222,6 @@ class UserShowPage extends Component {
                   </SinglePost>
                 </section> 
               ))}
-              
-              {/* <h3>{user.first_name}'s Inspiractions</h3>
-              {user.child_posts.map(post=>{
-                return(
-                  <SinglePost post={post} postId={post.slug} currentUser={currentUser}>
-                    <Button active className="mt-2" color="outline-primary" onClick={(e)=>this.handleClickCheckbox(post.slug, e)}>Inspiraction - You inspired me to do something!
-                    </Button>
-                  </SinglePost>
-                )
-              })} */}
             </section>
           </section>
         </Container>

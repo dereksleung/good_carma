@@ -40,6 +40,7 @@ class BadgeCheckJob < ApplicationJob
   
   def add_points_to_user(user, badge)
     user.points += badge.points
+    user.save
   end
   
 

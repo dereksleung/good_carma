@@ -73,13 +73,8 @@ class PostSerializer < ActiveModel::Serializer
     object.inspires.where("color = ?", "silver").size
   end
 
-  # This sets up a custom attribute to serialize
   def child_post_count
     object.child_posts.size
-    # object.child_posts.each do |p|
-    #   count += p.child_posts.size
-    # end
-    
   end
 
 end

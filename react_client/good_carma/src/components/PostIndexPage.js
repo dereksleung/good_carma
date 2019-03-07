@@ -55,10 +55,11 @@ class PostIndexPage extends Component {
   updateAfterEdit(updatedPost) {
     this.setState((prevState)=>{
       const { posts, ...restState } = prevState;
-      let updatedPosts;
+      let allPosts;
 
+      // I use the message property as an error message, which I may have customized for user experience the API.
       if (updatedPost.hasOwnProperty("message")) {
-        updatedPosts = posts.map((prevPost) => {
+        allPosts = posts.map((prevPost) => {
           if (updatedPost.slug === prevPost.slug) {
             let prevPostWithErrs = Object.assign({},prevPost);
             prevPostWithErrs.message = updatedPost.message;
@@ -68,7 +69,7 @@ class PostIndexPage extends Component {
           }
         })
       } else {
-        updatedPosts = posts.map((prevPost) => {
+        allPosts = posts.map((prevPost) => {
           if (updatedPost.slug === prevPost.slug) {
             return updatedPost;
           } else {
@@ -79,7 +80,7 @@ class PostIndexPage extends Component {
 
       return {
         ...restState,
-        posts: updatedPosts
+        posts: allPosts
       }
     })
   }
@@ -125,36 +126,10 @@ class PostIndexPage extends Component {
       .then(res=>{
         this.showNewPost();
         this.clearParentIDs();        
-      })
-      
-      // this.setState((prevState, props)=>{
-      //   const posts = prevState.posts.map((post, ind)=>{
-      //     if (post.slug === res.p_slug) {
-      //       post.comments = [...post.comments, res]
-      //     }
-      //   })
-      //   return { posts: posts };
-      // }) 
-        
-      ;
-      // CommentUpdate(event, slug)
+      });
 
-      // .then(res=>{
-      //   this.setState((prevState, props)=>{
-      //     const posts = prevState.posts.map((post, ind)=>{
-      //       post.comments.map(comm=>{
-      //         if (comm.slug === slug) {
-      //           comm = res;
-      //         }
-      //       })
-      //     })
-      //   return { posts };
-      //   }) 
-        
-      // });
     currentTarget.reset();
-  };
-
+  }
 
   togglePostForm() {
     this.setState({
@@ -164,7 +139,6 @@ class PostIndexPage extends Component {
 
   createFollow(user_id) {
     Follow.create(user_id)
-      // .then(LeaderBoard.loadMain())
       .then(data=>{
         this.setState({
           newcomers: data

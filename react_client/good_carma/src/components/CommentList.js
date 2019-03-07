@@ -13,7 +13,7 @@ const CommentList = (props) => {
         )
       })}
     </section>
-  )
+  );
 }
 
 
