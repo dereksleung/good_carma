@@ -5,9 +5,9 @@ import { Inspire } from "../requests";
 class PostInspireButtonForm extends Component {
   constructor(props) {
     super(props);
-    console.log('receiving level', props.level)
+    console.log('receiving level', props.level);
     this.state = {
-    }
+    };
   }
 
   

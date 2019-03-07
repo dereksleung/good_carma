@@ -23,16 +23,6 @@ class EditPostForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileSubmit = this.handleFileSubmit.bind(this);
   }
-
-  componentDidMount() {
-    
-    // for (let key in this.state) {
-    //   debugger;
-    //   this.props.key ? this.setState({
-    //     key: this.props.key
-    //   }) : null  
-    // }
-  }
   
   handleChange(event) {
     const target = event.target;
@@ -77,10 +67,7 @@ class EditPostForm extends Component {
 
   render() {
 
-    const { body, image, picture_url } = this.state;
-
-    return(
-      
+    return( 
       <Container className="EditPostForm mt-4 pb-4 d-flex flex-column" style={{backgroundColor:"white", opacity:"0.9"}}>
         {this.state.successful ? 
           <UncontrolledAlert color="info">{this.state.successful.message}</UncontrolledAlert> 

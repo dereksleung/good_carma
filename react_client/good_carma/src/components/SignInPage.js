@@ -10,32 +10,15 @@ const fromFormData = formData => {
     newObj[name] = value;
   }
 
-  // Under the hood, formData looks like:
-  // const formData = [ ["a", 1], ["b", 2] ]
-  // This is a type of destructred assignment.
-
-  // for (let [key, value] of obj1) {
-  //   console.log(key, value);
-  // }
-    // Above is syntax sugar for ð
-  // for (let val of formData) {
-  //   newObj[val[0]] = val[1]
-  // }
-
   return newObj;
 }
 
-// Occasionally when we export something we call a function on it.
 export default class SignInPage extends Component {
 
-  // We need `this`, so we'll create a constructor to bind createSession to `this`, so that we can use it as a callback.
-  // If we use it as a callback, when we finally call it, it will no longer be owned by the object, because it's a callback.
   constructor(props) {
     super(props);
 
     this.state = {
-      
-      // Make it an array because we might get more than one error.
       errors: []
     };
 
@@ -53,17 +36,14 @@ export default class SignInPage extends Component {
           this.setState({
             errors: [data.message]
           });
-          return;
-          // return console.error(data.errors);
         }
 
-        // Whenever a session is created, a sign in, the app will respond, and the app will get a user when signed in.
         if (typeof this.props.onSignIn === "function") {
           this.props.onSignIn();
         }
         this.props.history.push("/");
       });
-    // console.log(Array.from(formData.entries()));
+
   }
 
   render() {

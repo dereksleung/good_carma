@@ -13,7 +13,7 @@ class UserSinglePost extends Component {
       isAuthrzd: false,
       post: props.post,
       currentUser: props.currentUser
-    }
+    };
 
     this.hndlInspireBtnSbmt = this.hndlInspireBtnSbmt.bind(this);
   }

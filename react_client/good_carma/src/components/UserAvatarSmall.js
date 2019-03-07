@@ -13,12 +13,6 @@ const UserAvatarSmall = (props) => {
     }}>
 
     </div>
-    // <img src={props.avatar_image} style={{
-    //   display: "inline",
-    //   height: `${props.size}px`,
-    //   width: `${props.size}px`,
-    //   borderRadius: "100%",
-    // }}/>
   )
 }
 

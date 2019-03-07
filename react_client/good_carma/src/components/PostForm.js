@@ -11,7 +11,7 @@ class PostForm extends Component {
       toggleUploadImage: false,
       body: "",
       image: {}
-    }
+    };
 
     this.fileInput = React.createRef();
     this.fromFormData = this.fromFormData.bind(this);

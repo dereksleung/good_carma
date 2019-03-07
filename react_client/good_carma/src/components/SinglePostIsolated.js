@@ -15,11 +15,23 @@ class SinglePost extends Component {
     this.state = {
       isAuthrzd: false,
       collapseEditPostForm: false,
-      message: ""
+      message: "",
+      post: {}
     };
 
     this.toggleCollapseEditPostForm = this.toggleCollapseEditPostForm.bind(this);
     this.hndlInspireBtnSbmt = this.hndlInspireBtnSbmt.bind(this);
+
+  }
+
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    Post.one(id)
+      .then(data=>{
+        this.setState({
+          post: data
+        });
+      });
   }
 
   toggleCollapseEditPostForm() {
@@ -46,12 +58,11 @@ class SinglePost extends Component {
   render() {
 
     if (currentUser) {
-
       const level = this.state.currentUser.level || null;
       console.log('sending level', currentUser.level);
     }
     const { currentUser } = this.props;
-    const { post } = this.props;
+    const { post } = this.state;
 
     return(
       
@@ -99,14 +110,13 @@ class SinglePost extends Component {
                 <Collapse isOpen={this.state.collapseEditPostForm}>
                   <EditPostForm body={post.body} picture_url={post.picture_url} id={post.slug} updateAfterEdit={this.props.updateAfterEdit} />
                 </Collapse>
-                : ""
+              : ""
               }
             
             <div className="flex-grow-1"></div>
           </div>
         </section>
-        {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} postId={post.slug} submitComment={this.props.submitComment} /> 
-          : ""
+        {Array.isArray(post.comments) || post.comments.length ? <CommentList comments={post.comments} postId={post.slug} submitComment={this.props.submitComment} /> : ""
         }
       </article>
       

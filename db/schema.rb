@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_004340) do
+ActiveRecord::Schema.define(version: 2019_03_06_223129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -274,7 +274,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_004340) do
     t.text "avatar_img"
     t.string "slug"
     t.bigint "company_id"
-    t.integer "points"
+    t.integer "points", default: 0
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

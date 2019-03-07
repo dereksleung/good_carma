@@ -10,7 +10,7 @@ class UserList extends Component {
     this.state = {
       startUser: {},
       users: []
-    }
+    };
   }
 
   componentDidMount() {

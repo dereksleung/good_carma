@@ -18,7 +18,6 @@ import AuthnRoute from "./components/AuthnRoute";
 
 
 import './App.css';
-import CurrentUser from './components/CurrentUser';
 import UserShowPage from './components/UserShowPage';
 import UserSignUpPage from './components/SignUpPage/UserSignUpPage';
 import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
@@ -33,7 +32,7 @@ class App extends Component {
     this.state = {
       currentUser: "",
       loading: true
-    }
+    };
 
     this.getUser = this.getUser.bind(this);
     this.destroySession = this.destroySession.bind(this);
@@ -105,7 +104,7 @@ class App extends Component {
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
 
-                <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
+                {/* <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} /> */}
                 <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
 
                 <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />`

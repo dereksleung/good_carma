@@ -10,7 +10,7 @@ class SearchBar extends Component {
 
     this.state = {
       query: ""
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

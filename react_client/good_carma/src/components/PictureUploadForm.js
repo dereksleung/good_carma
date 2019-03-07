@@ -8,7 +8,7 @@ class PictureUploadForm extends Component {
 
     this.state = {
       successful: {}
-    }
+    };
 
     this.fileInput = React.createRef();
     this.fromFormData = this.fromFormData.bind(this);
@@ -17,11 +17,9 @@ class PictureUploadForm extends Component {
 
   fromFormData(formData) {
     const obj = {};
-
     for (let [name, val] of formData.entries()) {
       obj[name] = val;
     }
-
     return obj;
   }
 
