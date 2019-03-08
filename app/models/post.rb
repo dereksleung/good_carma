@@ -29,19 +29,6 @@ class Post < ApplicationRecord
   extend FriendlyId
   friendly_id :body, use: [:slugged, :history, :finders]
 
-  # This method uses includes to eager load all child posts.
-  def self.i_generations(post_id)
-    # start_post = self
-    # post_id = self.id
-
-    @gen_query = Post.includes(child_posts: {child_posts: :child_posts})
-
-    
-    # instance_eval
-
-
-  end
-
   def attach_avatar_image(hash_with_user_id, user)
     
     if Rails.env.development?
@@ -50,15 +37,9 @@ class Post < ApplicationRecord
       hash_with_user_id["avatar_image"] = rails_blob_url(user.avatar_image, only_path: true) if user.avatar_image.attached?
     end
   end
-  # Recursive: if prnt_id.present?, string interpolate code for 1) finding prnt_id, 2) accessing another level deeper into the hash.
-  # This expects positive numbers or zero for both how many generations above and below to query.
-
-  def find_target_post_to_attach_children
-
-  end
-
+  
+  # add_child_posts is my prototype recursive version of the `generations` method below. 
   # e.g. parent_post = @gen_query[:child_posts][1], parent_post has key-value pair child_posts => [] to signal it needs child_posts attached.
-  # 
   def add_child_posts(parent_post)
     
     if parent_post.has_key?("child_posts")
@@ -67,9 +48,9 @@ class Post < ApplicationRecord
         parent_post[:child_posts][ind] = child.attributes
         if parent_post[:child_posts][ind].child_posts.any?
           # Set parent_post to a new target post inside the nested hash of the tree.
-          parent_post = parent_post[:child_posts][ind]
-          parent_post[:child_posts] = []
-          add_child_posts(parent_posts)
+          new_parent_post = parent_post[:child_posts][ind]
+          new_parent_post[:child_posts] = []
+          add_child_posts(new_parent_post)
         end
       } 
     end
@@ -94,9 +75,9 @@ class Post < ApplicationRecord
       }
   end
 
+    # This expects positive numbers or zero for both how many generations above and below to query.
   def generations(above, below)
     # Eventual goal: Function must set an initial post object that contains the record of either the starting post or the highest ancestor, and an empty child_posts array. Then it must query the child_posts, and push them to the child_posts array in this initial post object. If there are multiple children, and each has grandchildren, the function must iterate over each child, and push the grandchildren to the right child. This should continue for every generation queried.
-
 
     # Break into several functions that add more keys-value pairs to the object as needed.
     total_gens = below - (above * -1) 
@@ -130,15 +111,12 @@ class Post < ApplicationRecord
 
       if child.child_posts.any?
         child_hash[:child_posts] = []
-
-      # call recursive method here?
       end
 
       @gen_query[:child_posts] << child_hash
         
     end
 
-    # use eval method to 
     # child_posts should now be an array of hashes
     @gen_query[:child_posts].map do |child|
 
@@ -174,10 +152,15 @@ class Post < ApplicationRecord
 
   end
 
-
-  # has_many :inspiractions, class_name: "Post", foreign_key: "parent_id"
-
-  # belongs_to :parent, class_name: "Post"
-
+  # I'm investigating using includes to eager load all child_posts, but when logging the result of includes, it appears that it flattens and loses the structure of what is related to what. While I could solve that by 
+  # 1) storing the parent_ids on each post record directly, or
+  # 2) querying the PostRelation join table instead,
+  # both of these solutions involve reconstructing the relationships of what is related to what elsewhere. I am not sure if that is faster, I would guess that server side operations in the database and model are faster. 
+  def self.i_generations(post_id)
+    # start_post = self
+    # post_id = self.id
+    @gen_query = Post.includes(child_posts: {child_posts: :child_posts})
+    # instance_eval
+  end
 
 end

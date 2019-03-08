@@ -104,7 +104,6 @@ class App extends Component {
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} />} />
 
-                {/* <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} /> */}
                 <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
 
                 <Route path="/posts" exact render={(routeProps)=><PostIndexPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />`
