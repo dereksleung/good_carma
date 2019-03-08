@@ -48,7 +48,7 @@ const WelcomePage = props => {
         <Col className="featurette col-12 col-lg-4">
           <PopoverImageWithCredit credUrl="https://www.freepik.com/free-photos-vectors/technology" credName="Technology vector created by rawpixel.com - www.freepik.com"
           >
-            <img className="landing-img" src={lightbulb}/>  
+            <img className="landing-img" src={lightbulb} alt="hand holding lightbulb switched on" />  
           </PopoverImageWithCredit>
           <h2>Inspire and Get Inspired</h2>
           <p>With an <strong>Inspire</strong>, tell people they inspired you. Even better, with an <strong>Inspiraction</strong>, tell people what they did helped make you do something yourself. Get inspired by immersing in the good things others in your organization are doing, and spending time with good people. Keep up with newcomers and people who you might not normally see.</p>
@@ -58,7 +58,7 @@ const WelcomePage = props => {
             credUrl="https://www.freepik.com/free-photos-vectors/business" 
             credName="Business vector created by makyzz - www.freepik.com"
           >
-            <img className="landing-img" src={trophyHand}/>
+            <img className="landing-img" alt="hand holding trophy" src={trophyHand}/>
           </PopoverImageWithCredit>
           <h2>Earn Achievements</h2>
           <p>See personal milestones in your activity and the effect you have on other people.</p>
@@ -69,7 +69,7 @@ const WelcomePage = props => {
             credUrl="https://www.freepik.com/free-photos-vectors/flower"    
             credName="Flower vector created by freepik - www.freepik.com"
           >
-            <img className="landing-img" src={landingTree} style={{height: "200px"}} /> 
+            <img className="landing-img" src={landingTree} alt="small simplified tree with circular bush of leaves" style={{height: "200px"}} /> 
           </PopoverImageWithCredit>
           <h2>See Your Tree Grow</h2>
           <p>Relax and look at the tree of activity sprouting from your posts.</p>

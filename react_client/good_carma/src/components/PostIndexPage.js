@@ -1,16 +1,11 @@
 import React, { Component } from "react";
 import { Post, LeaderBoard, Follow, Comment } from "../requests";
-import { Link, Redirect } from "react-router-dom";
-import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Container, Row, Col, Button, Modal } from "reactstrap";
 import InstructionPopover from "./InstructionPopover";
-
 import SinglePost from "./SinglePost";
 import NewcomersPanel from "./NewcomersPanel";
-
-
 import UserBasicStats from "./UserBasicStats";
 import PostForm from "./PostForm";
-import CommentList from "./CommentList";
 
 class PostIndexPage extends Component {
   constructor(props) {
@@ -95,7 +90,7 @@ class PostIndexPage extends Component {
   handleClickCheckbox(id, e) {
 
     const { parentIDs } = this.state;
-    if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) == false) {
+    if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) === false) {
       const allParentIDs = this.state.parentIDs;
       allParentIDs.push(id);
       this.setState({

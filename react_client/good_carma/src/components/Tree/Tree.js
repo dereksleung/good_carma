@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
 import { Post } from "../../requests";
-import Branch from "./branch.svg";
 import BranchHrzntl from "./branchHrzntl.svg";
 import TreeBranch from "./TreeBranch";
-import Tippy from "@tippy.js/react";
-import "tippy.js/dist/tippy.css";
 import PopoverPost from "./PopoverPost";
 import Leaf from "./RealisticLeaves.svg";
 import InspirePopover from "./InspirePopover";
@@ -73,22 +70,8 @@ class Tree extends Component {
   }
 
   setBranchSize() {
-    // const child_posts = this.state.tree.child_posts;
-    // let trunkSize;
-    // if (typeof child_posts != "undefined") {
-    //   trunkSize = `${0.7 * child_posts.length * 20}vh`;
-    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
-    // } else {
-    //   trunkSize = `${0.7 * 150}vh`;
-    //   this.oneBranchStyle.minWidth = `${trunkSize}`;
-    // }
-
-
     const currRotate = this.oneBranchStyle.transform.match(/(rotate)\(.*(deg)\)\s/)[0];
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
-    // let currMinWidth = parseInt(this.oneBranchStyle.minWidth.match(/\d+/g)[0]);
-
-    // this.oneBranchStyle.minWidth = `${currMinWidth * 0.66}px`
   
     const currScaleX = parseFloat(currScale.match(/\d+\.?\d*(?=,)/)[0]);
     const currScaleY = parseFloat(currScale.match(/\d+\.?\d*/g)[1]); 
@@ -108,13 +91,12 @@ class Tree extends Component {
     }
   
     // currAngle senses which way the previous branch turned, and alternates it to the other side by changing the rotation angle.
-    // In non-trunk branches, it should sense the parent branch's angle to determine whether to use the CSS `left` or `right` positioning property. 
     // For the trunk, since we're using rotate(-90deg), we should use the CSS `left` property to place branches from the bottom up.
 
-    if (ind == 0 && currAngle > 0) {
+    if (ind === 0 && currAngle > 0) {
       this.oneBranchStyle.left = "0%";
       this.oneBranchStyle.cummltvAngle = -20;
-    } else if (ind == 0 && currAngle < 0) {
+    } else if (ind === 0 && currAngle < 0) {
       this.oneBranchStyle.left = "0%";
       this.oneBranchStyle.cummltvAngle = -160;
     }
@@ -142,11 +124,7 @@ class Tree extends Component {
 
   setFruitPosition(ind) {
     const currScale = this.oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
-    const currAngle = parseInt(this.oneBranchStyle.transform.match(/-?\d{1,3}/)[0]);
-    const cummltvAngle = parseInt(this.oneBranchStyle.cummltvAngle);
     const styleLocalClone = Object.assign({}, this.oneBranchStyle);
- 
-  
     styleLocalClone.transform = `rotate(90deg) ${currScale}`;
     styleLocalClone.left = `${parseInt(styleLocalClone.left.match(/\d+/)[0])-5}%`
     delete styleLocalClone.minWidth;
@@ -166,7 +144,7 @@ class Tree extends Component {
       this.qtyLeaves = 0;
     }
 
-    if (ind == 0) {
+    if (ind === 0) {
       this.oneLeafStyle.left = "0%";
     }
 
@@ -257,16 +235,16 @@ class Tree extends Component {
           <section className="Trunk" style={{
             display: "inline-block",
             position: "absolute",
-            left: `${"50%"}`,
-            bottom: `${"0%"}`,
-            transform: `rotate(${"-90"}deg)`,
+            left: "50%",
+            bottom: "0%",
+            transform: `rotate(-90deg)`,
             transformOrigin: "center left",
             minWidth: `${trunkSize}`,
             maxWidth: `${trunkSize}`,
             overflow: "visible"  
           }}>
             <PopoverPost {...restProps}>
-              <img src={BranchHrzntl} style={{maxWidth: "100%"}}>
+              <img src={BranchHrzntl} alt="tree branch which shows a post's content when you hover over it" style={{maxWidth: "100%"}}>
               
               </img>
             </PopoverPost>
@@ -275,7 +253,7 @@ class Tree extends Component {
               inspires.map((insp,ind)=>{
                 return(
                   <InspirePopover calcStyle={this.setLeafPosition(ind)} {...insp}>
-                    <img src={Leaf}>
+                    <img src={Leaf} alt="leaf that shows someone you Inspired when you hover over it">
                     </img>
                   </InspirePopover>
                 )
@@ -290,7 +268,7 @@ class Tree extends Component {
                     calcStyle={this.setBranchPositions(ind)} >
                     </TreeBranch>
                     <PopoverPost {...post}>
-                      <img src={Apple} style={this.setFruitPosition(ind)}>
+                      <img src={Apple} style={this.setFruitPosition(ind)} alt="fruit that shows your action helped Inspire someone else to action themselves. Shows post content when you hover over it.">
                       </img>
                     </PopoverPost>
                   </>

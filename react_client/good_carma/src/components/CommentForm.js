@@ -1,7 +1,5 @@
 import React from "react";
-
-import { Comment } from "../requests";
-import { FormGroup, Input, Row } from "reactstrap";
+import { FormGroup, Input } from "reactstrap";
 
 const CommentForm = props => {
 

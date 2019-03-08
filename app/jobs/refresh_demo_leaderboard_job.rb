@@ -11,6 +11,12 @@ class RefreshDemoLeaderboardJob < ApplicationJob
     Post.all.each {|p|
       p.update(created_at: Time.now - rand(3600..3600*24*9))
     }
+    
+    p = Post.find 99
+    p.update(created_at: Time.now + 30)
+    p = Post.find 90
+    p.update(created_at: Time.now + 30)
+
     Inspire.all.each {|i|
       i.update(created_at: Time.now - rand(3600..3600*24*9))
     }

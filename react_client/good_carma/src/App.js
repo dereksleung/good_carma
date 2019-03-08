@@ -97,12 +97,12 @@ class App extends Component {
                 <Route path="/users/:id/followers" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowers} {...routeProps} listType={"Followers"} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/users/:id/followed_users" exact render={(routeProps)=><UserList loadUsers={Follow.showFollowedUsers} {...routeProps} listType={"Followings"} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} bground={this.majorBackgroundStyle}/>} />
-                <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} />} />
                 <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/quests/new" exact render={(routeProps)=><NewQuestForm {...routeProps} />} />
                 <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps}/>} />
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
-                <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} bground={this.majorBackgroundStyle}/>} />
+                <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} />} />
 
                 {/* <Route path="/users/current" exact render={(routeProps)=><CurrentUser {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} /> */}
                 <Route path="/users/:id" exact render={(routeProps)=><UserShowPage {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />

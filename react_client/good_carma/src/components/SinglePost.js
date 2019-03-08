@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Post } from "../requests";
+
 import { Link } from "react-router-dom";
 import { Inspire } from "../requests";
 import PostInspireButtonForm from "./PostInspireButtonForm";
 import CommentList from "./CommentList";
-import { Button, Collapse, UncontrolledAlert } from "reactstrap";
+import { Collapse, UncontrolledAlert } from "reactstrap";
 import EditPostForm from "./EditPostForm";
 import UserAvatarSmall from "./UserAvatarSmall";
 
@@ -44,15 +44,15 @@ class SinglePost extends Component {
   };
 
   render() {
-
-    if (currentUser) {
-
-      const level = this.state.currentUser.level || null;
-      console.log('sending level', currentUser.level);
-    }
+    
     const { currentUser } = this.props;
     const { post } = this.props;
 
+    if (currentUser) {
+      const level = currentUser.level || null;
+      console.log('user level', level);
+    }
+    
     return(
       
       <article className={`SinglePost ${post.color} border border-blue p-3`}>
@@ -83,7 +83,7 @@ class SinglePost extends Component {
           </section>
 
           <p>{post.body}</p>
-          {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} /> : ""
+          {post.image ? <img className="postpic mb-3" src={post.image} style={{maxWidth:"100%"}} alt="Something related to this post"/> : ""
           }
 
           <div className="d-flex flex-wrap">

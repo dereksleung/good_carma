@@ -1,5 +1,4 @@
 import React from "react";
-import { LeaderBoard } from "../requests";
 import { Link } from "react-router-dom";
 import UserAvatarSmall from "./UserAvatarSmall";
 

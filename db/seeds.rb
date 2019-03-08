@@ -100,22 +100,16 @@ end
 
 # Weekly Trailblazers(Inspiractions)
 
-5.times do
-  posts = Post.all
-  post = posts.sample
-  
-  rand(2..6).times do
-    if post.child_posts.present?
-      post.child_relations.each do |cr|
-        cr.update(created_at: Time.now - rand(3600..3600*24*7))
-      end
-      break
-    else
-      post.child_posts << posts.sample
+posts = Post.all
+
+posts.each {|p|
+  while p.child_posts.length < 4 do
+    cp = posts.sample
+    unless p.child_posts.include?(cp)
+      p.child_posts << cp
     end
   end
-
-end
+}
 
 
 # 10.times do

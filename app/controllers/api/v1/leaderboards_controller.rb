@@ -17,7 +17,6 @@ class Api::V1::LeaderboardsController < ApplicationController
     if records_array.present?
       titles_array = records_array[0].to_hash.keys
       titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
-      # return titles_array
     end
     attach_user_avatar(records_array)
     oa_badge = Badge.find_by_name("Overachievers")
@@ -43,7 +42,6 @@ class Api::V1::LeaderboardsController < ApplicationController
     if records_array.present?
       titles_array = records_array[0].to_hash.keys
       titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
-      # return titles_array
     end
     attach_user_avatar(records_array)
     records_array.each {|user| 
@@ -70,7 +68,6 @@ class Api::V1::LeaderboardsController < ApplicationController
     if records_array.present?
       titles_array = records_array[0].to_hash.keys
       titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
-      # return titles_array
     end
     attach_user_avatar(records_array)
     foi_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
@@ -100,7 +97,6 @@ class Api::V1::LeaderboardsController < ApplicationController
     if records_array.present?
       titles_array = records_array[0].to_hash.keys
       titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
-      # return titles_array
     end
     attach_user_avatar(records_array)
     wg_badge = Badge.find_by_name("Font of Inspiration - 15 Inspires from One Post")
@@ -232,7 +228,6 @@ class Api::V1::LeaderboardsController < ApplicationController
     tb_badge = Badge.find_by_name("Trailblazers - Most Inspiractions this Week")
     
     render json: {titles_array: titles_array, records_array: records_array, image: get_badge_image_url(tb_badge)}
-
   end
 
   private
@@ -268,11 +263,10 @@ class Api::V1::LeaderboardsController < ApplicationController
   end
 
   def set_titles_array(titles_array, records_array)
-    
     if records_array.present?
       titles_array = records_array[0].to_hash.keys
       titles_array.delete_if {|elem| elem == "slug" || elem == "avatar" || elem == "avatar_image" }
-      # return titles_array
     end
+    titles_array
   end
 end

@@ -39,9 +39,7 @@ class OtherLeaderboard extends Component {
   }
 
   render() {
-    const { titles_array, records_array, badge_image_url } = this.state;
-
-
+    const { titles_array, records_array } = this.state;
     const badge_name = (this.props.location.state.badge_name);
     const human_badge_name = badge_name.split("_").map(word=>`${word.charAt(0).toUpperCase()}${word.slice(1)}`).join(" ");
 
@@ -56,11 +54,11 @@ class OtherLeaderboard extends Component {
       let row = 
         <tr key={user.slug}> 
           <td>
-            <img src={`${user.avatar_image}`} style={{width: "50px", height: "50px", borderRadius: "100%"}}></img>
+            <img src={`${user.avatar_image}`} style={{width: "50px", height: "50px", borderRadius: "100%"}} alt="user avatar"></img>
             <Link to={`users/${user.slug}`}>{user.full_name}</Link>
           </td>
           {titles_array.map(title=>{
-            if (title != "full_name") {
+            if (title !== "full_name") {
               return(
                 <td>
                   {user[title]}

@@ -2,7 +2,7 @@ ActiveAdmin.register Post do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-  permit_params :body, :user_id, :picture_url, :parent_ids, :slug, :color
+  permit_params :body, :user_id, :picture_url, :parent_ids, :slug, :color, :id, :created_at
 
   sidebar "Post Details", only: [:show, :edit, :delete] do
     ul do

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardImg, CardBody, CardLink, CardText } from "reactstrap";
+import { Card, CardBody, CardLink, CardText } from "reactstrap";
 import UserAvatarSmall from "./UserAvatarSmall";
 
 const UserBasicStats = (props) => {
@@ -8,7 +8,7 @@ const UserBasicStats = (props) => {
   
     return(
       <Card className="UserBasicStats" style={{borderRadius: "0", marginBottom: "0.9rem", opacity: "0.9"}}>
-        {/* <CardImg top width="100%" style={{backgroundColor: "#03A9F4", minHeight: "100px"}}/> */}
+
         <CardBody>
           <section className="d-flex justify-content-center">          
             <UserAvatarSmall avatar_image={`${props.avatar_image}`} size="50"/>

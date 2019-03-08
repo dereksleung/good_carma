@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import UserSinglePost from "./UserSinglePost";
 import SinglePost from "./SinglePost";
 import { User, Follow } from "../requests";
-import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Container, Button, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import PictureUploadForm from "./PictureUploadForm";
 
@@ -64,7 +63,7 @@ class UserShowPage extends Component {
   handleClickCheckbox(id, e) {
 
     const { parentIDs } = this.state;
-    if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) == false) {
+    if (parentIDs.length >= 0 && parentIDs.length < 4 && parentIDs.includes(id) === false) {
       const allParentIDs = this.state.parentIDs;
       allParentIDs.push(id)
       this.setState({

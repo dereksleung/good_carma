@@ -36,16 +36,21 @@ class NavBar extends Component {
           <NavbarBrand className="mr-3 text-primary" exact to="/" tag={RRNavLink} id="Brand">
           Good Carma</NavbarBrand>
           <NavbarToggler onClick={this.toggleNav} />
-            <Collapse isOpen={this.state.open} navbar>
-            
-              <NavLink className="text-dark" exact to="/posts" tag={RRNavLink}>See Activity</NavLink>
-            
-              <NavLink className="text-dark" exact to="/leaderboards" tag={RRNavLink}>Leaderboards</NavLink>
-
-              <NavLink className="text-dark" exact to="/quests" tag={RRNavLink}>Quests</NavLink>
-            
+          <Collapse isOpen={this.state.open} navbar>
+            <Nav>
+              <NavItem>
+                <NavLink className="text-dark" exact to="/posts" tag={RRNavLink}>See Activity</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="text-dark" exact to="/leaderboards" tag={RRNavLink}>Leaderboards</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="text-dark" exact to="/quests" tag={RRNavLink}>Quests</NavLink>
+              </NavItem>
               <SearchBar/>
-            </Collapse>
+            </Nav>
+          </Collapse>
+         
         </div>
         <div id="nav-right" className="d-flex flex-grow-1 justify-content-end">
           {currentUser ? (
@@ -62,7 +67,6 @@ class NavBar extends Component {
           <NavLink className="btn btn-secondary text-white" exact to="/sign_up/company" tag={RRNavLink}>Sign Up</NavLink>
         </div>
         
-
       </Navbar>
     )
   }

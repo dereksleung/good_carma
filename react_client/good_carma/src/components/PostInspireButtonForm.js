@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { Inspire } from "../requests";
-
 
 class PostInspireButtonForm extends Component {
   constructor(props) {
@@ -9,7 +7,6 @@ class PostInspireButtonForm extends Component {
     this.state = {
     };
   }
-
   
   render() {
     return (
@@ -28,7 +25,5 @@ class PostInspireButtonForm extends Component {
     );
   }
 }
-
-
 
 export default PostInspireButtonForm;

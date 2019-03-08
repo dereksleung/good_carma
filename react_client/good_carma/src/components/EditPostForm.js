@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { UncontrolledAlert, Container, Nav, NavItem, NavLink, Form, FormGroup, Label, Input } from "reactstrap";
-import { NavLink as RRNavLink } from "react-router-dom";
-
+import { UncontrolledAlert, Container, Form, FormGroup, Label, Input } from "reactstrap";
 import { Post } from "../requests";
-
 
 class EditPostForm extends Component {
   constructor(props) {

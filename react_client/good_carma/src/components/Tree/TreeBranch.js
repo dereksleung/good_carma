@@ -1,6 +1,4 @@
 import React from "react";
-import Tippy from "@tippy.js/react";
-import "tippy.js/dist/tippy.css";
 import PopoverPost from "./PopoverPost";
 import InspirePopover from "./InspirePopover";
 import BranchHrzntl from "./branchHrzntl.svg";
@@ -12,6 +10,7 @@ const TreeBranch = (props) => {
   const { post: { child_posts, ...restProps }, calcStyle } = props;
   const { inspires } = restProps;
   const {cummltvAngle, ...trueCalcStyle} = calcStyle;
+  // trueCalcStyle is the style given to the current branch, after removing non-CSS keys like cummltvAngle
 
   let qtyBranches;
   if (typeof child_posts !== "undefined") {
@@ -29,10 +28,11 @@ const TreeBranch = (props) => {
 
   let branchPositions = [];
 
+  // I use calcStyle here because it contains the tracked cummltvAngle, which 
   let oneBranchStyle = calcStyle;
   
   // Fruits should always point down, and rotation is relative to the parent branch, so we only have to set fruit rotation angles once per branch. 
-  // However, the x-position on the branch should track with the child branches, so we need to call setFruitPosition to clone oneBranchStyle with the child branch's position, then change the transform(rotate) property to our constant fruit rotation.
+  // For now, the fruit's x-position on the branch tracks close to the child branches. I call setFruitPosition to clone oneBranchStyle with the child branch's position, then change the transform(rotate) property to our constant fruit rotation.
   const fruitRotate = parseInt(cummltvAngle); 
 
   let oneLeafStyle = {
@@ -56,7 +56,7 @@ const TreeBranch = (props) => {
 
     // currRelatvAngle senses which way the previous branch turned. We alternate it to the other side by changing the rotation angle.
     
-    if (ind == 0) {
+    if (ind === 0) {
       oneBranchStyle.left = "0%";
     }
     const spacingUnit = 100 / (qtyBranches + 1);
@@ -78,12 +78,8 @@ const TreeBranch = (props) => {
   }
 
   function setFruitPosition(ind) {
-    const currScale = oneBranchStyle.transform.match(/(scale)\(\d*.?\d{1,3},{1}\d*.?\d{1,3}\)/g)[0];
-    const currAngle = parseInt(oneBranchStyle.transform.match(/-?\d{1,3}/)[0]);
     const cummltvAngle = parseInt(oneBranchStyle.cummltvAngle);
     const styleLocalClone = Object.assign({}, oneBranchStyle);
-    // debugger;
-
 
     styleLocalClone.transform = `rotate(${fruitRotate * -1}deg)`;
     
@@ -95,25 +91,20 @@ const TreeBranch = (props) => {
     } else if (cummltvAngle < -90) {
       styleLocalClone.bottom = "50%";
     }
- 
-    
+
     return styleLocalClone;
   }
 
   function setLeafPosition(ind) {
-
     const currScaleX = oneLeafStyle.transform.match(/[-+]?[0-9]*\.?[0-9]+/g)[0];
     const currScaleY = parseFloat(oneLeafStyle.transform.match(/[-+]?[0-9]*\.?[0-9]+/g)[1]);
- 
-    const currFlip = currScaleY[0];
-
     if (typeof inspires !== "undefined") {
       qtyLeaves = inspires.length;  
     } else {
       qtyLeaves = 0;
     }
 
-    if (ind == 0) {
+    if (ind === 0) {
       oneLeafStyle.left = "0%";
     }
 
@@ -121,12 +112,7 @@ const TreeBranch = (props) => {
     const currPlace = parseInt(oneLeafStyle.left.match(/\d+/)[0]);
 
     oneLeafStyle.left = `${currPlace + spacingUnit}%`;
-    // debugger;
-    // if (currFlip === "-") {
-      oneLeafStyle.transform = `scale(${currScaleX},${currScaleY * -1})`;
-    // } else {
-    //   oneLeafStyle.transform = `scaleY(-1)`;
-    // }
+    oneLeafStyle.transform = `scale(${currScaleX},${currScaleY * -1})`;
 
     const styleLocalClone = Object.assign({}, oneLeafStyle);
     return styleLocalClone;
@@ -136,15 +122,14 @@ const TreeBranch = (props) => {
   return(
     <section className="TreeBranch" style={trueCalcStyle}>
       <PopoverPost {...restProps}>
-        
-        <img src={BranchHrzntl} style={{width: "100%"}}>
+        <img src={BranchHrzntl} style={{width: "100%"}} alt="tree branch that shows post content when hovered over">
         </img>
       </PopoverPost>
       {typeof inspires !== "undefined" ? 
         inspires.map((insp, ind)=> {
           return(
-          <InspirePopover calcStyle={setLeafPosition(ind)} {...insp}>
-            <img src={Leaf}>
+          <InspirePopover calcStyle={setLeafPosition(ind)} {...insp} >
+            <img src={Leaf} alt="leaf that shows someone you Inspired when you hover over it">
             </img>
           </InspirePopover>
           )
@@ -155,11 +140,10 @@ const TreeBranch = (props) => {
         child_posts.map((post,ind)=>{
           return(
             <>
-
               <TreeBranch post={post} calcStyle={setBranchPositions(ind)}>
               </TreeBranch>
               <PopoverPost {...post}>
-                <img src={Apple} style={setFruitPosition(ind)}>
+                <img src={Apple} style={setFruitPosition(ind)} alt="fruit that shows your action helped Inspire someone else to action themselves. Shows post content when you hover over it.">
                 </img>
               </PopoverPost>
             </>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom"; 
-import { Follow, User } from "../requests";
+import { User } from "../requests";
 import { Container, Row, Col, Card, CardImg, CardTitle, CardBody } from "reactstrap";
 
 class UserList extends Component {
@@ -37,7 +37,6 @@ class UserList extends Component {
 
   render() {
     const { startUser, users } = this.state;
-    const id = this.props.match.params.id;
 
     return(
       <section className="UserList">

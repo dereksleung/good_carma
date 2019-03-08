@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Form, InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
-import { Search } from "../requests";
-import { Redirect } from "react-router-dom";
+import { Form, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import { withRouter } from "react-router-dom"; 
 
 class SearchBar extends Component {
@@ -36,7 +34,7 @@ class SearchBar extends Component {
   render() {
 
     return(
-      <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar">
+      <Form action="/api/v1/search" method="GET" id="nav-searchbar" onSubmit={this.handleSubmit} className="SearchBar form-inline">
         <InputGroup>
           <Input type="text" name="query" value={this.state.query} onChange={this.handleChange} style={{fontFamily: "Roboto, sans-serif", fontWeight: "300"}}></Input>
           <InputGroupAddon addonType="append">

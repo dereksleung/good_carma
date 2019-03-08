@@ -67,13 +67,6 @@ SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
 
 -- BADGES.
 
--- Use for..in loop later to iterate over the object {} returned by user.badges database rows. Or not in JSX. It will have to be Object.entries(badgeObjDBRow).forEach().
-
--- BADGES will need two tables. BadgeType for storing the image. BadgeEarnings.
-
--- 5 Inspiractions in 1 day.
--- Easiest way is to set an active job that checks daily.
-
 SELECT users.first_name, users.avatar, COUNT(parent_post_id) AS Inspiractions
   FROM users
   INNER JOIN posts ON users.id = posts.user_id

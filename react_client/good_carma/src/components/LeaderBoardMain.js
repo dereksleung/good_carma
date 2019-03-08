@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { LeaderBoard } from "../requests";
 import { Link } from "react-router-dom";
-import { ListGroup, ListGroupItem, Table, Container, Col, Row } from 'reactstrap';
+import { Table, Container, } from 'reactstrap';
 import UserAvatarSmall from "./UserAvatarSmall";
 
 class LeaderBoardMain extends Component {
@@ -70,7 +70,6 @@ class LeaderBoardMain extends Component {
             <h3>The Up and Coming</h3>
             <h5>Congratulate these folks for keeping up fighting the good fight!</h5>
             <Table className="two-wk-users">
-              <h4></h4>
               <thead>
                 <tr>
                   <th></th>
