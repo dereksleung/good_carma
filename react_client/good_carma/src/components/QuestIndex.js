@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Quest } from "../requests";
-import { Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button } from "reactstrap";
+import { Container, Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button } from "reactstrap";
 
 class QuestIndex extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class QuestIndex extends Component {
   render() {
     const { quests } = this.state;
     return (
-      <section className="QuestIndex">
+      <Container className="QuestIndex pt-4">
         <CardDeck>
           {quests.map(quest=>{
             return(
@@ -38,7 +38,7 @@ class QuestIndex extends Component {
             )
           })}
         </CardDeck>
-      </section>
+      </Container>
     )
   }
 }
