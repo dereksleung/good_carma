@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Quest } from "../requests";
+import NewQuestForm from "./NewQuestForm";
 import { Container, Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button } from "reactstrap";
 
 class QuestIndex extends Component {
@@ -24,6 +25,7 @@ class QuestIndex extends Component {
     const { quests } = this.state;
     return (
       <Container className="QuestIndex pt-4">
+        <NewQuestForm />
         <CardDeck>
           {quests.map(quest=>{
             return(
