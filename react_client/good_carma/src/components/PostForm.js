@@ -49,7 +49,6 @@ class PostForm extends Component {
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
 
-    debugger;
     Post
       .create(this.fromFormData(formData))
       .then(res=>{

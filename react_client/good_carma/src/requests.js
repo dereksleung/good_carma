@@ -258,8 +258,18 @@ export const Quest = {
       credentials: "include"
     }).then(res=>res.json());
   },
+  create(params) {
+    return fetch(`${BASE_URL}/quests`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(params)
+    }).then(res=>res.json())
+  },
   update(params, id) {
-    return fetch (`${BASE_URL}/quests/${id}`, {
+    return fetch(`${BASE_URL}/quests/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
