@@ -27,14 +27,17 @@ class QuestIndex extends Component {
     const editButton = (currentUser, quest) => {
       if (currentUser) {
         if(quest.company.email === this.props.currentUser.email) {  
-          return <small><Link to={`/quests/${quest.slug}/edit`}>Edit</Link></small>
+          return <small><Link to={{
+            pathname:`/quests/${quest.slug}/edit`,
+            state: {edit: true}
+          }}>Edit</Link></small>
         }
       }
     }
 
     return (
       <Container className="QuestIndex pt-4">
-        <NewQuestForm />
+        <NewQuestForm location={this.props.location}/>
           <Row>
           {quests.map(quest=>{
             return(

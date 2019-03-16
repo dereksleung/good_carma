@@ -2,19 +2,31 @@ import React, { Component } from "react";
 import { Form, Button, FormGroup, Label, Input, CustomInput } from "reactstrap";
 import { Quest } from "../requests";
 
-class NewQuestForm extends Component {
+class QuestForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       quest: {},
-      quest_goals: []
+      quest_goals: [],
+      edit: false
     };
 
     this.addQuestGoal = this.addQuestGoal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.fromFormData = this.fromFormData.bind(this);
+  }
+
+  componentDidMount() {
+    if (typeof this.props.location.state !== "undefined" && typeof this.props.match !== "undefined") {
+      const id = this.props.match.params.id;
+      Quest.one(id)
+        .then(res=>{this.setState({
+          quest: res,
+          quest_goals: res.quest_goals
+        })})
+    }
   }
 
   addQuestGoal(event) {
@@ -36,7 +48,7 @@ class NewQuestForm extends Component {
     // debugger;
 
     // Reactstrap necessitates a workaround here because <FormGroup> adds `form-control` or `form-check-input` to my <input> tag's classes silently. 
-    // Fortunately, it takes the class I explicitly define first, which will be the names of the database columns.
+    // Fortunately, it takes the class I explicitly define first, which will be the names of the database columns, hence I want `classList[0]`.
     // The quest_goals' <input> tags have the database columns as classNames, whereas the quest's <input> tags only have the database columns as `name` attributes.
     let className;
     className = classList[0];
@@ -89,7 +101,7 @@ class NewQuestForm extends Component {
     const { quest, quest_goals } = this.state;
     
     return(
-      <Form className="NewQuestForm" onSubmit={this.handleSubmit} onChange={this.handleChange}>
+      <Form className="QuestForm" onSubmit={this.handleSubmit} onChange={this.handleChange}>
         <FormGroup>
           <Label htmlFor="title">Title</Label>
           <Input type="text" name="title" id="" value={quest.title}></Input>
@@ -150,4 +162,4 @@ class NewQuestForm extends Component {
   }
 }
 
-export default NewQuestForm;
+export default QuestForm;

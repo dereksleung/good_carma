@@ -101,8 +101,8 @@ class App extends Component {
                 <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} />} />
                 <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/quests/new" exact render={(routeProps)=><NewQuestForm {...routeProps} />} />
-                <Route path="/quests/:id" exact render={(routeProps)=><ShowAndEditQuest {...routeProps} currentUser={currentUser} />} />
-                <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps} currentUser={currentUser}/>} />
+                <Route path="/quests/:id/edit" exact render={(routeProps)=><NewQuestForm {...routeProps} currentUser={currentUser} />} />
+                <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps} currentUser={currentUser} />} />
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} />} />
 
