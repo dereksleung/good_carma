@@ -1,5 +1,6 @@
 class Quest < ApplicationRecord
 
+  belongs_to :company
   has_many :quest_goals
 
   has_many :user_questings, dependent: :destroy

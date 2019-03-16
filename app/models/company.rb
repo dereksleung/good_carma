@@ -17,6 +17,7 @@ class Company < ApplicationRecord
   has_many :positions, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :posts, dependent: :destroy
+  has_many :quests, dependent: :destroy
 
   private
 

@@ -33,7 +33,7 @@ class NewQuestForm extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const { name } = target;
     const classList = target.classList;
-    debugger;
+    // debugger;
 
     // Reactstrap necessitates a workaround here because <FormGroup> adds `form-control` or `form-check-input` to my <input> tag's classes silently. 
     // Fortunately, it takes the class I explicitly define first, which will be the names of the database columns.
@@ -43,14 +43,14 @@ class NewQuestForm extends Component {
 
     if (["title", "description", "points", "repeatable", "max_repeats"].includes(className)) {
       let quest_goals = [...this.state.quest_goals];
-      debugger;
+      // debugger;
       quest_goals[target.dataset.id][className] = value;
       this.setState({
         quest_goals
       }, () => console.log(this.state.quest_goals) )
     } else {
       this.setState((prevState)=>{
-        debugger;
+        // debugger;
         let quest = {...prevState.quest};
         quest[name] = value;
         console.log("quest:", quest);
@@ -76,11 +76,12 @@ class NewQuestForm extends Component {
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
 
-    let quest = this.fromFormData(formData);
-    quest.quest_goals_attributes = this.state.quest_goals;
-    console.log(quest);
+    let newParamsObj = this.fromFormData(formData);
+    debugger;
+    newParamsObj.quest.quest_goals_attributes = this.state.quest_goals;
+    console.log(newParamsObj);
 
-    Quest.create(quest)
+    Quest.create(newParamsObj);
   }
 
   render() {

@@ -3,7 +3,8 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   
   validates :first_name, presence: true
-  validates :last_name, presence: true
+  # validates :last_name, presence: true
+  # Currently, creating companies simultaneously creates normal user profiles with the company information, filling in company name as first_name. Companies do not fill last_name as they are not guaranteed to have two words. 
   validates :email, presence: true,
                     uniqueness: true,
                     format: VALID_EMAIL_REGEX
