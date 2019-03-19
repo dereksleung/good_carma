@@ -2,19 +2,32 @@ import React, { Component } from "react";
 import { Form, Button, FormGroup, Label, Input, CustomInput } from "reactstrap";
 import { Quest } from "../requests";
 
-class NewQuestForm extends Component {
+class QuestForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       quest: {},
-      quest_goals: []
+      quest_goals: [],
+      edit: false
     };
 
     this.addQuestGoal = this.addQuestGoal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.fromFormData = this.fromFormData.bind(this);
+  }
+
+  componentDidMount() {
+    if (typeof this.props.location.state !== "undefined" && typeof this.props.match !== "undefined") {
+      const id = this.props.match.params.id;
+      Quest.one(id)
+        .then(res=>{this.setState({
+          quest: res,
+          quest_goals: res.quest_goals,
+          edit: true
+        })})
+    }
   }
 
   addQuestGoal(event) {
@@ -33,24 +46,24 @@ class NewQuestForm extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const { name } = target;
     const classList = target.classList;
-    debugger;
+    // debugger;
 
     // Reactstrap necessitates a workaround here because <FormGroup> adds `form-control` or `form-check-input` to my <input> tag's classes silently. 
-    // Fortunately, it takes the class I explicitly define first, which will be the names of the database columns.
+    // Fortunately, it takes the class I explicitly define first, which will be the names of the database columns, hence I want `classList[0]`.
     // The quest_goals' <input> tags have the database columns as classNames, whereas the quest's <input> tags only have the database columns as `name` attributes.
     let className;
     className = classList[0];
 
     if (["title", "description", "points", "repeatable", "max_repeats"].includes(className)) {
       let quest_goals = [...this.state.quest_goals];
-      debugger;
+      // debugger;
       quest_goals[target.dataset.id][className] = value;
       this.setState({
         quest_goals
       }, () => console.log(this.state.quest_goals) )
     } else {
       this.setState((prevState)=>{
-        debugger;
+        // debugger;
         let quest = {...prevState.quest};
         quest[name] = value;
         console.log("quest:", quest);
@@ -75,12 +88,17 @@ class NewQuestForm extends Component {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
+    const { quest } = this.state;
 
-    let quest = this.fromFormData(formData);
-    quest.quest_goals_attributes = this.state.quest_goals;
-    console.log(quest);
-
-    Quest.create(quest)
+    let newParamsObj = this.fromFormData(formData);
+    // debugger;
+    newParamsObj.quest.quest_goals_attributes = this.state.quest_goals;
+    console.log(newParamsObj);
+    if (this.state.edit === false) {
+      Quest.create(newParamsObj);
+    } else if (this.state.edit === true) {
+      Quest.update(newParamsObj, quest.slug);
+    }
   }
 
   render() {
@@ -88,7 +106,7 @@ class NewQuestForm extends Component {
     const { quest, quest_goals } = this.state;
     
     return(
-      <Form className="NewQuestForm" onSubmit={this.handleSubmit} onChange={this.handleChange}>
+      <Form className="QuestForm" onSubmit={this.handleSubmit} onChange={this.handleChange}>
         <FormGroup>
           <Label htmlFor="title">Title</Label>
           <Input type="text" name="title" id="" value={quest.title}></Input>
@@ -149,4 +167,4 @@ class NewQuestForm extends Component {
   }
 }
 
-export default NewQuestForm;
+export default QuestForm;

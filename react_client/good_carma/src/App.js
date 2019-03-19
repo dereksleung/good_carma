@@ -10,8 +10,8 @@ import { User, Session, Follow } from "./requests";
 import OtherLeaderboard from "./components/OtherLeaderboard";
 import Tree from "./components/Tree/Tree";
 import QuestIndex from "./components/QuestIndex";
-import NewQuestForm from "./components/NewQuestForm";
-
+import QuestForm from "./components/QuestForm";
+import QuestShow from './components/QuestShow';
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import volunteers from "./components/WelcomePage/volunteers.jpeg";
 import AuthnRoute from "./components/AuthnRoute";
@@ -24,6 +24,7 @@ import UserConfirmPage from './components/UserConfirmPage/UserConfirmPage';
 import ConfirmCompany from './components/ConfirmCompany';
 import UserList from "./components/UserList";
 import UserResults from './components/UserResults';
+
 
 class App extends Component {
   constructor(props) {
@@ -99,8 +100,10 @@ class App extends Component {
                 <Route path="/session/new" exact render={(routeProps)=><SignInPage {...routeProps} onSignIn={this.getUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/leaderboards" exact render={(routeProps)=><LeaderBoardMain {...routeProps} bground={this.majorBackgroundStyle} />} />
                 <Route path="/leaderboards/show" exact render={(routeProps)=><OtherLeaderboard {...routeProps} bground={this.majorBackgroundStyle}/>} />
-                <Route path="/quests/new" exact render={(routeProps)=><NewQuestForm {...routeProps} />} />
-                <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps}/>} />
+                <Route path="/quests/new" exact render={(routeProps)=><QuestForm {...routeProps} />} />
+                <Route path="/quests/:id/edit" exact render={(routeProps)=><QuestForm {...routeProps} currentUser={currentUser} />} />
+                <Route path="/quests/:id" exact render={(routeProps)=><QuestShow {...routeProps} currentUser={currentUser} />} />
+                <Route path="/quests" exact render={(routeProps)=><QuestIndex {...routeProps} currentUser={currentUser} />} />
                 <Route path="/posts/:id/tree" exact render={(routeProps)=><Tree  {...routeProps} currentUser={currentUser} bground={this.majorBackgroundStyle}/>} />
                 <Route path="/posts/:id" exact render={(routeProps)=><PostShowPage {...routeProps} bground={this.majorBackgroundStyle} />} />
 

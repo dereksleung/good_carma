@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Quest } from "../requests";
-import NewQuestForm from "./NewQuestForm";
-import { Container, Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button } from "reactstrap";
+import QuestForm from "./QuestForm";
+import { Container, Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button, Row, Col } from "reactstrap";
 
 class QuestIndex extends Component {
   constructor(props) {
@@ -23,23 +24,39 @@ class QuestIndex extends Component {
 
   render() {
     const { quests } = this.state;
+    const editButton = (currentUser, quest) => {
+      if (currentUser) {
+        if(quest.company.email === this.props.currentUser.email) {  
+          return <small><Link to={{
+            pathname:`/quests/${quest.slug}/edit`,
+            state: {edit: true}
+          }}>Edit</Link></small>
+        }
+      }
+    }
+
     return (
       <Container className="QuestIndex pt-4">
-        <NewQuestForm />
-        <CardDeck>
+        <QuestForm location={this.props.location}/>
+          <Row>
           {quests.map(quest=>{
             return(
-              <Card>
-                <CardImg top width="100%" src={`${quest.image}`}/>
-                <CardBody>
-                  <CardTitle>{quest.title}</CardTitle>
-                  <CardText>{quest.description}</CardText>
-                  <Button>Start Quest</Button>
-                </CardBody>
-              </Card>
+              
+              <Col className="my-3 col-12 col-md-6 col-lg-4">
+                <Card>
+                  <CardImg top width="100%" src={`${quest.image}`}/>
+                  <CardBody>
+                    <CardTitle>{quest.title}</CardTitle>
+                    {editButton(this.props.currentUser, quest)}
+                    <CardText>{quest.description}</CardText>
+                    <Button>Start Quest</Button>
+                  </CardBody>
+                </Card>
+              </Col>
+              
             )
           })}
-        </CardDeck>
+          </Row>  
       </Container>
     )
   }
