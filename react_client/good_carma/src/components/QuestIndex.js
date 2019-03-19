@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Quest } from "../requests";
-import NewQuestForm from "./NewQuestForm";
+import QuestForm from "./QuestForm";
 import { Container, Card, CardImg, CardTitle, CardText, CardDeck, CardSubtitle, CardBody, Button, Row, Col } from "reactstrap";
 
 class QuestIndex extends Component {
@@ -37,7 +37,7 @@ class QuestIndex extends Component {
 
     return (
       <Container className="QuestIndex pt-4">
-        <NewQuestForm location={this.props.location}/>
+        <QuestForm location={this.props.location}/>
           <Row>
           {quests.map(quest=>{
             return(

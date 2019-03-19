@@ -24,7 +24,8 @@ class QuestForm extends Component {
       Quest.one(id)
         .then(res=>{this.setState({
           quest: res,
-          quest_goals: res.quest_goals
+          quest_goals: res.quest_goals,
+          edit: true
         })})
     }
   }
@@ -87,13 +88,17 @@ class QuestForm extends Component {
     event.preventDefault();
     const { currentTarget } = event;
     const formData = new FormData(currentTarget);
+    const { quest } = this.state;
 
     let newParamsObj = this.fromFormData(formData);
-    debugger;
+    // debugger;
     newParamsObj.quest.quest_goals_attributes = this.state.quest_goals;
     console.log(newParamsObj);
-
-    Quest.create(newParamsObj);
+    if (this.state.edit === false) {
+      Quest.create(newParamsObj);
+    } else if (this.state.edit === true) {
+      Quest.update(newParamsObj, quest.slug);
+    }
   }
 
   render() {
