@@ -40,20 +40,35 @@ class Post < ApplicationRecord
   
   # add_child_posts is my prototype recursive version of the `generations` method below. 
   # e.g. parent_post = @gen_query[:child_posts][1], parent_post has key-value pair child_posts => [] to signal it needs child_posts attached.
-  def add_child_posts(parent_post)
-    
-    if parent_post.has_key?("child_posts")
-      children_A_Record_Objects = parent_post.child_posts
-      children_A_Record_Objects.each_with_index {|child, ind|
-        parent_post[:child_posts][ind] = child.attributes
-        if parent_post[:child_posts][ind].child_posts.any?
-          # Set parent_post to a new target post inside the nested hash of the tree.
-          new_parent_post = parent_post[:child_posts][ind]
-          new_parent_post[:child_posts] = []
-          add_child_posts(new_parent_post)
-        end
-      } 
+  def add_child_posts(parent_AR_obj, target_parent_hash, levels_left)
+    if levels_left > 0
+      if target_parent_hash.has_key?(:child_posts)
+        children_A_Record_Objects = parent_AR_obj.child_posts
+        children_A_Record_Objects.each_with_index {|child_ARO, ind|
+          target_parent_hash[:child_posts][ind] = child_ARO.attributes
+          if child_ARO.child_posts.any?
+            # Set parent_post to a new target post inside the nested hash of the tree.
+            new_target_parent_hash = target_parent_hash[:child_posts][ind]
+            new_target_parent_hash[:child_posts] = []
+            new_levels_left = levels_left - 1
+            add_child_posts(child_ARO, new_target_parent_hash, new_levels_left)
+          end
+        } 
+      end
     end
+    target_parent_hash
+  end
+
+  def rcrsv_generations(parent_AR_obj, levels)
+    parent_hash = parent_AR_obj.attributes
+    @rcrsv_gen_query = parent_hash
+    if parent_AR_obj.child_posts.any?
+      @rcrsv_gen_query[:child_posts] = []
+    end
+
+    add_child_posts(parent_AR_obj, @rcrsv_gen_query, levels)
+
+    @rcrsv_gen_query
   end
 
   def attach_inspires(start_post_id, start_post_hash)
