@@ -71,8 +71,8 @@ class Api::V1::PostsController < Api::ApplicationController
 
   def tree
     post = Post.friendly.find params[:post_id]
-    @gen_query = post.generations(1,1)
-
+    # @gen_query = post.generations(1,1)
+    @gen_query = post.rcrsv_generations(post, 3)
     render json: @gen_query
   end
 

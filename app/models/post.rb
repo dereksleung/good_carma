@@ -29,31 +29,20 @@ class Post < ApplicationRecord
   extend FriendlyId
   friendly_id :body, use: [:slugged, :history, :finders]
 
-  def attach_avatar_image(hash_with_user_id, user)
+  def attach_avatar_image(hash, user)
     
     if Rails.env.development?
-      hash_with_user_id["avatar_image"] = "http://localhost:3000#{rails_blob_url(user.avatar_image, only_path: true)}" if user.avatar_image.attached?
+      hash["avatar_image"] = "http://localhost:3000#{rails_blob_url(user.avatar_image, only_path: true)}" if user.avatar_image.attached?
     else 
-      hash_with_user_id["avatar_image"] = rails_blob_url(user.avatar_image, only_path: true) if user.avatar_image.attached?
+      hash["avatar_image"] = rails_blob_url(user.avatar_image, only_path: true) if user.avatar_image.attached?
     end
   end
-  
-  # add_child_posts is my prototype recursive version of the `generations` method below. 
-  # e.g. parent_post = @gen_query[:child_posts][1], parent_post has key-value pair child_posts => [] to signal it needs child_posts attached.
-  def add_child_posts(parent_post)
-    
-    if parent_post.has_key?("child_posts")
-      children_A_Record_Objects = parent_post.child_posts
-      children_A_Record_Objects.each_with_index {|child, ind|
-        parent_post[:child_posts][ind] = child.attributes
-        if parent_post[:child_posts][ind].child_posts.any?
-          # Set parent_post to a new target post inside the nested hash of the tree.
-          new_parent_post = parent_post[:child_posts][ind]
-          new_parent_post[:child_posts] = []
-          add_child_posts(new_parent_post)
-        end
-      } 
-    end
+
+  def attach_fullname_and_slug(parent_hash, user)
+    parent_hash["full_name"] = user.full_name
+    parent_hash["user_slug"] = user.slug
+    parent_hash.delete("user_id")
+    parent_hash
   end
 
   def attach_inspires(start_post_id, start_post_hash)
@@ -75,82 +64,49 @@ class Post < ApplicationRecord
       }
   end
 
-    # This expects positive numbers or zero for both how many generations above and below to query.
-  def generations(above, below)
-    # Eventual goal: Function must set an initial post object that contains the record of either the starting post or the highest ancestor, and an empty child_posts array. Then it must query the child_posts, and push them to the child_posts array in this initial post object. If there are multiple children, and each has grandchildren, the function must iterate over each child, and push the grandchildren to the right child. This should continue for every generation queried.
-
-    # Break into several functions that add more keys-value pairs to the object as needed.
-    total_gens = below - (above * -1) 
-    
-    start_post = self
-    start_post_hash = start_post.attributes
-    user = User.find(start_post_hash["user_id"])
-    start_post_hash["full_name"] = user.full_name
-    start_post_hash["user_slug"] = user.slug
-    start_post_hash.delete("user_id")
-
-    attach_avatar_image(start_post_hash, user)
-    
-    start_post_id = self.id
-
-    attach_inspires(start_post_id, start_post_hash)
-
-    @gen_query = start_post_hash
-    @gen_query[:child_posts] = []
-
-    
-    # For every child that has further children, we will set a key-value pair child_posts => [] to mark that we need to query its children too later.
-    start_post.child_posts.each do |child| 
-      child_hash = child.attributes
-      user = User.find(child_hash["user_id"])
-      child_hash["full_name"] = user.full_name
-      child_hash["user_slug"] = user.slug
-      child_hash.delete("user_id")
-      attach_avatar_image(child_hash, user)
-      attach_inspires(child_hash["id"], child_hash)
-
-      if child.child_posts.any?
-        child_hash[:child_posts] = []
-      end
-
-      @gen_query[:child_posts] << child_hash
-        
-    end
-
-    # child_posts should now be an array of hashes
-    @gen_query[:child_posts].map do |child|
-
-      curr_target_id = child["id"].to_i
-
-      # Tricky bit: I used a single = sign here earlier, which made this an assignment operator instead of a comparison operator. So child[:child_posts] actually got its value changed to nil.
-      unless child[:child_posts] === nil
-        
-        start_post = Post.find(curr_target_id)
-        start_post.child_posts.each do |grandchild|
-          gc_hash = grandchild.attributes
-          user = User.find(gc_hash["user_id"])
-          gc_hash["full_name"] = user.full_name
-          gc_hash["user_slug"] = user.slug
-          gc_hash.delete("user_id")
-          attach_avatar_image(gc_hash, user)
-          gc_hash[:prnt_id] = curr_target_id
-          attach_inspires(gc_hash["id"],gc_hash)
-
-          if grandchild.child_posts.any?
-            gc_hash[:child_posts] = []
+  def add_child_posts(parent_AR_obj, target_parent_hash, levels_left)
+    if levels_left > 0
+      if target_parent_hash.has_key?(:child_posts)
+        children_A_Record_Objects = parent_AR_obj.child_posts
+        children_A_Record_Objects.each_with_index {|child_ARO, ind|
+          target_parent_hash[:child_posts][ind] = child_ARO.attributes
+          new_target_parent_hash = target_parent_hash[:child_posts][ind]
+          user = User.find(new_target_parent_hash["user_id"])
+          attach_fullname_and_slug(new_target_parent_hash, user)
+          attach_avatar_image(new_target_parent_hash, user)
+          attach_inspires(new_target_parent_hash["id"], new_target_parent_hash)
+          new_target_parent_hash.delete("id")
+          if child_ARO.child_posts.any?
+            # Set parent_post to a new target post inside the nested hash of the tree.
+            new_target_parent_hash[:child_posts] = []
+            new_levels_left = levels_left - 1
+            add_child_posts(child_ARO, new_target_parent_hash, new_levels_left)
           end
-
-          target_hash = @gen_query[:child_posts].find {|post| post["id"] == curr_target_id}
-          target_hash[:child_posts] << gc_hash
-
-        end
+        } 
       end
     end
-
-    return @gen_query
-      # iterate_times.times do 
-
+    target_parent_hash
   end
+
+  def rcrsv_generations(parent_AR_obj, levels)
+    parent_hash = parent_AR_obj.attributes
+    @rcrsv_gen_query = parent_hash
+    user = User.find(parent_hash["user_id"])
+    
+    attach_fullname_and_slug(parent_hash, user)
+    attach_avatar_image(parent_hash, user)
+    attach_inspires(parent_hash["id"], parent_hash)
+    parent_hash.delete("id")
+
+    if parent_AR_obj.child_posts.any?
+      @rcrsv_gen_query[:child_posts] = []
+    end
+
+    add_child_posts(parent_AR_obj, @rcrsv_gen_query, levels)
+
+    @rcrsv_gen_query
+  end
+
 
   # I'm investigating using includes to eager load all child_posts, but when logging the result of includes, it appears that it flattens and loses the structure of what is related to what. While I could solve that by 
   # 1) storing the parent_ids on each post record directly, or
